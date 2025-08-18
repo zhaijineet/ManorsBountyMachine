@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,running=false": {
+      "model": "manors_bounty_machine:block/oven",
+      "y": 90
+    },
+    "facing=east,running=true": {
+      "model": "manors_bounty_machine:block/oven_running",
+      "y": 90
+    },
+    "facing=north,running=false": {
+      "model": "manors_bounty_machine:block/oven"
+    },
+    "facing=north,running=true": {
+      "model": "manors_bounty_machine:block/oven_running"
+    },
+    "facing=south,running=false": {
+      "model": "manors_bounty_machine:block/oven",
+      "y": 180
+    },
+    "facing=south,running=true": {
+      "model": "manors_bounty_machine:block/oven_running",
+      "y": 180
+    },
+    "facing=west,running=false": {
+      "model": "manors_bounty_machine:block/oven",
+      "y": 270
+    },
+    "facing=west,running=true": {
+      "model": "manors_bounty_machine:block/oven_running",
+      "y": 270
+    }
+  }
+}

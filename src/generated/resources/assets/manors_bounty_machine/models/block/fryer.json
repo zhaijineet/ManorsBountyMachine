@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/fryer",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/fryer",
+    "all": "manors_bounty_machine:block/fryer",
+    "particle": "manors_bounty_machine:block/fryer"
+  }
+}

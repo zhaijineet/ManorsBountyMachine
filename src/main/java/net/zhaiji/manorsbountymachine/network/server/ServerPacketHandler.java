@@ -1,0 +1,54 @@
+package net.zhaiji.manorsbountymachine.network.server;
+
+import net.minecraft.world.entity.player.Player;
+import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.network.server.packet.*;
+
+public class ServerPacketHandler {
+    public static void handlerIceCreamTowFlavorSwitch(IceCreamTowFlavorSwitchPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof IceCreamMachineBlockEntity blockEntity) {
+            blockEntity.setTwoFlavor(packet.isOpen);
+        }
+    }
+
+    public static void handlerIceCreamCraft(IceCreamCraftPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof IceCreamMachineBlockEntity blockEntity) {
+            blockEntity.craftItem();
+        }
+    }
+
+    public static void handlerFryerStart(FryingStartPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof FryerBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
+
+    public static void handlerFriedItemCraft(StopFryingPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof FryerBlockEntity blockEntity) {
+            blockEntity.stopRunning();
+        }
+    }
+
+    public static void handlerSyncOvenTimeAndTemperature(SyncOvenTimeAndTemperaturePacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof OvenBlockEntity blockEntity) {
+            switch (packet.button) {
+                case 0 -> blockEntity.setTemperature(packet.value);
+                case 1 -> blockEntity.setMaxCookingTime(packet.value);
+            }
+        }
+    }
+
+    public static void handlerBakeItemCraft(BakeItemCraftPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof OvenBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
+}

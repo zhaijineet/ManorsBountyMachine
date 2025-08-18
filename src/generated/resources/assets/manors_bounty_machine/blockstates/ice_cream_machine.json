@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "manors_bounty_machine:block/ice_cream_machine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "manors_bounty_machine:block/ice_cream_machine"
+    },
+    "facing=south": {
+      "model": "manors_bounty_machine:block/ice_cream_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "manors_bounty_machine:block/ice_cream_machine",
+      "y": 270
+    }
+  }
+}

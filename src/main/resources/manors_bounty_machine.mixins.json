@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.zhaiji.manorsbountymachine.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "manors_bounty_machine.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
