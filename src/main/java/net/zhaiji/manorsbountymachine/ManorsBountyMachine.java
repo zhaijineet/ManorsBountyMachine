@@ -27,6 +27,7 @@ public class ManorsBountyMachine {
         InitMenuType.MENU_TYPE.register(modEventBus);
         InitRecipe.RECIPE_TYPE.register(modEventBus);
         InitRecipe.RECIPE_SERIALIZER.register(modEventBus);
+        InitSoundEvent.SOUND_EVENT.register(modEventBus);
 
         ManorsBountyMachinePacket.register();
     }

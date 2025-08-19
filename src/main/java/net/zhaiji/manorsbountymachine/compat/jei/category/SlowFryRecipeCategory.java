@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class SlowFryRecipeCategory implements IRecipeCategory<SlowFryRecipe> {
     public static final ResourceLocation SLOW_FRY_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/slow_fry_recipe_background.png");
+    public static final String TRANSLATABLE = "gui.jei.category.recipe.slow_fry";
+
     public IGuiHelper guiHelper;
 
     public SlowFryRecipeCategory(IGuiHelper guiHelper) {
@@ -41,7 +43,7 @@ public class SlowFryRecipeCategory implements IRecipeCategory<SlowFryRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("gui.jei.category.recipe.slow_fry");
+        return Component.translatable(TRANSLATABLE);
     }
 
     @Override

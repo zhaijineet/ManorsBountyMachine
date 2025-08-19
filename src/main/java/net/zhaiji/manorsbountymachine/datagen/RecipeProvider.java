@@ -23,26 +23,6 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         super(pOutput);
     }
 
-    @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.DIAMOND);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STICK, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STONE, Items.APPLE, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.IRON_INGOT, Items.AIR, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.GOLD_INGOT, Items.MILK_BUCKET, Items.APPLE);
-
-        fastFryRecipe(pWriter, Items.APPLE, Items.STICK);
-        slowFryRecipe(pWriter, Items.APPLE, Items.DIAMOND);
-        fastFryRecipe(pWriter, Items.MILK_BUCKET, Items.IRON_INGOT);
-        slowFryRecipe(pWriter, Items.MILK_BUCKET, Items.GOLD_INGOT);
-
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIVE, Items.STICK, 4, Items.APPLE);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.TEN, Items.STONE, 4, Items.APPLE, Items.APPLE);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.DIAMOND, 4, Items.APPLE, Items.APPLE, Items.APPLE);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.IRON_INGOT, 4, Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.GOLD_INGOT, 4, Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE);
-    }
-
     public static void iceCreamRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, FluidStack fluidStack, Item output, Item... input) {
         Ingredient[] ingredients = new Ingredient[input.length + 1];
 //        ingredients[0] = Ingredient.of(InitItem.ICE_CREAM_CONE.get());
@@ -67,5 +47,25 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
             ingredients[i] = Ingredient.of(input[i]);
         }
         new OvenRecipeBuilder(temperature.temperature, maxCookingTime.cookingTime, NonNullList.of(Ingredient.EMPTY, ingredients), output, count).save(pFinishedRecipeConsumer, ForgeRegistries.ITEMS.getKey(output));
+    }
+
+    @Override
+    protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.DIAMOND);
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STICK, Items.APPLE);
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STONE, Items.APPLE, Items.APPLE);
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.IRON_INGOT, Items.AIR, Items.APPLE);
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.GOLD_INGOT, Items.MILK_BUCKET, Items.APPLE);
+
+        fastFryRecipe(pWriter, Items.APPLE, Items.STICK);
+        slowFryRecipe(pWriter, Items.APPLE, Items.DIAMOND);
+        fastFryRecipe(pWriter, Items.MILK_BUCKET, Items.IRON_INGOT);
+        slowFryRecipe(pWriter, Items.MILK_BUCKET, Items.GOLD_INGOT);
+
+        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIVE, Items.STICK, 4, Items.APPLE);
+        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.TEN, Items.STONE, 4, Items.APPLE, Items.APPLE);
+        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.DIAMOND, 4, Items.APPLE, Items.APPLE, Items.APPLE);
+        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.IRON_INGOT, 4, Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE);
+        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.GOLD_INGOT, 4, Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE);
     }
 }

@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class FastFryRecipeCategory implements IRecipeCategory<FastFryRecipe> {
     public static final ResourceLocation FAST_FRY_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/fast_fry_recipe_background.png");
+    public static final String TRANSLATABLE = "gui.jei.category.recipe.fast_fry";
+
     public IGuiHelper guiHelper;
 
     public FastFryRecipeCategory(IGuiHelper guiHelper) {
@@ -41,7 +43,7 @@ public class FastFryRecipeCategory implements IRecipeCategory<FastFryRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("gui.jei.category.recipe.fast_fry");
+        return Component.translatable(TRANSLATABLE);
     }
 
     @Override

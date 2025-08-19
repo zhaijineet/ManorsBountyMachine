@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     public static final ResourceLocation ICE_CREAM_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/ice_cream_recipe_background.png");
+    public static final String TRANSLATABLE = "gui.jei.category.recipe.ice_cream";
 
     public static final int BAN_SLOT_X_OFFSET = 224;
     public static final int BAN_SLOT_Y_OFFSET = 0;
@@ -48,7 +49,7 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("gui.jei.category.recipe.ice_cream");
+        return Component.translatable(TRANSLATABLE);
     }
 
     @Override

@@ -7,20 +7,20 @@ import net.zhaiji.manorsbountymachine.network.server.ServerPacketHandler;
 
 import java.util.function.Supplier;
 
-public class SyncOvenTimeAndTemperaturePacket {
+public class SyncOvenTimeOrTemperaturePacket {
     public NetworkEvent.Context context;
     public BlockPos blockPos;
     public int button;
     public int value;
 
-    public SyncOvenTimeAndTemperaturePacket(BlockPos blockPos, int button, int value) {
+    public SyncOvenTimeOrTemperaturePacket(BlockPos blockPos, int button, int value) {
         this.blockPos = blockPos;
         this.button = button;
         this.value = value;
     }
 
-    public static SyncOvenTimeAndTemperaturePacket decode(FriendlyByteBuf buf) {
-        return new SyncOvenTimeAndTemperaturePacket(buf.readBlockPos(), buf.readInt(), buf.readInt());
+    public static SyncOvenTimeOrTemperaturePacket decode(FriendlyByteBuf buf) {
+        return new SyncOvenTimeOrTemperaturePacket(buf.readBlockPos(), buf.readInt(), buf.readInt());
     }
 
     public void encode(FriendlyByteBuf buf) {
@@ -31,7 +31,7 @@ public class SyncOvenTimeAndTemperaturePacket {
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         this.context = supplier.get();
-        this.context.enqueueWork(() -> ServerPacketHandler.handlerSyncOvenTimeAndTemperature(this));
+        this.context.enqueueWork(() -> ServerPacketHandler.handlerSyncOvenTimeOrTemperature(this));
         this.context.setPacketHandled(true);
     }
 }

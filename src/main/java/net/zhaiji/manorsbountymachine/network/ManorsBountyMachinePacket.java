@@ -8,8 +8,8 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityDataPacket;
+import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 
 public class ManorsBountyMachinePacket {
@@ -52,10 +52,10 @@ public class ManorsBountyMachinePacket {
                 .consumerMainThread(FryingStartPacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(SyncOvenTimeAndTemperaturePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .decoder(SyncOvenTimeAndTemperaturePacket::decode)
-                .encoder(SyncOvenTimeAndTemperaturePacket::encode)
-                .consumerMainThread(SyncOvenTimeAndTemperaturePacket::handle)
+        INSTANCE.messageBuilder(SyncOvenTimeOrTemperaturePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SyncOvenTimeOrTemperaturePacket::decode)
+                .encoder(SyncOvenTimeOrTemperaturePacket::encode)
+                .consumerMainThread(SyncOvenTimeOrTemperaturePacket::handle)
                 .add();
 
         INSTANCE.messageBuilder(BakeItemCraftPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)

@@ -1,0 +1,26 @@
+{
+  "fryer_frying": {
+    "sounds": [
+      "manors_bounty_machine:fryer_frying"
+    ],
+    "subtitle": "sound.manors_bounty_machine.fryer_frying"
+  },
+  "ice_cream_machine_clank": {
+    "sounds": [
+      "manors_bounty_machine:ice_cream_machine_clank"
+    ],
+    "subtitle": "sound.manors_bounty_machine.ice_cream_machine_clank"
+  },
+  "oven_ding": {
+    "sounds": [
+      "manors_bounty_machine:oven_ding"
+    ],
+    "subtitle": "sound.manors_bounty_machine.oven_ding"
+  },
+  "oven_running": {
+    "sounds": [
+      "manors_bounty_machine:oven_running"
+    ],
+    "subtitle": "sound.manors_bounty_machine.oven_running"
+  }
+}

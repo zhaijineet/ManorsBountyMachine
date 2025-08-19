@@ -1,0 +1,14 @@
+{
+  "block.manors_bounty_machine.fryer": "Fryer",
+  "block.manors_bounty_machine.ice_cream_machine": "Ice Cream Machine",
+  "block.manors_bounty_machine.oven": "Oven",
+  "gui.jei.category.recipe.fast_fry": "Fast Frying",
+  "gui.jei.category.recipe.ice_cream": "Ice Cream Craft",
+  "gui.jei.category.recipe.oven": "Bake",
+  "gui.jei.category.recipe.slow_fry": "Slow Frying",
+  "gui.manors_bounty_machine.two_flavor_switch": "Two Flavor Switch",
+  "sound.manors_bounty_machine.fryer_frying": "Fryer frying",
+  "sound.manors_bounty_machine.ice_cream_machine_clank": "Ice Cream Machine Clank",
+  "sound.manors_bounty_machine.oven_ding": "Oven Ding",
+  "sound.manors_bounty_machine.oven_running": "Oven Running"
+}

@@ -11,7 +11,7 @@ import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BakeItemCraftPacket;
-import net.zhaiji.manorsbountymachine.network.server.packet.SyncOvenTimeAndTemperaturePacket;
+import net.zhaiji.manorsbountymachine.network.server.packet.SyncOvenTimeOrTemperaturePacket;
 
 public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
     public static final ResourceLocation OVEN_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui.png");
@@ -67,7 +67,7 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
                             if (this.menu.getCookingTime() != 0) return;
                             int temperatureState = OvenScreen.this.menu.getTemperature().state;
                             int syncState = temperatureState >= 3 ? 0 : temperatureState + 1;
-                            ManorsBountyMachinePacket.sendToServer(new SyncOvenTimeAndTemperaturePacket(this.blockEntity.getBlockPos(), 0, syncState));
+                            ManorsBountyMachinePacket.sendToServer(new SyncOvenTimeOrTemperaturePacket(this.blockEntity.getBlockPos(), 0, syncState));
                         }
                 ) {
                     @Override
@@ -91,7 +91,7 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
                             if (this.menu.getCookingTime() != 0) return;
                             int cookingTimeState = OvenScreen.this.menu.getMaxCookingTime().state;
                             int syncState = cookingTimeState >= 3 ? 0 : cookingTimeState + 1;
-                            ManorsBountyMachinePacket.sendToServer(new SyncOvenTimeAndTemperaturePacket(this.blockEntity.getBlockPos(), 1, syncState));
+                            ManorsBountyMachinePacket.sendToServer(new SyncOvenTimeOrTemperaturePacket(this.blockEntity.getBlockPos(), 1, syncState));
                         }
                 ) {
                     @Override

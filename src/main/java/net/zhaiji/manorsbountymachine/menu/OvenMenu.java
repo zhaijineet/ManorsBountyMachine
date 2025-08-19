@@ -75,6 +75,11 @@ public class OvenMenu extends AbstractMachineMenu {
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;
                 }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 16;
+                }
             });
         }
         this.addSlot(new Slot(this.blockEntity, OvenBlockEntity.OUTPUT, 80, 65) {

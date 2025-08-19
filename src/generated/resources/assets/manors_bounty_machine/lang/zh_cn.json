@@ -1,0 +1,14 @@
+{
+  "block.manors_bounty_machine.fryer": "炸锅",
+  "block.manors_bounty_machine.ice_cream_machine": "冰淇淋机",
+  "block.manors_bounty_machine.oven": "烤箱",
+  "gui.jei.category.recipe.fast_fry": "快炸",
+  "gui.jei.category.recipe.ice_cream": "冰淇淋制作",
+  "gui.jei.category.recipe.oven": "烘焙",
+  "gui.jei.category.recipe.slow_fry": "慢炸",
+  "gui.manors_bounty_machine.two_flavor_switch": "双拼开关",
+  "sound.manors_bounty_machine.fryer_frying": "炸锅：油炸",
+  "sound.manors_bounty_machine.ice_cream_machine_clank": "冰淇淋机：哐当",
+  "sound.manors_bounty_machine.oven_ding": "烤箱：叮",
+  "sound.manors_bounty_machine.oven_running": "烤箱：运行中"
+}

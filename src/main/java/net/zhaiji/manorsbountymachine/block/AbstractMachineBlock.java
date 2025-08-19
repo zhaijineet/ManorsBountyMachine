@@ -55,6 +55,7 @@ public abstract class AbstractMachineBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
         if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof AbstractMachineBlockEntity blockEntity) {
                 NetworkHooks.openScreen((ServerPlayer) pPlayer, blockEntity, pPos);
@@ -69,7 +70,7 @@ public abstract class AbstractMachineBlock extends BaseEntityBlock {
             if (pLevel.getBlockEntity(pPos) instanceof AbstractMachineBlockEntity blockEntity && !pLevel.isClientSide()) {
                 Containers.dropContents(pLevel, pPos, blockEntity);
             }
-            super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
         }
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,6 +33,7 @@ import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +53,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     public static final int FAST_COOKING_TIME = 80;
     public static final int SLOW_COOKING_TIME = 160;
     public static final int FAIL_COOKING_TIME = 280;
+    public static final int SOUND_TIME = 20;
     public final FluidTank fluidTank = new FluidTank(4000) {
         @Override
         protected void onContentsChanged() {
@@ -83,6 +86,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             return 1;
         }
     };
+    public int playSoundCooldown = 0;
     public LazyOptional<IFluidHandler> fluidHandler = LazyOptional.empty();
 
     public FryerBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -99,6 +103,11 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FryerBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
             pBlockEntity.cookingTime++;
+            if (pBlockEntity.playSoundCooldown <= 0) {
+                pBlockEntity.playSoundCooldown = SOUND_TIME;
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.FRYER_FRYING.get(), SoundSource.BLOCKS, 1F, 1F);
+            }
+            pBlockEntity.playSoundCooldown--;
             pBlockEntity.craftItem();
             pBlockEntity.setChanged();
         }
@@ -119,6 +128,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         if (count == 0) return;
         if (!flag) return;
         this.isRunning = true;
+        this.playSoundCooldown = 0;
         if (this.level instanceof ServerLevel serverLevel && serverLevel.random.nextInt(10000) < count * 625) {
             this.fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
             ManorsBountyMachinePacket.sendToClientWithChunk((LevelChunk) serverLevel.getChunk(this.getBlockPos()), new SyncBlockEntityFluidTankPacket(this.getBlockPos(), fluidTank.getFluid()));

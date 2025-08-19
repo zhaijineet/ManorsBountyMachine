@@ -22,6 +22,9 @@ public class DataGenHandler {
 
         generator.addProvider(event.includeClient(), new ItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new SoundProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.EN_US));
+        generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.ZH_CN));
 
         generator.addProvider(event.includeServer(), AllLootTableProvider.create(packOutput));
         generator.addProvider(event.includeServer(), new RecipeProvider(packOutput));

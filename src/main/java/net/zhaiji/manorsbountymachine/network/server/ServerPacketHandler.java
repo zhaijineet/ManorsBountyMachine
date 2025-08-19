@@ -35,7 +35,7 @@ public class ServerPacketHandler {
         }
     }
 
-    public static void handlerSyncOvenTimeAndTemperature(SyncOvenTimeAndTemperaturePacket packet) {
+    public static void handlerSyncOvenTimeOrTemperature(SyncOvenTimeOrTemperaturePacket packet) {
         Player player = packet.context.getSender();
         if (player.level().getBlockEntity(packet.blockPos) instanceof OvenBlockEntity blockEntity) {
             switch (packet.button) {

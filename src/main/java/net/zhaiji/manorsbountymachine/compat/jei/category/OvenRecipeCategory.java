@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
     public static final ResourceLocation OVEN_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/oven_recipe_background.png");
+    public static final String TRANSLATABLE = "gui.jei.category.recipe.oven";
 
     public static final int TEMPERATURE_X_OFFSET = 192;
     public static final int TEMPERATURE_Y_OFFSET = 0;
@@ -70,7 +71,7 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("gui.jei.category.recipe.oven");
+        return Component.translatable(TRANSLATABLE);
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.zhaiji.manorsbountymachine.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -13,11 +14,13 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.RecipeMatcher;
+import net.zhaiji.manorsbountymachine.block.OvenBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
 import net.zhaiji.manorsbountymachine.recipe.OvenRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +38,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public static final int BOTTOM_RIGHT = 5;
     public static final int OUTPUT = 6;
     public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
+    public static final int SOUND_TIME = 20;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public final RecipeManager.CachedCheck<OvenBlockEntity, OvenRecipe> recipeCheck;
     public boolean isRunning = false;
@@ -42,6 +46,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public int cookingTime = 0;
     public MaxCookingTime maxCookingTime = MaxCookingTime.ZERO;
     public int outputMultiple = 0;
+    public int playSoundCooldown;
     public ContainerData data = new ContainerData() {
         @Override
         public int get(int pIndex) {
@@ -78,7 +83,13 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
             pBlockEntity.cookingTime++;
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime.cookingTime) {
                 pBlockEntity.craftItem();
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_DING.get(), SoundSource.BLOCKS, 1F, 1F);
             }
+            if (pBlockEntity.playSoundCooldown <= 0) {
+                pBlockEntity.playSoundCooldown = 100;
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_RUNNING.get(), SoundSource.BLOCKS, 1F, 1F);
+            }
+            pBlockEntity.playSoundCooldown--;
             pBlockEntity.setChanged();
         }
     }
@@ -91,6 +102,8 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         for (OvenRecipe recipe : getAllRecipe()) {
             if (RecipeMatcher.findMatches(this.getInput(), recipe.input) != null) {
                 this.isRunning = true;
+                this.playSoundCooldown = 0;
+                this.setRunningState(true);
                 this.setChanged();
                 return;
             }
@@ -99,6 +112,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
 
     public void stopRunning() {
         this.isRunning = false;
+        this.setRunningState(false);
         this.setCookingTime(0);
         this.setMaxCookingTime(0);
     }
@@ -161,6 +175,10 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
 
     public ItemStack getFailItemStack() {
         return Items.CHARCOAL.getDefaultInstance();
+    }
+
+    public void setRunningState(boolean isRunning) {
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(OvenBlock.RUNNING, isRunning));
     }
 
     public void setTemperature(int value) {

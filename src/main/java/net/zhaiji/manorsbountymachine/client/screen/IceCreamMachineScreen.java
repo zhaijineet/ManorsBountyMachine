@@ -5,12 +5,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -21,10 +28,12 @@ import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamCraftPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamTowFlavorSwitchPacket;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachineMenu> {
     public static final ResourceLocation ICE_CREAM_MACHINE_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui.png");
+    public static final String TWO_FLAVOR_SWITCH_TRANSLATABLE = "gui.manors_bounty_machine.two_flavor_switch";
 
     public static final int BAN_SLOT_X_OFFSET = 224;
     public static final int BAN_SLOT_Y_OFFSET = 0;
@@ -32,6 +41,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     public static final int BAN_SLOT_HEIGHT = 18;
 
     public IceCreamMachineBlockEntity blockEntity;
+    public Rect2i twoFlavorSwitchRect;
 
     public IceCreamMachineScreen(IceCreamMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -73,7 +83,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
                         this.topPos + 17,
                         20,
                         20,
-                        Component.translatable("test.test.test"),
+                        Component.empty(),
                         this.blockEntity.isTwoFlavor
                 ) {
                     @Override
@@ -84,6 +94,18 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
                     }
                 }
         );
+        this.twoFlavorSwitchRect = new Rect2i(
+                this.leftPos + 139,
+                this.topPos + 17,
+                20,
+                20
+        );
+    }
+
+    @Override
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTowFlavorTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 
     @Override
@@ -94,6 +116,25 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
         }
         this.renderFluid(pGuiGraphics);
         this.renderIceCreamItem(pGuiGraphics);
+    }
+
+    @Override
+    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
+        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
+        if (pSlot == null || pMouseButton != 0 || pType != ClickType.PICKUP) return;
+        Level level = this.blockEntity.getLevel();
+        BlockPos blockPos = this.blockEntity.getBlockPos();
+        switch (pSlot.index) {
+            case IceCreamMachineBlockEntity.OUTPUT_SLOT ->
+                    level.playLocalSound(blockPos, SoundEvents.BAMBOO_SAPLING_PLACE, SoundSource.BLOCKS, 1F, 1.5F, false);
+            case IceCreamMachineBlockEntity.LEFT_INPUT_SLOT, IceCreamMachineBlockEntity.RIGHT_INPUT_SLOT ->
+                    level.playLocalSound(blockPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.3F, 1F, false);
+        }
+    }
+
+    public void renderTowFlavorTooltip(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        if (!this.twoFlavorSwitchRect.contains(pMouseX, pMouseY)) return;
+        pGuiGraphics.renderTooltip(this.font, Component.translatable(TWO_FLAVOR_SWITCH_TRANSLATABLE), pMouseX, pMouseY);
     }
 
     public void renderFluid(GuiGraphics pGuiGraphics) {

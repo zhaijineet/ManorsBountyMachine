@@ -19,8 +19,8 @@ import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
-import net.zhaiji.manorsbountymachine.network.server.packet.StopFryingPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.FryingStartPacket;
+import net.zhaiji.manorsbountymachine.network.server.packet.StopFryingPacket;
 
 import java.util.List;
 
