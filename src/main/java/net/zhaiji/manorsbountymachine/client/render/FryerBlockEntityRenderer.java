@@ -12,9 +12,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
 
+@OnlyIn(Dist.CLIENT)
 public class FryerBlockEntityRenderer implements BlockEntityRenderer<FryerBlockEntity> {
     public FryerBlockEntityRenderer(BlockEntityRendererProvider.Context pContext) {
     }

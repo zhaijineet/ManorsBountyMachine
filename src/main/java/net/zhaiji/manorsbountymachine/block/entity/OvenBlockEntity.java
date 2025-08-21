@@ -14,6 +14,8 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.RecipeMatcher;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
@@ -38,7 +40,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public static final int BOTTOM_RIGHT = 5;
     public static final int OUTPUT = 6;
     public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
-    public static final int SOUND_TIME = 20;
+    public static final int SOUND_TIME = 100;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public final RecipeManager.CachedCheck<OvenBlockEntity, OvenRecipe> recipeCheck;
     public boolean isRunning = false;
@@ -46,7 +48,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public int cookingTime = 0;
     public MaxCookingTime maxCookingTime = MaxCookingTime.ZERO;
     public int outputMultiple = 0;
-    public int playSoundCooldown;
+    public int playSoundCooldown = 0;
     public ContainerData data = new ContainerData() {
         @Override
         public int get(int pIndex) {
@@ -83,11 +85,11 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
             pBlockEntity.cookingTime++;
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime.cookingTime) {
                 pBlockEntity.craftItem();
-                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_DING.get(), SoundSource.BLOCKS, 1F, 1F);
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_DING.get(), SoundSource.BLOCKS);
             }
             if (pBlockEntity.playSoundCooldown <= 0) {
-                pBlockEntity.playSoundCooldown = 100;
-                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_RUNNING.get(), SoundSource.BLOCKS, 1F, 1F);
+                pBlockEntity.playSoundCooldown = SOUND_TIME;
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_RUNNING.get(), SoundSource.BLOCKS);
             }
             pBlockEntity.playSoundCooldown--;
             pBlockEntity.setChanged();
@@ -145,7 +147,9 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
             }
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
-                remaining = ItemStack.EMPTY;
+                if (!input.isEmpty()) {
+                    remaining = ItemStack.EMPTY;
+                }
             } else {
                 input.shrink(consumeCount);
             }
@@ -223,6 +227,11 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return new InvWrapper(this);
     }
 
     @Override

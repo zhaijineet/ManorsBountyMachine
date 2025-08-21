@@ -12,11 +12,13 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractMachineMenu extends AbstractContainerMenu {
     public final Inventory playerInventory;
     public final AbstractMachineBlockEntity machineBlockEntity;
+    public int playerInventoryYOffset;
 
     public AbstractMachineMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Inventory pPlayerInventory, AbstractMachineBlockEntity machineBlockEntity) {
         super(pMenuType, pContainerId);
         this.playerInventory = pPlayerInventory;
         this.machineBlockEntity = machineBlockEntity;
+        this.playerInventoryYOffset = 42;
     }
 
     public void initSlot() {
@@ -27,14 +29,13 @@ public abstract class AbstractMachineMenu extends AbstractContainerMenu {
     public abstract void initMachineInventorySlot();
 
     public void initPlayerInventorySlot() {
-        int yOffset = 42;
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                this.addSlot(new Slot(this.playerInventory, column + row * 9 + 9, 8 + column * 18, 103 + row * 18 + yOffset));
+                this.addSlot(new Slot(this.playerInventory, column + row * 9 + 9, 8 + column * 18, 103 + row * 18 + this.playerInventoryYOffset));
             }
         }
         for (int column = 0; column < 9; column++) {
-            this.addSlot(new Slot(this.playerInventory, column, 8 + column * 18, 161 + yOffset));
+            this.addSlot(new Slot(this.playerInventory, column, 8 + column * 18, 161 + this.playerInventoryYOffset));
         }
     }
 
@@ -45,11 +46,12 @@ public abstract class AbstractMachineMenu extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (pIndex < this.machineBlockEntity.getContainerSize()) {
-                if (!this.moveItemStackTo(itemstack1, this.machineBlockEntity.getContainerSize(), this.slots.size(), true)) {
+            int size = this.machineBlockEntity.getContainerSize();
+            if (pIndex < size) {
+                if (!this.moveItemStackTo(itemstack1, size, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, this.machineBlockEntity.getContainerSize(), false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, size, false)) {
                 return ItemStack.EMPTY;
             }
             if (itemstack1.isEmpty()) {

@@ -24,7 +24,7 @@ public class ClientPacketHandler {
     public static void handlerSyncBlockEntityRenderer(SyncBlockEntityDataPacket packet) {
         Player player = Minecraft.getInstance().player;
         if (player.level().getBlockEntity(packet.blockPos) instanceof AbstractMachineBlockEntity blockEntity) {
-            blockEntity.load(packet.syncTag);
+            blockEntity.handleUpdateTag(packet.syncTag);
         }
     }
 }

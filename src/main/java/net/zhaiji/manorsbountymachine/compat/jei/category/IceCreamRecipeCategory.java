@@ -78,12 +78,12 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     @Override
     public void draw(IceCreamRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiHelper.createDrawable(ICE_CREAM_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        this.guiHelper.createDrawable(ICE_CREAM_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
         if (recipe.input.get(1).isEmpty()) {
-            guiHelper.createDrawable(IceCreamMachineScreen.ICE_CREAM_MACHINE_GUI, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT).draw(guiGraphics, 53, 27);
+            this.guiHelper.createDrawable(IceCreamMachineScreen.ICE_CREAM_MACHINE_GUI, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT).draw(guiGraphics, 53, 27);
         }
         if (!recipe.isTowFlavor) {
-            guiHelper.createDrawable(IceCreamMachineScreen.ICE_CREAM_MACHINE_GUI, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT).draw(guiGraphics, 53, 49);
+            this.guiHelper.createDrawable(IceCreamMachineScreen.ICE_CREAM_MACHINE_GUI, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT).draw(guiGraphics, 53, 49);
         }
     }
 }

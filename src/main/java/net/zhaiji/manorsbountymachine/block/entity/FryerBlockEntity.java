@@ -24,6 +24,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
@@ -105,7 +107,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             pBlockEntity.cookingTime++;
             if (pBlockEntity.playSoundCooldown <= 0) {
                 pBlockEntity.playSoundCooldown = SOUND_TIME;
-                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.FRYER_FRYING.get(), SoundSource.BLOCKS, 1F, 1F);
+                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.FRYER_FRYING.get(), SoundSource.BLOCKS);
             }
             pBlockEntity.playSoundCooldown--;
             pBlockEntity.craftItem();
@@ -247,6 +249,11 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return new InvWrapper(this);
     }
 
     @Override

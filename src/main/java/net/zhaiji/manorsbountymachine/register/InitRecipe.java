@@ -7,10 +7,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
-import net.zhaiji.manorsbountymachine.recipe.IceCreamRecipe;
-import net.zhaiji.manorsbountymachine.recipe.OvenRecipe;
-import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
+import net.zhaiji.manorsbountymachine.recipe.*;
 
 public class InitRecipe {
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister.create(Registries.RECIPE_TYPE, ManorsBountyMachine.MOD_ID);
@@ -27,6 +24,9 @@ public class InitRecipe {
 
     public static final RegistryObject<RecipeType<OvenRecipe>> OVEN_RECIPE_TYPE = registerRecipeType("oven");
     public static final RegistryObject<RecipeSerializer<OvenRecipe>> OVEN_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("oven", OvenRecipe.Serializer::new);
+
+    public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
+    public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 
     public static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerRecipeType(String name) {
         return RECIPE_TYPE.register(name, () -> new RecipeType<>() {

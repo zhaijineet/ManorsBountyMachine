@@ -1,0 +1,14 @@
+{
+  "type": "manors_bounty_machine:shaker",
+  "input": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:apple"
+  }
+}

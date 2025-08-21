@@ -30,9 +30,12 @@ public abstract class AbstractMachineBlockEntity extends BlockEntity implements 
 
     public AbstractMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
+        this.loadAndRevive();
     }
 
     public abstract NonNullList<ItemStack> getItems();
+
+    public abstract IItemHandler getItemHandler();
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
@@ -43,13 +46,7 @@ public abstract class AbstractMachineBlockEntity extends BlockEntity implements 
     }
 
     public void loadAndRevive() {
-        this.itemHandler = LazyOptional.of(() -> new InvWrapper(this));
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        this.loadAndRevive();
+        this.itemHandler = LazyOptional.of(this::getItemHandler);
     }
 
     @Override

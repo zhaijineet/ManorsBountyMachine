@@ -11,19 +11,23 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamCraftPacket;
@@ -34,11 +38,17 @@ import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachineMenu> {
     public static final ResourceLocation ICE_CREAM_MACHINE_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui.png");
     public static final String TWO_FLAVOR_SWITCH_TRANSLATABLE = "gui.manors_bounty_machine.two_flavor_switch";
+    public static final ResourceLocation CONE_TEXTURE = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui/ice_cream_cone.png");
 
     public static final int BAN_SLOT_X_OFFSET = 224;
     public static final int BAN_SLOT_Y_OFFSET = 0;
     public static final int BAN_SLOT_WIDTH = 18;
     public static final int BAN_SLOT_HEIGHT = 18;
+
+    public static final int ICE_CREAM_X_OFFSET = 0;
+    public static final int ICE_CREAM_Y_OFFSET = 0;
+    public static final int ICE_CREAM_WIDTH = 100;
+    public static final int ICE_CREAM_HEIGHT = 100;
 
     public IceCreamMachineBlockEntity blockEntity;
     public Rect2i twoFlavorSwitchRect;
@@ -46,8 +56,6 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     public IceCreamMachineScreen(IceCreamMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.blockEntity = pMenu.blockEntity;
-        this.imageWidth = 176;
-        this.imageHeight = 227;
     }
 
     @Override
@@ -121,14 +129,14 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     @Override
     protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
         super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
-        if (pSlot == null || pMouseButton != 0 || pType != ClickType.PICKUP) return;
+        if (pSlot == null || pType != ClickType.PICKUP) return;
         Level level = this.blockEntity.getLevel();
         BlockPos blockPos = this.blockEntity.getBlockPos();
         switch (pSlot.index) {
             case IceCreamMachineBlockEntity.OUTPUT_SLOT ->
                     level.playLocalSound(blockPos, SoundEvents.BAMBOO_SAPLING_PLACE, SoundSource.BLOCKS, 1F, 1.5F, false);
             case IceCreamMachineBlockEntity.LEFT_INPUT_SLOT, IceCreamMachineBlockEntity.RIGHT_INPUT_SLOT ->
-                    level.playLocalSound(blockPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.3F, 1F, false);
+                    level.playLocalSound(blockPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.15F, 1F, false);
         }
     }
 
@@ -164,6 +172,25 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
         pGuiGraphics.setColor(1F, 1F, 1F, 1F);
     }
 
+    public void renderConeAndIceCream(GuiGraphics guiGraphics, ItemStack output, ResourceLocation texture) {
+        guiGraphics.blit(CONE_TEXTURE, this.leftPos - 4, this.topPos + 43, ICE_CREAM_X_OFFSET, ICE_CREAM_Y_OFFSET, ICE_CREAM_WIDTH, ICE_CREAM_HEIGHT, ICE_CREAM_WIDTH, ICE_CREAM_HEIGHT);
+        if (!ManorsBountyCompat.isIceCreamCone(output)) {
+            guiGraphics.blit(texture, this.leftPos - 4, this.topPos + 17, ICE_CREAM_X_OFFSET, ICE_CREAM_Y_OFFSET, ICE_CREAM_WIDTH, ICE_CREAM_HEIGHT, ICE_CREAM_WIDTH, ICE_CREAM_HEIGHT);
+        }
+    }
+
     public void renderIceCreamItem(GuiGraphics pGuiGraphics) {
+        ItemStack output = this.blockEntity.getItem(IceCreamMachineBlockEntity.OUTPUT_SLOT);
+        if (output.isEmpty()) return;
+        ResourceLocation outputKey = ForgeRegistries.ITEMS.getKey(output.getItem());
+        String path = outputKey.withPrefix("textures/gui/ice_cream_machine_gui/").getPath() + ".png";
+        ResourceLocation resource1 = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, path);
+        ResourceLocation resource2 = ResourceLocation.fromNamespaceAndPath(outputKey.getNamespace(), path);
+        ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+        if (resourceManager.getResource(resource1).isPresent()) {
+            this.renderConeAndIceCream(pGuiGraphics, output, resource1);
+        } else if (resourceManager.getResource(resource2).isPresent()) {
+            this.renderConeAndIceCream(pGuiGraphics, output, resource2);
+        }
     }
 }

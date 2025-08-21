@@ -65,8 +65,6 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
     public FryerScreen(FryerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.blockEntity = pMenu.blockEntity;
-        this.imageWidth = 176;
-        this.imageHeight = 227;
     }
 
     @Override

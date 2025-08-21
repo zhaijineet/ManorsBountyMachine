@@ -12,15 +12,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.compat.jei.category.FastFryRecipeCategory;
-import net.zhaiji.manorsbountymachine.compat.jei.category.IceCreamRecipeCategory;
-import net.zhaiji.manorsbountymachine.compat.jei.category.OvenRecipeCategory;
-import net.zhaiji.manorsbountymachine.compat.jei.category.SlowFryRecipeCategory;
-import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
-import net.zhaiji.manorsbountymachine.recipe.IceCreamRecipe;
-import net.zhaiji.manorsbountymachine.recipe.OvenRecipe;
-import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
+import net.zhaiji.manorsbountymachine.compat.jei.category.*;
+import net.zhaiji.manorsbountymachine.recipe.*;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
+import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 
 @JeiPlugin
@@ -29,6 +24,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<FastFryRecipe> FAST_FRY = RecipeType.create(ManorsBountyMachine.MOD_ID, "fast_fry", FastFryRecipe.class);
     public static final RecipeType<SlowFryRecipe> SLOW_FRY = RecipeType.create(ManorsBountyMachine.MOD_ID, "slow_fry", SlowFryRecipe.class);
     public static final RecipeType<OvenRecipe> OVEN = RecipeType.create(ManorsBountyMachine.MOD_ID, "oven", OvenRecipe.class);
+    public static final RecipeType<ShakerRecipe> SHAKER = RecipeType.create(ManorsBountyMachine.MOD_ID, "shaker", ShakerRecipe.class);
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -42,6 +38,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new FastFryRecipeCategory(guiHelper));
         registration.addRecipeCategories(new SlowFryRecipeCategory(guiHelper));
         registration.addRecipeCategories(new OvenRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new ShakerRecipeCategory(guiHelper));
     }
 
     @Override
@@ -50,6 +47,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(InitBlock.FRYER.get(), FAST_FRY);
         registration.addRecipeCatalyst(InitBlock.FRYER.get(), SLOW_FRY);
         registration.addRecipeCatalyst(InitBlock.OVEN.get(), OVEN);
+        registration.addRecipeCatalyst(InitItem.SHAKER.get(), SHAKER);
     }
 
     @Override
@@ -59,6 +57,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(FAST_FRY, recipeManager.getAllRecipesFor(InitRecipe.FAST_FRY_RECIPE_TYPE.get()));
         registration.addRecipes(SLOW_FRY, recipeManager.getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get()));
         registration.addRecipes(OVEN, recipeManager.getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get()));
+        registration.addRecipes(SHAKER, recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));
     }
 
     public RecipeManager getRecipeManager() {

@@ -62,6 +62,6 @@ public class FastFryRecipeCategory implements IRecipeCategory<FastFryRecipe> {
     @Override
     public void draw(FastFryRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiHelper.createDrawable(FAST_FRY_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        this.guiHelper.createDrawable(FAST_FRY_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
     }
 }

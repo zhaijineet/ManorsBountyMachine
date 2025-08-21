@@ -10,11 +10,13 @@ import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 public class InitCreativeModeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ManorsBountyMachine.MOD_ID);
 
+    public static final String MANORS_BOUNTY_MACHINE_TAB_TRANSLATABLE = "itemGroup.manors_bounty_machine.machine";
+
     public static final RegistryObject<CreativeModeTab> MANORS_BOUNTY_MACHINE_TAB = CREATIVE_MODE_TAB.register(
             "manors_bounty_machine_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> InitItem.ICE_CREAM_MACHINE.get().getDefaultInstance())
-                    .title(Component.translatable("itemGroup.manors_bounty_machine.machine"))
+                    .title(Component.translatable(MANORS_BOUNTY_MACHINE_TAB_TRANSLATABLE))
                     .displayItems((pParameters, pOutput) -> {
                         InitItem.ITEM.getEntries().forEach(item -> pOutput.accept(item.get()));
                     })

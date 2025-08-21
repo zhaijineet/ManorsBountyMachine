@@ -16,6 +16,8 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
@@ -70,7 +72,9 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
                 }
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
                     ManorsBountyCompat.damageItem(input, this.level);
-                    remaining = ItemStack.EMPTY;
+                    if (!input.isEmpty()) {
+                        remaining = ItemStack.EMPTY;
+                    }
                 } else {
                     input.shrink(1);
                 }
@@ -116,6 +120,11 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return new InvWrapper(this);
     }
 
     @Override

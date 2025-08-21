@@ -6,6 +6,8 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
@@ -13,6 +15,7 @@ import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BakeItemCraftPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.SyncOvenTimeOrTemperaturePacket;
 
+@OnlyIn(Dist.CLIENT)
 public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
     public static final ResourceLocation OVEN_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui.png");
     public static final ResourceLocation OVEN_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui_widget.png");
@@ -47,8 +50,6 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
     public OvenScreen(OvenMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.blockEntity = pMenu.blockEntity;
-        this.imageWidth = 176;
-        this.imageHeight = 227;
     }
 
     @Override

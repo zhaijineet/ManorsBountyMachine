@@ -1,6 +1,7 @@
 package net.zhaiji.manorsbountymachine.register;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -9,6 +10,7 @@ import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
+import net.zhaiji.manorsbountymachine.menu.ShakerMenu;
 
 public class InitMenuType {
     public static final DeferredRegister<MenuType<?>> MENU_TYPE = DeferredRegister.create(Registries.MENU, ManorsBountyMachine.MOD_ID);
@@ -26,5 +28,10 @@ public class InitMenuType {
     public static final RegistryObject<MenuType<OvenMenu>> OVEN_MENU = MENU_TYPE.register(
             "oven",
             () -> IForgeMenuType.create((OvenMenu::new))
+    );
+
+    public static final RegistryObject<MenuType<ShakerMenu>> SHAKER = MENU_TYPE.register(
+            "shaker",
+            () -> new MenuType<>(ShakerMenu::new, FeatureFlags.DEFAULT_FLAGS)
     );
 }

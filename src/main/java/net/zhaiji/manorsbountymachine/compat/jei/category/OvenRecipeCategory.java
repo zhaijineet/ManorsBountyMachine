@@ -76,7 +76,7 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
 
     @Override
     public @Nullable IDrawable getIcon() {
-        return guiHelper.createDrawableItemLike(InitBlock.OVEN.get());
+        return this.guiHelper.createDrawableItemLike(InitBlock.OVEN.get());
     }
 
     @Override
@@ -120,14 +120,14 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
     @Override
     public void draw(OvenRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
         guiGraphics.pose().pushPose();
         float scale = 0.5F;
         guiGraphics.pose().scale(scale, scale, scale);
         int temperatureIndex = this.getTemperatureIndex(recipe.temperature) - 1;
-        guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET, TEMPERATURE_Y_OFFSET + TEMPERATURE_HEIGHT * temperatureIndex, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, (int) (16 / scale), (int) (2 / scale));
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET, TEMPERATURE_Y_OFFSET + TEMPERATURE_HEIGHT * temperatureIndex, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, (int) (16 / scale), (int) (2 / scale));
         int cookingTimeIndex = this.getCookingTimeIndex(recipe.cookingTime) - 1;
-        guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, (int) (122 / scale), (int) (2 / scale));
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, (int) (122 / scale), (int) (2 / scale));
         guiGraphics.pose().popPose();
         Font font = Minecraft.getInstance().font;
         if (TEMPERATURE_RECT.contains((int) mouseX, (int) mouseY)) {

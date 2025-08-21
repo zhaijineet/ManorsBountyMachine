@@ -26,7 +26,7 @@ public class IceCreamMachineBlock extends AbstractMachineBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        pLevel.playSound(pPlayer, pPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.3F, 1F);
+        pLevel.playSound(pPlayer, pPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.15F, 1F);
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 }

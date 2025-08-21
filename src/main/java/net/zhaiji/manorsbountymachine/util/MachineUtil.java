@@ -49,7 +49,7 @@ public class MachineUtil {
         }
         SoundEvent soundevent = fluidStack.getFluid().getFluidType().getSound(fluidStack, SoundActions.BUCKET_EMPTY);
         if (soundevent != null) {
-            level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), soundevent, SoundSource.BLOCKS, 1, 1);
+            level.playSound(null, blockPos, soundevent, SoundSource.BLOCKS);
         }
     }
 

@@ -62,6 +62,6 @@ public class SlowFryRecipeCategory implements IRecipeCategory<SlowFryRecipe> {
     @Override
     public void draw(SlowFryRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiHelper.createDrawable(SLOW_FRY_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        this.guiHelper.createDrawable(SLOW_FRY_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
     }
 }
