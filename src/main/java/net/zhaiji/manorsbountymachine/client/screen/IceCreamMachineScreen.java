@@ -37,8 +37,8 @@ import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 @OnlyIn(Dist.CLIENT)
 public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachineMenu> {
     public static final ResourceLocation ICE_CREAM_MACHINE_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui.png");
-    public static final String TWO_FLAVOR_SWITCH_TRANSLATABLE = "gui.manors_bounty_machine.two_flavor_switch";
     public static final ResourceLocation CONE_TEXTURE = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui/ice_cream_cone.png");
+    public static final String TWO_FLAVOR_SWITCH_TRANSLATABLE = "gui.manors_bounty_machine.two_flavor_switch";
 
     public static final int BAN_SLOT_X_OFFSET = 224;
     public static final int BAN_SLOT_Y_OFFSET = 0;
@@ -54,7 +54,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     public Rect2i twoFlavorSwitchRect;
 
     public IceCreamMachineScreen(IceCreamMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+        super(pMenu, pPlayerInventory, pTitle, ICE_CREAM_MACHINE_GUI);
         this.blockEntity = pMenu.blockEntity;
     }
 
@@ -118,7 +118,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        pGuiGraphics.blit(ICE_CREAM_MACHINE_GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
         if (!blockEntity.isTwoFlavor) {
             pGuiGraphics.blit(ICE_CREAM_MACHINE_GUI, this.leftPos + 142, this.topPos + 117, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT);
         }

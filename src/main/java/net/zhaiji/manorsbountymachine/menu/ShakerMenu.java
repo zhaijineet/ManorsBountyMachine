@@ -29,7 +29,7 @@ public class ShakerMenu extends AbstractContainerMenu {
     }
 
     public ShakerMenu(int pContainerId, Inventory pPlayerInventory, IItemHandler itemHandler) {
-        super(InitMenuType.SHAKER.get(), pContainerId);
+        super(InitMenuType.SHAKER_MENU.get(), pContainerId);
         this.player = pPlayerInventory.player;
         this.playerInventory = pPlayerInventory;
         if (!this.canOpen()) {
@@ -111,7 +111,7 @@ public class ShakerMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player pPlayer) {
         Optional<ShakerRecipe> recipe = ShakerItem.getRecipe(pPlayer.level(), new RecipeWrapper((ItemStackHandler) this.itemHandler));
-        this.getShaker().getOrCreateTag().putBoolean("canStartUsing", recipe.isPresent());
+        ShakerItem.setCanStartUsing(this.getShaker(), recipe.isPresent());
         super.removed(pPlayer);
     }
 

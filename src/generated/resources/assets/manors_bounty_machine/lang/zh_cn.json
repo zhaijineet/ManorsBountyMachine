@@ -1,7 +1,10 @@
 {
+  "block.manors_bounty_machine.fermenter": "发酵桶",
   "block.manors_bounty_machine.fryer": "炸锅",
   "block.manors_bounty_machine.ice_cream_machine": "冰淇淋机",
   "block.manors_bounty_machine.oven": "烤箱",
+  "block.manors_bounty_machine.teapot": "茶壶",
+  "block.manors_bounty_machine.teapot.tooltip": "茶壶需要热源(#manors_bounty:teapot_heat_blocks 或者 minecraft:magma_block)才能工作",
   "gui.jei.category.recipe.fast_fry": "快炸",
   "gui.jei.category.recipe.ice_cream": "冰淇淋制作",
   "gui.jei.category.recipe.oven": "烘焙",
@@ -13,5 +16,7 @@
   "sound.manors_bounty_machine.fryer_frying": "炸锅：油炸",
   "sound.manors_bounty_machine.ice_cream_machine_clank": "冰淇淋机：哐当",
   "sound.manors_bounty_machine.oven_ding": "烤箱：叮",
-  "sound.manors_bounty_machine.oven_running": "烤箱：运行中"
+  "sound.manors_bounty_machine.oven_running": "烤箱：运行中",
+  "sound.manors_bounty_machine.teapot_done": "茶壶：倒出",
+  "sound.manors_bounty_machine.teapot_running": "茶壶：冲泡中"
 }

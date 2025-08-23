@@ -24,6 +24,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<FastFryRecipe> FAST_FRY = RecipeType.create(ManorsBountyMachine.MOD_ID, "fast_fry", FastFryRecipe.class);
     public static final RecipeType<SlowFryRecipe> SLOW_FRY = RecipeType.create(ManorsBountyMachine.MOD_ID, "slow_fry", SlowFryRecipe.class);
     public static final RecipeType<OvenRecipe> OVEN = RecipeType.create(ManorsBountyMachine.MOD_ID, "oven", OvenRecipe.class);
+    public static final RecipeType<TeapotRecipe> TEAPOT = RecipeType.create(ManorsBountyMachine.MOD_ID, "teapot", TeapotRecipe.class);
     public static final RecipeType<ShakerRecipe> SHAKER = RecipeType.create(ManorsBountyMachine.MOD_ID, "shaker", ShakerRecipe.class);
 
     @Override
@@ -38,6 +39,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new FastFryRecipeCategory(guiHelper));
         registration.addRecipeCategories(new SlowFryRecipeCategory(guiHelper));
         registration.addRecipeCategories(new OvenRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new TeapotRecipeCategory(guiHelper));
         registration.addRecipeCategories(new ShakerRecipeCategory(guiHelper));
     }
 
@@ -47,6 +49,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(InitBlock.FRYER.get(), FAST_FRY);
         registration.addRecipeCatalyst(InitBlock.FRYER.get(), SLOW_FRY);
         registration.addRecipeCatalyst(InitBlock.OVEN.get(), OVEN);
+        registration.addRecipeCatalyst(InitBlock.TEAPOT.get(), TEAPOT);
         registration.addRecipeCatalyst(InitItem.SHAKER.get(), SHAKER);
     }
 
@@ -57,6 +60,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(FAST_FRY, recipeManager.getAllRecipesFor(InitRecipe.FAST_FRY_RECIPE_TYPE.get()));
         registration.addRecipes(SLOW_FRY, recipeManager.getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get()));
         registration.addRecipes(OVEN, recipeManager.getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get()));
+        registration.addRecipes(TEAPOT, recipeManager.getAllRecipesFor(InitRecipe.TEAPOT_RECIPE_TYPE.get()));
         registration.addRecipes(SHAKER, recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));
     }
 

@@ -1,0 +1,232 @@
+package net.zhaiji.manorsbountymachine.block.entity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.RecipeMatcher;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import net.zhaiji.manorsbountymachine.block.TeapotBlock;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.menu.TeapotMenu;
+import net.zhaiji.manorsbountymachine.recipe.TeapotRecipe;
+import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
+import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
+import net.zhaiji.manorsbountymachine.util.MachineUtil;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Optional;
+
+public class TeapotBlockEntity extends AbstractMachineBlockEntity {
+    public static final int ITEMS_SIZE = 7;
+    public static final int OUTPUT = 0;
+    public static final int DRINK = 1;
+    public static final int MATERIAL = 2;
+    public static final int TOP_LEFT = 3;
+    public static final int TOP_RIGHT = 4;
+    public static final int BOTTOM_LEFT = 5;
+    public static final int BOTTOM_RIGHT = 6;
+    public static final int[] INPUT_SLOTS = {DRINK, MATERIAL, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
+    public static final int SOUND_TIME = 60;
+    public final RecipeManager.CachedCheck<TeapotBlockEntity, TeapotRecipe> recipeCheck;
+    public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
+        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
+            TeapotBlockEntity.this.playBarrelOpenSound();
+            TeapotBlockEntity.this.setOpen(true);
+        }
+
+        @Override
+        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            TeapotBlockEntity.this.playBarrelCloseSound();
+            TeapotBlockEntity.this.setOpen(false);
+        }
+
+        @Override
+        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
+        }
+
+        @Override
+        protected boolean isOwnContainer(Player pPlayer) {
+            if (pPlayer.containerMenu instanceof TeapotMenu menu) {
+                return menu.blockEntity == TeapotBlockEntity.this;
+            }
+            return false;
+        }
+    };
+    public boolean isRunning = false;
+    public int cookingTime = 0;
+    public final ContainerData data = new ContainerData() {
+        @Override
+        public int get(int pIndex) {
+            return switch (pIndex) {
+                case 0 -> TeapotBlockEntity.this.cookingTime;
+                default -> 0;
+            };
+        }
+
+        @Override
+        public void set(int pIndex, int pValue) {
+            switch (pIndex) {
+                case 0 -> TeapotBlockEntity.this.setCookingTime(pValue);
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
+    };
+    public ItemStack output = ItemStack.EMPTY;
+    public int maxCookingTime = SOUND_TIME;
+    public int playSoundCooldown = SOUND_TIME;
+
+    public TeapotBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(InitBlockEntityType.TEAPOT.get(), pPos, pBlockState);
+        this.recipeCheck = RecipeManager.createCheck(InitRecipe.TEAPOT_RECIPE_TYPE.get());
+    }
+
+    public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, TeapotBlockEntity pBlockEntity) {
+        pBlockEntity.recheckOpen();
+        if (pBlockEntity.isRunning) {
+            pBlockEntity.cookingTime++;
+            if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
+                pBlockEntity.craftItem();
+                pBlockEntity.level.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.TEAPOT_DONE.get(), SoundSource.BLOCKS);
+            }
+            if (pBlockEntity.playSoundCooldown <= 0) {
+                pBlockEntity.level.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.TEAPOT_RUNNING.get(), SoundSource.BLOCKS);
+                pBlockEntity.playSoundCooldown += SOUND_TIME;
+            }
+        }
+    }
+
+    public void startRunning() {
+        if (this.isRunning) return;
+        if (this.getItem(OUTPUT).isEmpty() || this.getItem(DRINK).isEmpty() || this.getItem(MATERIAL).isEmpty()) return;
+        this.getRecipe().ifPresent(teapotRecipe -> {
+            this.isRunning = true;
+            this.playSoundCooldown = 0;
+            this.handlerRecipe(teapotRecipe);
+            this.setChanged();
+        });
+    }
+
+    public void stopRunning() {
+        this.isRunning = false;
+        this.cookingTime = 0;
+        this.setChanged();
+    }
+
+    public void handlerRecipe(TeapotRecipe recipe) {
+        for (int i = 0; i < ITEMS_SIZE; i++) {
+            if (i == OUTPUT) continue;
+            ItemStack input = this.getItem(i);
+            ItemStack remaining = MachineUtil.getCraftRemaining(input);
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                ManorsBountyCompat.damageItem(input, level);
+                if (!input.isEmpty()) continue;
+            }
+            this.setItem(i, remaining);
+        }
+        this.output = recipe.assemble(this, this.level.registryAccess());
+    }
+
+    public void craftItem() {
+        this.setItem(OUTPUT, this.output);
+        this.stopRunning();
+    }
+
+    public void setCookingTime(int value) {
+        this.cookingTime = value;
+        this.setChanged();
+    }
+
+    public Optional<TeapotRecipe> getRecipe() {
+        return this.recipeCheck.getRecipeFor(this, this.level);
+    }
+
+    public List<TeapotRecipe> getAllRecipe() {
+        return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.TEAPOT_RECIPE_TYPE.get());
+    }
+
+    public void playBarrelOpenSound() {
+        this.level.playSound(null, this.getBlockPos(), SoundEvents.BARREL_OPEN, SoundSource.BLOCKS);
+    }
+
+    public void playBarrelCloseSound() {
+        this.level.playSound(null, this.getBlockPos(), SoundEvents.BARREL_CLOSE, SoundSource.BLOCKS);
+    }
+
+    public void setOpen(boolean open) {
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(TeapotBlock.OPEN, open));
+    }
+
+    @Override
+    public void startOpen(Player pPlayer) {
+        super.startOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.incrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    @Override
+    public void stopOpen(Player pPlayer) {
+        super.stopOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.decrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public void recheckOpen() {
+        if (!this.remove) {
+            this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    @Override
+    public NonNullList<ItemStack> getItems() {
+        return this.items;
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return new InvWrapper(this);
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new TeapotMenu(pContainerId, pPlayerInventory, this, this.data);
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        this.isRunning = pTag.getBoolean("isRunning");
+        this.cookingTime = pTag.getInt("cookingTime");
+        this.output = ItemStack.of(pTag.getCompound("output"));
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        pTag.putBoolean("isRunning", this.isRunning);
+        pTag.putInt("cookingTime", this.cookingTime);
+        pTag.put("output", this.output.save(new CompoundTag()));
+    }
+}

@@ -42,5 +42,17 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .subtitle(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE)
                         .with(sound(soundName(InitSoundEvent.OVEN_RUNNING_NAME)))
         );
+        add(
+                InitSoundEvent.TEAPOT_DONE,
+                definition()
+                        .subtitle(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.TEAPOT_DONE_NAME)))
+        );
+        add(
+                InitSoundEvent.TEAPOT_RUNNING,
+                definition()
+                        .subtitle(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.TEAPOT_RUNNING_NAME)))
+        );
     }
 }

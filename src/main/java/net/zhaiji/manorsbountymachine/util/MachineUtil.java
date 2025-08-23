@@ -53,6 +53,14 @@ public class MachineUtil {
         }
     }
 
+    public static ItemStack getCraftRemaining(ItemStack input) {
+        return getCraftRemaining(input, input.getCount());
+    }
+
+    public static ItemStack getCraftRemaining(ItemStack input, int count) {
+        return input.hasCraftingRemainingItem() ? input.getCraftingRemainingItem().copyWithCount(count) : ItemStack.EMPTY;
+    }
+
     public static void insertCraftRemaining(Container container, int[] slots, List<ItemStack> craftRemaining) {
         for (int slot : slots) {
             if (!craftRemaining.isEmpty() && container.getItem(slot).isEmpty()) {

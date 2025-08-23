@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "manors_bounty_machine:teapot"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "manors_bounty_machine:blocks/teapot"
+}

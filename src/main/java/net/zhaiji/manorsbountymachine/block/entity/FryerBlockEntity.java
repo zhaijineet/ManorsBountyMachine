@@ -56,6 +56,8 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     public static final int SLOW_COOKING_TIME = 160;
     public static final int FAIL_COOKING_TIME = 280;
     public static final int SOUND_TIME = 20;
+    public final RecipeManager.CachedCheck<FryerCraftContainer, FastFryRecipe> fastRecipeCheck;
+    public final RecipeManager.CachedCheck<FryerCraftContainer, SlowFryRecipe> slowRecipeCheck;
     public final FluidTank fluidTank = new FluidTank(4000) {
         @Override
         protected void onContentsChanged() {
@@ -66,8 +68,6 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         }
     };
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
-    public final RecipeManager.CachedCheck<FryerCraftContainer, FastFryRecipe> fastRecipeCheck;
-    public final RecipeManager.CachedCheck<FryerCraftContainer, SlowFryRecipe> slowRecipeCheck;
     public final FryerCraftContainer[] fryerCraftContainers;
     public boolean isRunning = false;
     public int craftState = 0;
@@ -174,6 +174,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
+        this.syncCraft();
     }
 
     public void slowCraftItem() {
@@ -183,6 +184,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
+        this.syncCraft();
     }
 
     public void failCraftItem() {
@@ -192,6 +194,13 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
+        this.syncCraft();
+    }
+
+    public void syncCraft() {
+        BlockPos blockPos = this.getBlockPos();
+        LevelChunk chunk = this.level.getChunkAt(blockPos);
+        ManorsBountyMachinePacket.sendToClientWithChunk(chunk, new SyncBlockEntityDataPacket(blockPos, this.getUpdateTag()));
     }
 
     public void handlerCraftRemaining(FryerCraftContainer container, List<ItemStack> craftRemaining) {
@@ -240,12 +249,6 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get());
     }
 
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new FryerMenu(pContainerId, pPlayerInventory, this, this.data);
-    }
-
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
@@ -254,6 +257,12 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public IItemHandler getItemHandler() {
         return new InvWrapper(this);
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new FryerMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override
@@ -346,11 +355,6 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             this.setCraftRemaining(this.getItem());
             ItemStack output = recipe.assemble(this, this.blockEntity.level.registryAccess());
             this.setItem(output);
-            if (this.getItem().isEmpty() && !this.craftRemaining.isEmpty()) {
-                this.setItem(this.craftRemaining);
-                this.resetCraftRemaining();
-            }
-            this.syncCraft();
         }
 
         public void trySlowCraftItem() {
@@ -373,11 +377,6 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             this.setCraftRemaining(this.getItem());
             ItemStack output = recipe.assemble(this, this.blockEntity.level.registryAccess());
             this.setItem(output);
-            if (this.getItem().isEmpty() && !this.craftRemaining.isEmpty()) {
-                this.setItem(this.craftRemaining);
-                this.resetCraftRemaining();
-            }
-            this.syncCraft();
         }
 
         public void failCraftItem() {
@@ -385,23 +384,14 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             if (input.isEmpty()) return;
             this.setCraftRemaining(input);
             this.setItem(this.getFailItemStack(input));
-            this.syncCraft();
         }
 
         public void setCraftRemaining(ItemStack input) {
-            if (input.hasCraftingRemainingItem()) {
-                this.craftRemaining = input.getCraftingRemainingItem().copyWithCount(input.getCount());
-            }
+            this.craftRemaining = MachineUtil.getCraftRemaining(input);
         }
 
         public ItemStack getFailItemStack(ItemStack input) {
             return Items.CHARCOAL.getDefaultInstance().copyWithCount(input.getCount());
-        }
-
-        public void syncCraft() {
-            BlockPos blockPos = this.blockEntity.getBlockPos();
-            LevelChunk chunk = this.blockEntity.level.getChunkAt(blockPos);
-            ManorsBountyMachinePacket.sendToClientWithChunk(chunk, new SyncBlockEntityDataPacket(blockPos, this.blockEntity.getUpdateTag()));
         }
 
         public void reset() {

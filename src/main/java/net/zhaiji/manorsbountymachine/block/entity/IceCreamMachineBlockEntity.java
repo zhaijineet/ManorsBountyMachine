@@ -40,6 +40,7 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
     public static final int LEFT_INPUT_SLOT = 2;
     public static final int RIGHT_INPUT_SLOT = 3;
     public static final int[] INPUT_SLOTS = {OUTPUT_SLOT, LEFT_INPUT_SLOT, RIGHT_INPUT_SLOT};
+    public final RecipeManager.CachedCheck<IceCreamMachineBlockEntity, IceCreamRecipe> recipeCheck;
     public final FluidTank fluidTank = new FluidTank(3000) {
         @Override
         protected void onContentsChanged() {
@@ -47,7 +48,6 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
         }
     };
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
-    public final RecipeManager.CachedCheck<IceCreamMachineBlockEntity, IceCreamRecipe> recipeCheck;
     public boolean isTwoFlavor = false;
     public LazyOptional<IFluidHandler> fluidHandler = LazyOptional.empty();
 
@@ -66,10 +66,7 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
                 if (OUTPUT_SLOT == INPUT_SLOTS[i]) continue;
                 ItemStack input = this.getItem(INPUT_SLOTS[i]);
                 if (input.isEmpty()) continue;
-                ItemStack remaining = ItemStack.EMPTY;
-                if (input.hasCraftingRemainingItem()) {
-                    remaining = input.getCraftingRemainingItem();
-                }
+                ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
                     ManorsBountyCompat.damageItem(input, this.level);
                     if (!input.isEmpty()) {
@@ -111,12 +108,6 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.ICE_CREAM_RECIPE_TYPE.get());
     }
 
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new IceCreamMachineMenu(pContainerId, pPlayerInventory, this);
-    }
-
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
@@ -125,6 +116,12 @@ public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public IItemHandler getItemHandler() {
         return new InvWrapper(this);
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new IceCreamMachineMenu(pContainerId, pPlayerInventory, this);
     }
 
     @Override

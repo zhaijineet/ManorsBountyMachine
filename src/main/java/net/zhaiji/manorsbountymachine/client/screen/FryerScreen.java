@@ -29,41 +29,41 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
     public static final ResourceLocation FRYER_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fryer_gui.png");
     public static final ResourceLocation FRYER_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fryer_gui_widget.png");
 
-    public static int BUTTON_X_OFFSET = 174;
-    public static int BUTTON_Y_OFFSET = 0;
-    public static int BUTTON_WIDTH = 18;
-    public static int BUTTON_HEIGHT = 18;
+    public static final int BUTTON_X_OFFSET = 174;
+    public static final int BUTTON_Y_OFFSET = 0;
+    public static final int BUTTON_WIDTH = 18;
+    public static final int BUTTON_HEIGHT = 18;
 
-    public static int HOB_ON_X_OFFSET = 0;
-    public static int HOB_ON_Y_OFFSET = 0;
-    public static int HOB_ON_WIDTH = 84;
-    public static int HOB_ON_HEIGHT = 132;
+    public static final int HOB_ON_X_OFFSET = 0;
+    public static final int HOB_ON_Y_OFFSET = 0;
+    public static final int HOB_ON_WIDTH = 84;
+    public static final int HOB_ON_HEIGHT = 132;
 
-    public static int HOB_IN_X_OFFSET = 0;
-    public static int HOB_IN_Y_OFFSET = 133;
-    public static int HOB_IN_WIDTH = 84;
-    public static int HOB_IN_HEIGHT = 102;
+    public static final int HOB_IN_X_OFFSET = 0;
+    public static final int HOB_IN_Y_OFFSET = 133;
+    public static final int HOB_IN_WIDTH = 84;
+    public static final int HOB_IN_HEIGHT = 102;
 
-    public static int OIL_X_OFFSET = 85;
-    public static int OIL_Y_OFFSET = 0;
-    public static int OIL_WIDTH = 88;
-    public static int OIL_HEIGHT = 78;
+    public static final int OIL_X_OFFSET = 85;
+    public static final int OIL_Y_OFFSET = 0;
+    public static final int OIL_WIDTH = 88;
+    public static final int OIL_HEIGHT = 78;
 
-    public static int SLOT_X_OFFSET = 85;
-    public static int SLOT_Y_OFFSET = 79;
-    public static int SLOT_WIDTH = 52;
-    public static int SLOT_HEIGHT = 52;
+    public static final int SLOT_X_OFFSET = 85;
+    public static final int SLOT_Y_OFFSET = 79;
+    public static final int SLOT_WIDTH = 52;
+    public static final int SLOT_HEIGHT = 52;
 
-    public static int FRYING_X_OFFSET = 192;
-    public static int FRYING_Y_OFFSET = 0;
-    public static int FRYING_WIDTH = 32;
-    public static int FRYING_HEIGHT = 32;
+    public static final int FRYING_X_OFFSET = 192;
+    public static final int FRYING_Y_OFFSET = 0;
+    public static final int FRYING_WIDTH = 32;
+    public static final int FRYING_HEIGHT = 32;
 
     public FryerBlockEntity blockEntity;
     public Rect2i fluidTankRect;
 
     public FryerScreen(FryerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+        super(pMenu, pPlayerInventory, pTitle, FRYER_GUI);
         this.blockEntity = pMenu.blockEntity;
     }
 
@@ -130,7 +130,7 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        pGuiGraphics.blit(FRYER_GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
         int cookingTime = this.menu.getCookingTime();
         FluidTank fluidTank = this.blockEntity.fluidTank;
         if (cookingTime != 0 || this.blockEntity.isRunning || !fluidTank.isEmpty()) {

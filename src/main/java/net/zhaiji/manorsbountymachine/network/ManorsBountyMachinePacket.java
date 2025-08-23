@@ -63,6 +63,12 @@ public class ManorsBountyMachinePacket {
                 .encoder(BakeItemCraftPacket::encode)
                 .consumerMainThread(BakeItemCraftPacket::handle)
                 .add();
+
+        INSTANCE.messageBuilder(BrewingStartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(BrewingStartPacket::decode)
+                .encoder(BrewingStartPacket::encode)
+                .consumerMainThread(BrewingStartPacket::handle)
+                .add();
     }
 
     public static void registerClientPacket() {

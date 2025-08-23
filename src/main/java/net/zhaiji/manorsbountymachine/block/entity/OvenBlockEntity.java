@@ -41,15 +41,13 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public static final int OUTPUT = 6;
     public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
     public static final int SOUND_TIME = 100;
-    public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public final RecipeManager.CachedCheck<OvenBlockEntity, OvenRecipe> recipeCheck;
+    public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public boolean isRunning = false;
     public Temperature temperature = Temperature.ZERO;
     public int cookingTime = 0;
     public MaxCookingTime maxCookingTime = MaxCookingTime.ZERO;
-    public int outputMultiple = 0;
-    public int playSoundCooldown = 0;
-    public ContainerData data = new ContainerData() {
+    public final ContainerData data = new ContainerData() {
         @Override
         public int get(int pIndex) {
             return switch (pIndex) {
@@ -74,6 +72,8 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
             return 3;
         }
     };
+    public int outputMultiple = 0;
+    public int playSoundCooldown = 0;
 
     public OvenBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.OVEN.get(), pPos, pBlockState);
@@ -141,10 +141,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
             if (input.isEmpty()) continue;
-            ItemStack remaining = ItemStack.EMPTY;
-            if (input.hasCraftingRemainingItem()) {
-                remaining = input.getCraftingRemainingItem().copyWithCount(consumeCount);
-            }
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, consumeCount);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) {
@@ -218,12 +215,6 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get());
     }
 
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new OvenMenu(pContainerId, pPlayerInventory, this, this.data);
-    }
-
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
@@ -232,6 +223,12 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     @Override
     public IItemHandler getItemHandler() {
         return new InvWrapper(this);
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new OvenMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override

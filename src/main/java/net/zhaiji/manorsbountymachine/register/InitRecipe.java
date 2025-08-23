@@ -25,6 +25,9 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<OvenRecipe>> OVEN_RECIPE_TYPE = registerRecipeType("oven");
     public static final RegistryObject<RecipeSerializer<OvenRecipe>> OVEN_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("oven", OvenRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<TeapotRecipe>> TEAPOT_RECIPE_TYPE = registerRecipeType("teapot");
+    public static final RegistryObject<RecipeSerializer<TeapotRecipe>> TEAPOT_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("teapot", TeapotRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

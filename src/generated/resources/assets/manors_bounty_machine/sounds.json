@@ -22,5 +22,17 @@
       "manors_bounty_machine:oven_running"
     ],
     "subtitle": "sound.manors_bounty_machine.oven_running"
+  },
+  "teapot_done": {
+    "sounds": [
+      "manors_bounty_machine:teapot_done"
+    ],
+    "subtitle": "sound.manors_bounty_machine.teapot_done"
+  },
+  "teapot_running": {
+    "sounds": [
+      "manors_bounty_machine:teapot_running"
+    ],
+    "subtitle": "sound.manors_bounty_machine.teapot_running"
   }
 }

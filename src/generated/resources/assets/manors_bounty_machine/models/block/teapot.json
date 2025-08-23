@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/teapot",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/teapot",
+    "all": "manors_bounty_machine:block/teapot",
+    "particle": "manors_bounty_machine:block/teapot"
+  }
+}

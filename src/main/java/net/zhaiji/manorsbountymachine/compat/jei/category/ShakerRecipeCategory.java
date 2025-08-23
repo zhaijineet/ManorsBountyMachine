@@ -26,7 +26,6 @@ public class ShakerRecipeCategory implements IRecipeCategory<ShakerRecipe> {
         this.guiHelper = guiHelper;
     }
 
-
     @Override
     public int getWidth() {
         return 154;

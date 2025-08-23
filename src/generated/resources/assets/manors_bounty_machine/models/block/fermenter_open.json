@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/fermenter_open",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/fermenter",
+    "all": "manors_bounty_machine:block/fermenter",
+    "particle": "manors_bounty_machine:block/fermenter"
+  }
+}

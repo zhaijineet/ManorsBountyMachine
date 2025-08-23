@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
+import net.zhaiji.manorsbountymachine.block.TeapotBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 
 public class BlockStateProvider extends net.minecraftforge.client.model.generators.BlockStateProvider {
@@ -23,6 +24,8 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         this.iceCreamMachine();
         this.fryer();
         this.oven();
+        this.teapot();
+        this.fermenter();
     }
 
     public void iceCreamMachine() {
@@ -74,6 +77,40 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                                 .build()
                 );
         this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile1);
+    }
+
+    public void teapot() {
+        Block block = InitBlock.TEAPOT.get();
+        ResourceLocation registerKey = ForgeRegistries.BLOCKS.getKey(block);
+        String namespace = registerKey.getNamespace();
+        String path = registerKey.getPath();
+        String texture = namespace + ":block/" + path;
+        ModelFile modelFile1 = modelFile(path, texture, "cutout_mipped");
+        ModelFile modelFile2 = modelFile(path + "_open", texture, "cutout_mipped");
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(
+                        state -> ConfiguredModel.builder()
+                                .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                                .modelFile(state.getValue(TeapotBlock.OPEN) ? modelFile2 : modelFile1)
+                                .build()
+                );
+    }
+
+    public void fermenter() {
+        Block block = InitBlock.FERMENTER.get();
+        ResourceLocation registerKey = ForgeRegistries.BLOCKS.getKey(block);
+        String namespace = registerKey.getNamespace();
+        String path = registerKey.getPath();
+        String texture = namespace + ":block/" + path;
+        ModelFile modelFile1 = modelFile(path, texture, "cutout_mipped");
+        ModelFile modelFile2 = modelFile(path + "_open", texture, "cutout_mipped");
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(
+                        state -> ConfiguredModel.builder()
+                                .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                                .modelFile(state.getValue(TeapotBlock.OPEN) ? modelFile2 : modelFile1)
+                                .build()
+                );
     }
 
     public ModelFile modelFile(String path, String texture) {

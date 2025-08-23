@@ -6,10 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.render.FryerBlockEntityRenderer;
-import net.zhaiji.manorsbountymachine.client.screen.FryerScreen;
-import net.zhaiji.manorsbountymachine.client.screen.IceCreamMachineScreen;
-import net.zhaiji.manorsbountymachine.client.screen.OvenScreen;
-import net.zhaiji.manorsbountymachine.client.screen.ShakerScreen;
+import net.zhaiji.manorsbountymachine.client.screen.*;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
@@ -20,7 +17,9 @@ public class ClientEventHandler {
             MenuScreens.register(InitMenuType.ICE_CREAM_MACHINE_MENU.get(), IceCreamMachineScreen::new);
             MenuScreens.register(InitMenuType.FRYER_MENU.get(), FryerScreen::new);
             MenuScreens.register(InitMenuType.OVEN_MENU.get(), OvenScreen::new);
-            MenuScreens.register(InitMenuType.SHAKER.get(), ShakerScreen::new);
+            MenuScreens.register(InitMenuType.TEAPOT_MENU.get(), TeapotScreen::new);
+            MenuScreens.register(InitMenuType.FERMENTER_MENU.get(), FermenterScreen::new);
+            MenuScreens.register(InitMenuType.SHAKER_MENU.get(), ShakerScreen::new);
         });
     }
 

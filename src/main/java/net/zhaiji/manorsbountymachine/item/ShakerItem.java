@@ -1,6 +1,5 @@
 package net.zhaiji.manorsbountymachine.item;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -22,9 +20,11 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.ShakerMenu;
 import net.zhaiji.manorsbountymachine.recipe.ShakerRecipe;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -35,16 +35,30 @@ public class ShakerItem extends Item {
         super(new Properties().stacksTo(1));
     }
 
-    public static List<ShakerRecipe> getAllRecipe(Level level) {
-        return level.getRecipeManager().getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get());
-    }
-
     public static Optional<ShakerRecipe> getRecipe(Level level, RecipeWrapper recipeWrapper) {
         return level.getRecipeManager().getRecipeFor(InitRecipe.SHAKER_RECIPE_TYPE.get(), recipeWrapper, level);
     }
 
-    public boolean canStartUsing(ItemStack itemStack) {
+    public static List<ShakerRecipe> getAllRecipe(Level level) {
+        return level.getRecipeManager().getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get());
+    }
+
+    public static void setCanStartUsing(ItemStack itemStack, boolean canStartUsing) {
+        itemStack.getOrCreateTag().putBoolean("canStartUsing", canStartUsing);
+    }
+
+    public static boolean canStartUsing(ItemStack itemStack) {
         return itemStack.getOrCreateTag().getBoolean("canStartUsing");
+    }
+
+    public static void addOrSpawnItem(LivingEntity livingEntity, ItemStack itemStack) {
+        if (livingEntity instanceof Player player) {
+            if (!player.getInventory().add(itemStack)) {
+                player.spawnAtLocation(itemStack);
+            }
+        } else {
+            livingEntity.spawnAtLocation(itemStack);
+        }
     }
 
     public void craftItem(ItemStack itemStack, Level level, LivingEntity livingEntity) {
@@ -52,25 +66,24 @@ public class ShakerItem extends Item {
         if (!itemStack.is(this)) return;
         itemStack.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             RecipeWrapper recipeWrapper = new RecipeWrapper((ItemStackHandler) iItemHandler);
-            Optional<ShakerRecipe> recipe = this.getRecipe(level, recipeWrapper);
+            Optional<ShakerRecipe> recipe = getRecipe(level, recipeWrapper);
             recipe.ifPresent(shakerRecipe -> {
-                NonNullList<ItemStack> remaining = shakerRecipe.getRemainingItems(recipeWrapper);
-                for (int i = 0; i < remaining.size(); i++) {
-                    recipeWrapper.setItem(i, remaining.get(i));
+                for (int i = 0; i < recipeWrapper.getContainerSize(); i++) {
+                    ItemStack input = recipeWrapper.getItem(i);
+                    ItemStack remaining = MachineUtil.getCraftRemaining(input);
+                    if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                        ManorsBountyCompat.damageItem(input, level);
+                        if (!input.isEmpty()) continue;
+                    }
+                    recipeWrapper.setItem(i, remaining);
                 }
                 ItemStack output = shakerRecipe.assemble(recipeWrapper, level.registryAccess());
-                if (livingEntity.getOffhandItem().is(Items.AIR)) {
+                if (livingEntity.getOffhandItem().isEmpty()) {
                     livingEntity.setItemInHand(InteractionHand.OFF_HAND, output);
                 } else {
-                    if (livingEntity instanceof Player player) {
-                        if (!player.getInventory().add(output)) {
-                            player.spawnAtLocation(output);
-                        }
-                    } else {
-                        livingEntity.spawnAtLocation(output);
-                    }
+                    addOrSpawnItem(livingEntity, output);
                 }
-                itemStack.getOrCreateTag().putBoolean("canStartUsing", false);
+                setCanStartUsing(itemStack, false);
                 level.playSound(null, livingEntity.blockPosition(), SoundEvents.BREWING_STAND_BREW, SoundSource.PLAYERS);
             });
         });
@@ -88,7 +101,7 @@ public class ShakerItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack pStack) {
-        return this.canStartUsing(pStack) ? 32 : 0;
+        return canStartUsing(pStack) ? 32 : 0;
     }
 
     @Override

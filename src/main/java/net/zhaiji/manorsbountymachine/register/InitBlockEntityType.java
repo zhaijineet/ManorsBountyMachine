@@ -5,9 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.*;
 
 public class InitBlockEntityType {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, ManorsBountyMachine.MOD_ID);
@@ -25,5 +23,15 @@ public class InitBlockEntityType {
     public static final RegistryObject<BlockEntityType<OvenBlockEntity>> OVEN = BLOCK_ENTITY_TYPE.register(
             "oven",
             () -> BlockEntityType.Builder.of(OvenBlockEntity::new, InitBlock.OVEN.get()).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<TeapotBlockEntity>> TEAPOT = BLOCK_ENTITY_TYPE.register(
+            "teapot",
+            () -> BlockEntityType.Builder.of(TeapotBlockEntity::new, InitBlock.TEAPOT.get()).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<FermenterBlockEntity>> FERMENTER = BLOCK_ENTITY_TYPE.register(
+            "fermenter",
+            () -> BlockEntityType.Builder.of(FermenterBlockEntity::new, InitBlock.FERMENTER.get()).build(null)
     );
 }

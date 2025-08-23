@@ -6,9 +6,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.block.FryerBlock;
-import net.zhaiji.manorsbountymachine.block.IceCreamMachineBlock;
-import net.zhaiji.manorsbountymachine.block.OvenBlock;
+import net.zhaiji.manorsbountymachine.block.*;
 
 public class InitBlock {
     public static final DeferredRegister<Block> BLOCK = DeferredRegister.create(Registries.BLOCK, ManorsBountyMachine.MOD_ID);
@@ -26,5 +24,15 @@ public class InitBlock {
     public static final RegistryObject<Block> OVEN = BLOCK.register(
             "oven",
             () -> new OvenBlock(BlockBehaviour.Properties.of().noOcclusion())
+    );
+
+    public static final RegistryObject<Block> TEAPOT = BLOCK.register(
+            "teapot",
+            () -> new TeapotBlock(BlockBehaviour.Properties.of().noOcclusion())
+    );
+
+    public static final RegistryObject<Block> FERMENTER = BLOCK.register(
+            "fermenter",
+            () -> new FermenterBlock(BlockBehaviour.Properties.of().noOcclusion())
     );
 }

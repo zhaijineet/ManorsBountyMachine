@@ -4,6 +4,7 @@ import net.minecraft.world.entity.player.Player;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 
 public class ServerPacketHandler {
@@ -48,6 +49,13 @@ public class ServerPacketHandler {
     public static void handlerBakeItemCraft(BakeItemCraftPacket packet) {
         Player player = packet.context.getSender();
         if (player.level().getBlockEntity(packet.blockPos) instanceof OvenBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
+
+    public static void handlerBrewingStart(BrewingStartPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof TeapotBlockEntity blockEntity) {
             blockEntity.startRunning();
         }
     }

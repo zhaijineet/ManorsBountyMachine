@@ -18,6 +18,8 @@ public class BlockLootTable extends BlockLootSubProvider {
         this.dropSelf(InitBlock.ICE_CREAM_MACHINE.get());
         this.dropSelf(InitBlock.FRYER.get());
         this.dropSelf(InitBlock.OVEN.get());
+        this.dropSelf(InitBlock.TEAPOT.get());
+        this.dropSelf(InitBlock.FERMENTER.get());
     }
 
     @Override

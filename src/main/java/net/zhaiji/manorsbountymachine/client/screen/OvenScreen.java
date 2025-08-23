@@ -20,35 +20,35 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
     public static final ResourceLocation OVEN_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui.png");
     public static final ResourceLocation OVEN_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui_widget.png");
 
-    public static int BUTTON_X_OFFSET = 145;
-    public static int BUTTON_Y_OFFSET = 0;
-    public static int BUTTON_WIDTH = 24;
-    public static int BUTTON_HEIGHT = 24;
+    public static final int BUTTON_X_OFFSET = 145;
+    public static final int BUTTON_Y_OFFSET = 0;
+    public static final int BUTTON_WIDTH = 24;
+    public static final int BUTTON_HEIGHT = 24;
 
-    public static int DOOR_BUTTON_X_OFFSET = 63;
-    public static int DOOR_BUTTON_Y_OFFSET = 12;
-    public static int DOOR_BUTTON_WIDTH = 56;
-    public static int DOOR_BUTTON_HEIGHT = 30;
+    public static final int DOOR_BUTTON_X_OFFSET = 63;
+    public static final int DOOR_BUTTON_Y_OFFSET = 12;
+    public static final int DOOR_BUTTON_WIDTH = 56;
+    public static final int DOOR_BUTTON_HEIGHT = 30;
 
-    public static int DOOR_X_OFFSET = 0;
-    public static int DOOR_Y_OFFSET = 0;
-    public static int DOOR_WIDTH = 144;
-    public static int DOOR_HEIGHT = 108;
+    public static final int DOOR_X_OFFSET = 0;
+    public static final int DOOR_Y_OFFSET = 0;
+    public static final int DOOR_WIDTH = 144;
+    public static final int DOOR_HEIGHT = 108;
 
-    public static int INPUT_X_OFFSET = 0;
-    public static int INPUT_Y_OFFSET = 109;
-    public static int INPUT_WIDTH = 74;
-    public static int INPUT_HEIGHT = 44;
+    public static final int INPUT_X_OFFSET = 0;
+    public static final int INPUT_Y_OFFSET = 109;
+    public static final int INPUT_WIDTH = 74;
+    public static final int INPUT_HEIGHT = 44;
 
-    public static int OUTPUT_X_OFFSET = 0;
-    public static int OUTPUT_Y_OFFSET = 154;
-    public static int OUTPUT_WIDTH = 26;
-    public static int OUTPUT_HEIGHT = 26;
+    public static final int OUTPUT_X_OFFSET = 0;
+    public static final int OUTPUT_Y_OFFSET = 154;
+    public static final int OUTPUT_WIDTH = 26;
+    public static final int OUTPUT_HEIGHT = 26;
 
     public OvenBlockEntity blockEntity;
 
     public OvenScreen(OvenMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+        super(pMenu, pPlayerInventory, pTitle, OVEN_GUI);
         this.blockEntity = pMenu.blockEntity;
     }
 
@@ -141,7 +141,7 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        pGuiGraphics.blit(OVEN_GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
         this.renderTemperature(pGuiGraphics);
         this.renderMaxCookingTime(pGuiGraphics);
         int cookingTime = this.menu.getCookingTime();

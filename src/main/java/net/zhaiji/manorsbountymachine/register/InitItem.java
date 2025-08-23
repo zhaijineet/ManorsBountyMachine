@@ -26,6 +26,16 @@ public class InitItem {
             () -> new BlockItem(InitBlock.OVEN.get(), new Item.Properties())
     );
 
+    public static final RegistryObject<Item> TEAPOT = ITEM.register(
+            "teapot",
+            () -> new BlockItem(InitBlock.TEAPOT.get(), new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> FERMENTER = ITEM.register(
+            "fermenter",
+            () -> new BlockItem(InitBlock.FERMENTER.get(), new Item.Properties())
+    );
+
     public static final RegistryObject<Item> SHAKER = ITEM.register(
             "shaker",
             ShakerItem::new

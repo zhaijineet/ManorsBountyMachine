@@ -13,5 +13,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
     @Override
     protected void registerModels() {
         this.basicItem(InitItem.SHAKER.get());
+        this.basicItem(InitItem.TEAPOT.get());
+        this.basicItem(InitItem.FERMENTER.get());
     }
 }

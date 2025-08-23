@@ -46,6 +46,13 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new OvenRecipeBuilder(temperature.temperature, maxCookingTime.cookingTime, NonNullList.of(Ingredient.EMPTY, ingredients), output, count).save(pFinishedRecipeConsumer, ForgeRegistries.ITEMS.getKey(output));
     }
 
+    public static void teapotRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item output, Item... input) {
+        Ingredient[] ingredients = new Ingredient[input.length];
+        for (int i = 0; i < input.length; i++) {
+            ingredients[i] = Ingredient.of(input[i]);
+        }
+        new TeapotRecipeBuilder(NonNullList.of(Ingredient.EMPTY, ingredients), output).save(pFinishedRecipeConsumer, ForgeRegistries.ITEMS.getKey(output));
+    }
 
     public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item output, Item... input) {
         Ingredient[] ingredients = new Ingredient[input.length];
@@ -74,6 +81,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.IRON_INGOT, 4, Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE);
         ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, Items.GOLD_INGOT, 4, Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE);
 
+        teapotRecipe(pWriter, Items.APPLE, Items.IRON_INGOT, Items.MILK_BUCKET, Items.DIAMOND);
+        teapotRecipe(pWriter, Items.STICK, Items.GOLD_INGOT, Items.MILK_BUCKET, Items.DIAMOND);
 
         shakerRecipe(pWriter, Items.APPLE, Items.IRON_INGOT, Items.GOLD_INGOT);
         shakerRecipe(pWriter, Items.DIAMOND, Items.IRON_INGOT, Items.MILK_BUCKET);
