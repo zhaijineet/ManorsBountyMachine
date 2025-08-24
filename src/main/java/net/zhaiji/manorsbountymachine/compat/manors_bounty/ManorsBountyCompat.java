@@ -27,6 +27,11 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> TEAPOT_GUI_MUG_MATCHA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_matcha"));
     public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle"));
     public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE_MILK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle_milktea"));
+    public static final TagKey<Item> CATALYSTS = ItemTags.create(getManorsBountyResourceLocation("catalysts"));
+    public static final TagKey<Item> CATALYSTS_A = ItemTags.create(getManorsBountyResourceLocation("catalysts_a"));
+    public static final TagKey<Item> CATALYSTS_B = ItemTags.create(getManorsBountyResourceLocation("catalysts_b"));
+    public static final TagKey<Item> CATALYSTS_C = ItemTags.create(getManorsBountyResourceLocation("catalysts_c"));
+    public static final TagKey<Item> CATALYSTS_X = ItemTags.create(getManorsBountyResourceLocation("catalysts_x"));
 
     public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks.json"));
 
@@ -76,6 +81,26 @@ public class ManorsBountyCompat {
 
     public static boolean isTeapotGuiMugMatcha(ItemStack itemStack) {
         return itemStack.is(TEAPOT_GUI_MUG_MATCHA);
+    }
+
+    public static boolean isCatalysts(ItemStack itemStack) {
+        return itemStack.is(CATALYSTS);
+    }
+
+    public static boolean isCatalystsA(ItemStack itemStack) {
+        return itemStack.is(CATALYSTS_A);
+    }
+
+    public static boolean isCatalystsB(ItemStack itemStack) {
+        return itemStack.is(CATALYSTS_B);
+    }
+
+    public static boolean isCatalystsC(ItemStack itemStack) {
+        return itemStack.is(CATALYSTS_C);
+    }
+
+    public static boolean isCatalystsX(ItemStack itemStack) {
+        return itemStack.is(CATALYSTS_X);
     }
 
     public static ResourceLocation getTeapotGuiTexture(TagKey<Item> tag) {

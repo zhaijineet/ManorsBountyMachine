@@ -1,10 +1,7 @@
 package net.zhaiji.manorsbountymachine.network.server;
 
 import net.minecraft.world.entity.player.Player;
-import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.*;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 
 public class ServerPacketHandler {
@@ -57,6 +54,20 @@ public class ServerPacketHandler {
         Player player = packet.context.getSender();
         if (player.level().getBlockEntity(packet.blockPos) instanceof TeapotBlockEntity blockEntity) {
             blockEntity.startRunning();
+        }
+    }
+
+    public static void handlerFermentationStart(FermentationStartPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof FermenterBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
+
+    public static void handlerFermentationStop(FermentationStopPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof FermenterBlockEntity blockEntity) {
+            blockEntity.stopRunning();
         }
     }
 }

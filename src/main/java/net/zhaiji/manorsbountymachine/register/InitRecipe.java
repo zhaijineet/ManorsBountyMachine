@@ -28,6 +28,15 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<TeapotRecipe>> TEAPOT_RECIPE_TYPE = registerRecipeType("teapot");
     public static final RegistryObject<RecipeSerializer<TeapotRecipe>> TEAPOT_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("teapot", TeapotRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<DimFermentationRecipe>> DIM_FERMENTATION_RECIPE_TYPE = registerRecipeType("dim_fermentation");
+    public static final RegistryObject<RecipeSerializer<DimFermentationRecipe>> DIM_FERMENTATION_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("dim_fermentation", DimFermentationRecipe.Serializer::new);
+
+    public static final RegistryObject<RecipeType<NormalFermentationRecipe>> NORMAL_FERMENTATION_RECIPE_TYPE = registerRecipeType("normal_fermentation");
+    public static final RegistryObject<RecipeSerializer<NormalFermentationRecipe>> NORMAL_FERMENTATION_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("normal_fermentation", NormalFermentationRecipe.Serializer::new);
+
+    public static final RegistryObject<RecipeType<BrightFermentationRecipe>> BRIGHT_FERMENTATION_RECIPE_TYPE = registerRecipeType("bright_fermentation");
+    public static final RegistryObject<RecipeSerializer<BrightFermentationRecipe>> BRIGHT_FERMENTATION_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("bright_fermentation", BrightFermentationRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

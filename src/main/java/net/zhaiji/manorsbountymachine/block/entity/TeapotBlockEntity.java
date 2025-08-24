@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.TeapotBlock;
@@ -138,7 +137,7 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
             ItemStack input = this.getItem(i);
             ItemStack remaining = MachineUtil.getCraftRemaining(input);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                ManorsBountyCompat.damageItem(input, level);
+                ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) continue;
             }
             this.setItem(i, remaining);

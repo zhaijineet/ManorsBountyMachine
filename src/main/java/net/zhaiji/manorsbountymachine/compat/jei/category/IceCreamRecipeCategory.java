@@ -33,11 +33,6 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     }
 
     @Override
-    public RecipeType<IceCreamRecipe> getRecipeType() {
-        return ManorsBountyMachineJeiPlugin.ICE_CREAM;
-    }
-
-    @Override
     public int getWidth() {
         return 154;
     }
@@ -45,6 +40,11 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     @Override
     public int getHeight() {
         return 74;
+    }
+
+    @Override
+    public RecipeType<IceCreamRecipe> getRecipeType() {
+        return ManorsBountyMachineJeiPlugin.ICE_CREAM;
     }
 
     @Override

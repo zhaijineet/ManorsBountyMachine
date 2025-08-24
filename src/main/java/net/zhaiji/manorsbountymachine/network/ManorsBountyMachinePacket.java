@@ -69,6 +69,18 @@ public class ManorsBountyMachinePacket {
                 .encoder(BrewingStartPacket::encode)
                 .consumerMainThread(BrewingStartPacket::handle)
                 .add();
+
+        INSTANCE.messageBuilder(FermentationStartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(FermentationStartPacket::decode)
+                .encoder(FermentationStartPacket::encode)
+                .consumerMainThread(FermentationStartPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(FermentationStopPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(FermentationStopPacket::decode)
+                .encoder(FermentationStopPacket::encode)
+                .consumerMainThread(FermentationStopPacket::handle)
+                .add();
     }
 
     public static void registerClientPacket() {

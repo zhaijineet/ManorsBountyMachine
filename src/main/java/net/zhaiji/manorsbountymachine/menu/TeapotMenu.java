@@ -43,8 +43,6 @@ public class TeapotMenu extends AbstractMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
-        //19 77
-        //32 90
         int[][] slots = {
                 {TeapotBlockEntity.OUTPUT, 33, 90, 0},
                 {TeapotBlockEntity.DRINK, 121, 41, 1},

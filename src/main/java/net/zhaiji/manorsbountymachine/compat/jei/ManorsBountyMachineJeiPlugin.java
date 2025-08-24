@@ -25,6 +25,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<SlowFryRecipe> SLOW_FRY = RecipeType.create(ManorsBountyMachine.MOD_ID, "slow_fry", SlowFryRecipe.class);
     public static final RecipeType<OvenRecipe> OVEN = RecipeType.create(ManorsBountyMachine.MOD_ID, "oven", OvenRecipe.class);
     public static final RecipeType<TeapotRecipe> TEAPOT = RecipeType.create(ManorsBountyMachine.MOD_ID, "teapot", TeapotRecipe.class);
+    public static final RecipeType<DimFermentationRecipe> DIM_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "dim_fermentation", DimFermentationRecipe.class);
+    public static final RecipeType<NormalFermentationRecipe> NORMAL_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "normal_fermentation", NormalFermentationRecipe.class);
+    public static final RecipeType<BrightFermentationRecipe> BRIGHT_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "bright_fermentation", BrightFermentationRecipe.class);
     public static final RecipeType<ShakerRecipe> SHAKER = RecipeType.create(ManorsBountyMachine.MOD_ID, "shaker", ShakerRecipe.class);
 
     @Override
@@ -40,6 +43,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new SlowFryRecipeCategory(guiHelper));
         registration.addRecipeCategories(new OvenRecipeCategory(guiHelper));
         registration.addRecipeCategories(new TeapotRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new DimFermentationRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new NormalFermentationRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BrightFermentationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new ShakerRecipeCategory(guiHelper));
     }
 
@@ -50,6 +56,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(InitBlock.FRYER.get(), SLOW_FRY);
         registration.addRecipeCatalyst(InitBlock.OVEN.get(), OVEN);
         registration.addRecipeCatalyst(InitBlock.TEAPOT.get(), TEAPOT);
+        registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), DIM_FERMENTATION);
+        registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), NORMAL_FERMENTATION);
+        registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), BRIGHT_FERMENTATION);
         registration.addRecipeCatalyst(InitItem.SHAKER.get(), SHAKER);
     }
 
@@ -61,6 +70,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(SLOW_FRY, recipeManager.getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get()));
         registration.addRecipes(OVEN, recipeManager.getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get()));
         registration.addRecipes(TEAPOT, recipeManager.getAllRecipesFor(InitRecipe.TEAPOT_RECIPE_TYPE.get()));
+        registration.addRecipes(DIM_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.DIM_FERMENTATION_RECIPE_TYPE.get()));
+        registration.addRecipes(NORMAL_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.NORMAL_FERMENTATION_RECIPE_TYPE.get()));
+        registration.addRecipes(BRIGHT_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(SHAKER, recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));
     }
 

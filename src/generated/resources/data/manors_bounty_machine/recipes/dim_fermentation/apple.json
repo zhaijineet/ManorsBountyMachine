@@ -1,0 +1,13 @@
+{
+  "type": "manors_bounty_machine:dim_fermentation",
+  "cookingTime": 1200,
+  "input": [
+    [],
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:apple"
+  }
+}

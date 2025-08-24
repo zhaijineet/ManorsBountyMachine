@@ -27,11 +27,6 @@ public class FastFryRecipeCategory implements IRecipeCategory<FastFryRecipe> {
     }
 
     @Override
-    public RecipeType<FastFryRecipe> getRecipeType() {
-        return ManorsBountyMachineJeiPlugin.FAST_FRY;
-    }
-
-    @Override
     public int getWidth() {
         return 154;
     }
@@ -39,6 +34,11 @@ public class FastFryRecipeCategory implements IRecipeCategory<FastFryRecipe> {
     @Override
     public int getHeight() {
         return 74;
+    }
+
+    @Override
+    public RecipeType<FastFryRecipe> getRecipeType() {
+        return ManorsBountyMachineJeiPlugin.FAST_FRY;
     }
 
     @Override

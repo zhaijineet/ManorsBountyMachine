@@ -39,10 +39,13 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(SlowFryRecipeCategory.TRANSLATABLE, "Slow Frying");
         add(OvenRecipeCategory.TRANSLATABLE, "Bake");
         add(TeapotRecipeCategory.TRANSLATABLE, "Brewing");
+        add(DimFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Dim Environment");
+        add(NormalFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Normal Environment");
+        add(BrightFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Bright Environment");
         add(ShakerRecipeCategory.TRANSLATABLE, "Mix a Drink");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "Ice Cream Machine Clank");
-        add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "Fryer frying");
+        add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "Fryer Frying");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "Oven Ding");
         add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "Oven Running");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
@@ -67,6 +70,9 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(SlowFryRecipeCategory.TRANSLATABLE, "慢炸");
         add(OvenRecipeCategory.TRANSLATABLE, "烘焙");
         add(TeapotRecipeCategory.TRANSLATABLE, "冲泡");
+        add(DimFermentationRecipeCategory.TRANSLATABLE, "发酵：黑暗环境");
+        add(NormalFermentationRecipeCategory.TRANSLATABLE, "发酵：阴凉环境");
+        add(BrightFermentationRecipeCategory.TRANSLATABLE, "发酵：明亮环境");
         add(ShakerRecipeCategory.TRANSLATABLE, "调制");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");

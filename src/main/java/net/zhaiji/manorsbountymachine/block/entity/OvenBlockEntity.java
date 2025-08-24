@@ -13,7 +13,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
@@ -101,15 +100,11 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         if (this.temperature == Temperature.ZERO) return;
         if (this.maxCookingTime == MaxCookingTime.ZERO) return;
         if (!this.getItem(OUTPUT).isEmpty()) return;
-        for (OvenRecipe recipe : getAllRecipe()) {
-            if (RecipeMatcher.findMatches(this.getInput(), recipe.input) != null) {
-                this.isRunning = true;
-                this.playSoundCooldown = 0;
-                this.setRunningState(true);
-                this.setChanged();
-                return;
-            }
-        }
+        if (this.getRecipe().isEmpty()) return;
+        this.isRunning = true;
+        this.playSoundCooldown = 0;
+        this.setRunningState(true);
+        this.setChanged();
     }
 
     public void stopRunning() {
@@ -123,7 +118,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         Optional<OvenRecipe> recipe = this.getRecipe();
         List<ItemStack> craftRemaining = new ArrayList<>();
         ItemStack output;
-        if (recipe.isPresent()) {
+        if (recipe.isPresent() && recipe.get().isStateMatch(this)) {
             output = recipe.get().assemble(this, this.level.registryAccess());
             this.handlerCraft(true, craftRemaining);
         } else {

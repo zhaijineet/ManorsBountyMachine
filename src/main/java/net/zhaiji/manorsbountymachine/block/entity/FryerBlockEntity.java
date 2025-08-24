@@ -120,7 +120,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         if (this.fluidTank.getFluidAmount() < 250) return;
         int count = 0;
         boolean flag = false;
-        for (FryerCraftContainer craftContainer : fryerCraftContainers) {
+        for (FryerCraftContainer craftContainer : this.fryerCraftContainers) {
             ItemStack input = craftContainer.getItem();
             if (input.isEmpty()) continue;
             count += input.getCount();

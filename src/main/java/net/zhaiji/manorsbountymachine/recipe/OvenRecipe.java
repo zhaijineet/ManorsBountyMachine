@@ -30,13 +30,23 @@ public class OvenRecipe implements Recipe<OvenBlockEntity> {
         this.output = output;
     }
 
+    public boolean isTemperatureMatch(OvenBlockEntity pContainer) {
+        return this.temperature == pContainer.temperature.temperature;
+    }
+
+    public boolean isCookingTimeMatch(OvenBlockEntity pContainer) {
+        return this.cookingTime >= pContainer.maxCookingTime.cookingTime;
+    }
+
+    public boolean isStateMatch(OvenBlockEntity pContainer) {
+        return this.isTemperatureMatch(pContainer) || this.isCookingTimeMatch(pContainer);
+    }
+
     @Override
     public boolean matches(OvenBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         if (!pContainer.isRunning) return false;
         if (!pContainer.getItem(OvenBlockEntity.OUTPUT).isEmpty()) return false;
-        if (this.temperature != pContainer.temperature.temperature) return false;
-        if (this.cookingTime != pContainer.maxCookingTime.cookingTime) return false;
         return RecipeMatcher.findMatches(pContainer.getInput(), this.input) != null;
     }
 
