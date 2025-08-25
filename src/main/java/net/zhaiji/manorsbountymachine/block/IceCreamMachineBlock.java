@@ -5,12 +5,16 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
+import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
 public class IceCreamMachineBlock extends AbstractMachineBlock {
@@ -22,6 +26,16 @@ public class IceCreamMachineBlock extends AbstractMachineBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new IceCreamMachineBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return switch (pState.getValue(FACING)) {
+            case SOUTH -> BlockShapeManager.SOUTH_ICE_CREAM_MACHINE_SHAPE;
+            case WEST -> BlockShapeManager.WEST_ICE_CREAM_MACHINE_SHAPE;
+            case EAST -> BlockShapeManager.EAST_ICE_CREAM_MACHINE_SHAPE;
+            default -> BlockShapeManager.NORTH_ICE_CREAM_MACHINE_SHAPE;
+        };
     }
 
     @Override

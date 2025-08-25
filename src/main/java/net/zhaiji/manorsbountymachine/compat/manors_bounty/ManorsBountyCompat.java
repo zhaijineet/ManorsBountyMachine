@@ -17,6 +17,7 @@ import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 public class ManorsBountyCompat {
     public static final String MOD_ID = "manors_bounty";
 
+    public static final TagKey<Item> ICE_CREAM_AND_CONE = ItemTags.create(getManorsBountyResourceLocation("ice_cream_and_cone"));
     public static final TagKey<Item> DAMAGEABLE_MATERIAL = ItemTags.create(getManorsBountyResourceLocation("damageable_material"));
     public static final TagKey<Item> TEAPOT_GUI_MUG = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_APRICOT_KERNEL = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_apricotkernel"));
@@ -41,6 +42,10 @@ public class ManorsBountyCompat {
 
     public static Item getManorsBountyItem(String name) {
         return ForgeRegistries.ITEMS.getValue(getManorsBountyResourceLocation(name));
+    }
+
+    public static boolean isIceCreamAndCone(ItemStack itemStack) {
+        return itemStack.is(ICE_CREAM_AND_CONE);
     }
 
     public static boolean isDamageableMaterial(ItemStack itemStack) {

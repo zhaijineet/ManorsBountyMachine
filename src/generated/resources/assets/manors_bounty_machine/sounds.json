@@ -23,11 +23,41 @@
     ],
     "subtitle": "sound.manors_bounty_machine.oven_running"
   },
+  "shaker_open": {
+    "sounds": [
+      "manors_bounty_machine:shaker_open"
+    ],
+    "subtitle": "sound.manors_bounty_machine.shaker_open"
+  },
+  "shaker_shake": {
+    "sounds": [
+      "manors_bounty_machine:shaker_shake"
+    ],
+    "subtitle": "sound.manors_bounty_machine.shaker_shake"
+  },
+  "teapot_close": {
+    "sounds": [
+      "manors_bounty_machine:teapot_close"
+    ],
+    "subtitle": "sound.manors_bounty_machine.teapot_close"
+  },
+  "teapot_cup_place": {
+    "sounds": [
+      "manors_bounty_machine:teapot_cup_place"
+    ],
+    "subtitle": "sound.manors_bounty_machine.teapot_cup_place"
+  },
   "teapot_done": {
     "sounds": [
       "manors_bounty_machine:teapot_done"
     ],
     "subtitle": "sound.manors_bounty_machine.teapot_done"
+  },
+  "teapot_open": {
+    "sounds": [
+      "manors_bounty_machine:teapot_open"
+    ],
+    "subtitle": "sound.manors_bounty_machine.teapot_open"
   },
   "teapot_running": {
     "sounds": [

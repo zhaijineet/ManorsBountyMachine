@@ -21,6 +21,11 @@
   "sound.manors_bounty_machine.ice_cream_machine_clank": "Ice Cream Machine Clank",
   "sound.manors_bounty_machine.oven_ding": "Oven Ding",
   "sound.manors_bounty_machine.oven_running": "Oven Running",
+  "sound.manors_bounty_machine.shaker_open": "Shaker Open",
+  "sound.manors_bounty_machine.shaker_shake": "Shaker Shake",
+  "sound.manors_bounty_machine.teapot_close": "Teapot Close",
+  "sound.manors_bounty_machine.teapot_cup_place": "Teapot Cup Place",
   "sound.manors_bounty_machine.teapot_done": "Teapot Done",
+  "sound.manors_bounty_machine.teapot_open": "Teapot Open",
   "sound.manors_bounty_machine.teapot_running": "Teapot Running"
 }

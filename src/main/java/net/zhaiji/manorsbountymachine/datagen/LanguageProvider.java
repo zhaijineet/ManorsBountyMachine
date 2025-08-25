@@ -48,8 +48,13 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "Fryer Frying");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "Oven Ding");
         add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "Oven Running");
+        add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "Teapot Cup Place");
+        add(InitSoundEvent.TEAPOT_OPEN_TRANSLATABLE, "Teapot Open");
+        add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "Teapot Close");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "Teapot Running");
+        add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
+        add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
     }
 
     public void Chinese_CN() {
@@ -79,8 +84,13 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "炸锅：油炸");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "烤箱：叮");
         add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "烤箱：运行中");
+        add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "茶壶：杯子放置");
+        add(InitSoundEvent.TEAPOT_OPEN_TRANSLATABLE, "茶壶：揭盖");
+        add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "茶壶：盖上");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "茶壶：倒出");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "茶壶：冲泡中");
+        add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
+        add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
     }
 
     @Override

@@ -129,7 +129,8 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     @Override
     protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
         super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
-        if (pSlot == null || pType != ClickType.PICKUP) return;
+        if (pSlot == null || !(pType == ClickType.PICKUP || pType == ClickType.SWAP || pType == ClickType.CLONE))
+            return;
         Level level = this.blockEntity.getLevel();
         BlockPos blockPos = this.blockEntity.getBlockPos();
         switch (pSlot.index) {

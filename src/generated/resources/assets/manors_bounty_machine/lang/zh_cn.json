@@ -21,6 +21,11 @@
   "sound.manors_bounty_machine.ice_cream_machine_clank": "冰淇淋机：哐当",
   "sound.manors_bounty_machine.oven_ding": "烤箱：叮",
   "sound.manors_bounty_machine.oven_running": "烤箱：运行中",
+  "sound.manors_bounty_machine.shaker_open": "雪克壶：打开",
+  "sound.manors_bounty_machine.shaker_shake": "雪克壶：摇晃",
+  "sound.manors_bounty_machine.teapot_close": "茶壶：盖上",
+  "sound.manors_bounty_machine.teapot_cup_place": "茶壶：杯子放置",
   "sound.manors_bounty_machine.teapot_done": "茶壶：倒出",
+  "sound.manors_bounty_machine.teapot_open": "茶壶：揭盖",
   "sound.manors_bounty_machine.teapot_running": "茶壶：冲泡中"
 }

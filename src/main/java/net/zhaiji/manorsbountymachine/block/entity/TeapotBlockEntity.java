@@ -3,7 +3,6 @@ package net.zhaiji.manorsbountymachine.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -45,13 +44,13 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
-            TeapotBlockEntity.this.playBarrelOpenSound();
+            TeapotBlockEntity.this.playTeapotOpenSound();
             TeapotBlockEntity.this.setOpen(true);
         }
 
         @Override
         protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
-            TeapotBlockEntity.this.playBarrelCloseSound();
+            TeapotBlockEntity.this.playTeapotCloseSound();
             TeapotBlockEntity.this.setOpen(false);
         }
 
@@ -163,12 +162,12 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.TEAPOT_RECIPE_TYPE.get());
     }
 
-    public void playBarrelOpenSound() {
-        this.level.playSound(null, this.getBlockPos(), SoundEvents.BARREL_OPEN, SoundSource.BLOCKS);
+    public void playTeapotOpenSound() {
+        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.TEAPOT_OPEN.get(), SoundSource.BLOCKS);
     }
 
-    public void playBarrelCloseSound() {
-        this.level.playSound(null, this.getBlockPos(), SoundEvents.BARREL_CLOSE, SoundSource.BLOCKS);
+    public void playTeapotCloseSound() {
+        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.TEAPOT_CLOSE.get(), SoundSource.BLOCKS);
     }
 
     public void setOpen(boolean open) {

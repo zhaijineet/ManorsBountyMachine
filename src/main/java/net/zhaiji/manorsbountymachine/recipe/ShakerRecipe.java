@@ -27,17 +27,20 @@ public class ShakerRecipe implements Recipe<RecipeWrapper> {
         this.output = output;
     }
 
+    public boolean matches(RecipeWrapper container) {
+        if (container.getItem(ShakerCapabilityProvider.OUTPUT).isEmpty()) return false;
+        int size = container.getContainerSize();
+        NonNullList<ItemStack> input = NonNullList.withSize(size, ItemStack.EMPTY);
+        for (int i = 0; i < size; i++) {
+            input.set(i, container.getItem(i));
+        }
+        return RecipeMatcher.findMatches(input, this.input) != null;
+    }
+
     @Override
     public boolean matches(RecipeWrapper pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
-        ItemStack cup = pContainer.getItem(ShakerCapabilityProvider.OUTPUT);
-        if (cup.isEmpty()) return false;
-        int size = pContainer.getContainerSize();
-        NonNullList<ItemStack> input = NonNullList.withSize(size, ItemStack.EMPTY);
-        for (int i = 0; i < size; i++) {
-            input.set(i, pContainer.getItem(i));
-        }
-        return RecipeMatcher.findMatches(input, this.input) != null;
+        return this.matches(pContainer);
     }
 
     @Override

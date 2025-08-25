@@ -110,8 +110,14 @@ public class ShakerMenu extends AbstractContainerMenu {
 
     @Override
     public void removed(Player pPlayer) {
-        Optional<ShakerRecipe> recipe = ShakerItem.getRecipe(pPlayer.level(), new RecipeWrapper((ItemStackHandler) this.itemHandler));
-        ShakerItem.setCanStartUsing(this.getShaker(), recipe.isPresent());
+        boolean flag = false;
+        for (ShakerRecipe recipe : ShakerItem.getAllRecipe(pPlayer.level())) {
+            if (recipe.matches(new RecipeWrapper((ItemStackHandler) this.itemHandler))) {
+                flag = true;
+                break;
+            }
+        }
+        ShakerItem.setCanStartUsing(this.getShaker(), flag);
         super.removed(pPlayer);
     }
 

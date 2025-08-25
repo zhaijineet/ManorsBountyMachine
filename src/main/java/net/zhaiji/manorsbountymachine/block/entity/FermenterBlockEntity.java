@@ -137,12 +137,14 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
         } else {
             return;
         }
+        this.playBarrelCloseSound();
         this.isRunning = true;
         this.setMaxCookingTime(this.handleMaxCookingTime(maxCookingTime));
         this.setChanged();
     }
 
     public void stopRunning() {
+        this.playBarrelOpenSound();
         this.isRunning = false;
         this.setMaxCookingTime(0);
         this.setCookingTime(0);

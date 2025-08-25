@@ -6,8 +6,11 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
@@ -16,6 +19,7 @@ import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.TeapotMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BrewingStartPacket;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 public class TeapotScreen extends AbstractMachineScreen<TeapotMenu> {
     public static final ResourceLocation TEAPOT_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/teapot_gui.png");
@@ -119,6 +123,16 @@ public class TeapotScreen extends AbstractMachineScreen<TeapotMenu> {
         this.renderOutput(pGuiGraphics);
         this.renderTeapot(pGuiGraphics);
         this.renderDrink(pGuiGraphics);
+    }
+
+    @Override
+    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
+        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
+        if (pSlot == null || pType == ClickType.PICKUP_ALL) return;
+        if (pSlot.index != TeapotBlockEntity.OUTPUT) return;
+        Level level = this.blockEntity.getLevel();
+        BlockPos blockPos = this.blockEntity.getBlockPos();
+        level.playLocalSound(blockPos, InitSoundEvent.TEAPOT_CUP_PLACE.get(), SoundSource.BLOCKS, 0.15F, 1F, false);
     }
 
     public void renderOutput(GuiGraphics guiGraphics) {

@@ -75,9 +75,12 @@ public class DimFermentationRecipeCategory implements IRecipeCategory<DimFerment
         for (int[] slot : slots) {
             Ingredient input = recipe.input.get(slot[0]);
             if (!input.isEmpty()) {
-                builder.addInputSlot(slot[1], slot[2]);
+                builder.addInputSlot(slot[1], slot[2])
+                        .addIngredients(input);
             }
         }
+        builder.addOutputSlot(110, 30)
+                .addItemStack(recipe.output);
     }
 
     @Override

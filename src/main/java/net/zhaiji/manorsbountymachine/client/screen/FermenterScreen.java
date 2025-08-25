@@ -192,7 +192,7 @@ public class FermenterScreen extends AbstractMachineScreen<FermenterMenu> {
                     this.font,
                     text,
                     this.leftPos + 153 - this.font.width(text) / 2,
-                    this.topPos + 76,
+                    this.topPos + 77,
                     -12840447,
                     false
             );

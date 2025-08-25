@@ -43,6 +43,24 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.OVEN_RUNNING_NAME)))
         );
         add(
+                InitSoundEvent.TEAPOT_CUP_PLACE,
+                definition()
+                        .subtitle(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.TEAPOT_CUP_PLACE_NAME)))
+        );
+        add(
+                InitSoundEvent.TEAPOT_OPEN,
+                definition()
+                        .subtitle(InitSoundEvent.TEAPOT_OPEN_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.TEAPOT_OPEN_NAME)))
+        );
+        add(
+                InitSoundEvent.TEAPOT_CLOSE,
+                definition()
+                        .subtitle(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.TEAPOT_CLOSE_NAME)))
+        );
+        add(
                 InitSoundEvent.TEAPOT_DONE,
                 definition()
                         .subtitle(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE)
@@ -53,6 +71,18 @@ public class SoundProvider extends SoundDefinitionsProvider {
                 definition()
                         .subtitle(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE)
                         .with(sound(soundName(InitSoundEvent.TEAPOT_RUNNING_NAME)))
+        );
+        add(
+                InitSoundEvent.SHAKER_OPEN,
+                definition()
+                        .subtitle(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.SHAKER_OPEN_NAME)))
+        );
+        add(
+                InitSoundEvent.SHAKER_SHAKE,
+                definition()
+                        .subtitle(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.SHAKER_SHAKE_NAME)))
         );
     }
 }
