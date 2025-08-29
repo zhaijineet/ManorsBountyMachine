@@ -35,4 +35,9 @@ public class InitBlock {
             "fermenter",
             () -> new FermenterBlock(BlockBehaviour.Properties.of().noOcclusion())
     );
+
+    public static final RegistryObject<Block> BLENDER = BLOCK.register(
+            "blender",
+            () -> new BlenderBlock(BlockBehaviour.Properties.of().noOcclusion())
+    );
 }

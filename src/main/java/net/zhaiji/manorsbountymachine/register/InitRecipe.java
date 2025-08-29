@@ -37,6 +37,9 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<BrightFermentationRecipe>> BRIGHT_FERMENTATION_RECIPE_TYPE = registerRecipeType("bright_fermentation");
     public static final RegistryObject<RecipeSerializer<BrightFermentationRecipe>> BRIGHT_FERMENTATION_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("bright_fermentation", BrightFermentationRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<BlenderRecipe>> BLENDER_RECIPE_TYPE = registerRecipeType("blender");
+    public static final RegistryObject<RecipeSerializer<BlenderRecipe>> BLENDER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("blender", BlenderRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

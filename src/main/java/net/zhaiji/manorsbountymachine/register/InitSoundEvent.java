@@ -17,8 +17,11 @@ public class InitSoundEvent {
     public static final String TEAPOT_CUP_PLACE_NAME = "teapot_cup_place";
     public static final String TEAPOT_OPEN_NAME = "teapot_open";
     public static final String TEAPOT_CLOSE_NAME = "teapot_close";
-    public static final String TEAPOT_DONE_NAME = "teapot_done";
     public static final String TEAPOT_RUNNING_NAME = "teapot_running";
+    public static final String TEAPOT_DONE_NAME = "teapot_done";
+    public static final String BLENDER_RUNNING_NAME = "blender_running";
+    public static final String BLENDER_WATER_DONE_NAME = "blender_water_done";
+    public static final String BLENDER_POWDER_DONE_NAME = "blender_powder_done";
     public static final String SHAKER_OPEN_NAME = "shaker_open";
     public static final String SHAKER_SHAKE_NAME = "shaker_shake";
 
@@ -29,8 +32,11 @@ public class InitSoundEvent {
     public static final String TEAPOT_CUP_PLACE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_cup_place";
     public static final String TEAPOT_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.teapot_open";
     public static final String TEAPOT_CLOSE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_close";
-    public static final String TEAPOT_DONE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_done";
     public static final String TEAPOT_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.teapot_running";
+    public static final String TEAPOT_DONE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_done";
+    public static final String BLENDER_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.blender_running";
+    public static final String BLENDER_WATER_DONE_TRANSLATABLE = "sound.manors_bounty_machine.blender_water_done";
+    public static final String BLENDER_POWDER_DONE_TRANSLATABLE = "sound.manors_bounty_machine.blender_powder_done";
     public static final String SHAKER_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.shaker_open";
     public static final String SHAKER_SHAKE_TRANSLATABLE = "sound.manors_bounty_machine.shaker_shake";
 
@@ -43,6 +49,9 @@ public class InitSoundEvent {
     public static final RegistryObject<SoundEvent> TEAPOT_CLOSE = register(TEAPOT_CLOSE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_DONE = register(TEAPOT_DONE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_RUNNING = register(TEAPOT_RUNNING_NAME);
+    public static final RegistryObject<SoundEvent> BLENDER_RUNNING = register(BLENDER_RUNNING_NAME);
+    public static final RegistryObject<SoundEvent> BLENDER_WATER_DONE = register(BLENDER_WATER_DONE_NAME);
+    public static final RegistryObject<SoundEvent> BLENDER_POWDER_DONE = register(BLENDER_POWDER_DONE_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_OPEN = register(SHAKER_OPEN_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_SHAKE = register(SHAKER_SHAKE_NAME);
 

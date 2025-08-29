@@ -110,6 +110,7 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
                 pBlockEntity.level.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.TEAPOT_RUNNING.get(), SoundSource.BLOCKS);
                 pBlockEntity.playSoundCooldown += SOUND_TIME;
             }
+            pBlockEntity.setChanged();
         }
     }
 
@@ -119,15 +120,14 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
         this.getRecipe().ifPresent(teapotRecipe -> {
             this.isRunning = true;
             this.playSoundCooldown = 0;
+            this.setCookingTime(0);
             this.handlerRecipe(teapotRecipe);
-            this.setChanged();
         });
     }
 
     public void stopRunning() {
         this.isRunning = false;
-        this.cookingTime = 0;
-        this.setChanged();
+        this.setCookingTime(0);
     }
 
     public void handlerRecipe(TeapotRecipe recipe) {
@@ -142,6 +142,7 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
             this.setItem(i, remaining);
         }
         this.output = recipe.assemble(this, this.level.registryAccess());
+        this.setChanged();
     }
 
     public void craftItem() {

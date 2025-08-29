@@ -36,6 +36,11 @@ public class InitItem {
             () -> new BlockItem(InitBlock.FERMENTER.get(), new Item.Properties())
     );
 
+    public static final RegistryObject<Item> BLENDER = ITEM.register(
+            "blender",
+            () -> new BlockItem(InitBlock.BLENDER.get(), new Item.Properties())
+    );
+
     public static final RegistryObject<Item> SHAKER = ITEM.register(
             "shaker",
             ShakerItem::new

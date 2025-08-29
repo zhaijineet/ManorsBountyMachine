@@ -1,11 +1,14 @@
 package net.zhaiji.manorsbountymachine.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -33,6 +36,7 @@ import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamCraftPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamTowFlavorSwitchPacket;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
+import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachineMenu> {
@@ -129,8 +133,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
     @Override
     protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
         super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
-        if (pSlot == null || !(pType == ClickType.PICKUP || pType == ClickType.SWAP || pType == ClickType.CLONE))
-            return;
+        if (pSlot == null || pType == ClickType.PICKUP_ALL) return;
         Level level = this.blockEntity.getLevel();
         BlockPos blockPos = this.blockEntity.getBlockPos();
         switch (pSlot.index) {
@@ -146,6 +149,8 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
         pGuiGraphics.renderTooltip(this.font, Component.translatable(TWO_FLAVOR_SWITCH_TRANSLATABLE), pMouseX, pMouseY);
     }
 
+    // 嘎巴一下死在电脑前了
+    // mcr不知道干了啥，把blit的渲染搞坏了
     public void renderFluid(GuiGraphics pGuiGraphics) {
         FluidTank fluidTank = this.blockEntity.fluidTank;
         if (fluidTank.isEmpty()) return;
@@ -166,11 +171,14 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
         float r = (float) (color >> 16 & 255) / 255.0F;
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
+        pGuiGraphics.pose().pushPose();
         pGuiGraphics.setColor(r, g, b, alpha);
         pGuiGraphics.enableScissor(x, y + renderHeight - (renderHeight * fluidTank.getFluidAmount() / fluidTank.getCapacity()), x + renderWidth, y + renderHeight);
         pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y, 0, 0, renderWidth, renderHeight, width * scale, height * count * scale);
+//        pGuiGraphics.blit(x, y, 0, renderWidth, renderHeight, textureAtlasSprite);
         pGuiGraphics.disableScissor();
         pGuiGraphics.setColor(1F, 1F, 1F, 1F);
+        pGuiGraphics.pose().popPose();
     }
 
     public void renderConeAndIceCream(GuiGraphics guiGraphics, ItemStack output, ResourceLocation texture) {

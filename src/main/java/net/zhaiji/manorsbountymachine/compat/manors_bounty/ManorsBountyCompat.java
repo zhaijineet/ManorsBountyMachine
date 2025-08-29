@@ -11,8 +11,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ManorsBountyCompat {
     public static final String MOD_ID = "manors_bounty";
@@ -36,12 +44,47 @@ public class ManorsBountyCompat {
 
     public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks.json"));
 
+    public static final Map<String, String> STRING_MAP = Map.of(
+            "olive_oil_bucket", "olive_oil",
+            "vanilla_ice_cream_fluid_bucket", "vanilla_ice_cream_fluid",
+            "blueberry_ice_cream_fluid_bucket", "blueberry_ice_cream_fluid",
+            "cherries_ice_cream_fluid_bucket", "cherries_ice_cream_fluid",
+            "starfruit_ice_cream_fluid_bucket", "starfruit_ice_cream_fluid",
+            "chocolate_ice_cream_fluid_bucket", "chocolate_ice_cream_fluid",
+            "jalapeno_ice_cream_fluid_bucket", "jalapeno_ice_cream_fluid"
+    );
+
+    public static final List<Fluid> OIL_FLUIDS = new ArrayList<>();
+
+    public static final List<Fluid> ICE_CREAM_FLUIDS = new ArrayList<>();
+
+    public static final Map<Item, Fluid> BUCKET_FLUID_MAP = new HashMap<>();
+
+    static {
+        STRING_MAP.forEach((itemName, fluidName) -> {
+            Item item = getManorsBountyItem(itemName);
+            Fluid fluid = getManorBountyFluid(fluidName);
+            if (item != Items.AIR && fluid != Fluids.EMPTY) {
+                if (fluidName.equals("olive_oil")) {
+                    OIL_FLUIDS.add(fluid);
+                } else {
+                    ICE_CREAM_FLUIDS.add(fluid);
+                }
+                BUCKET_FLUID_MAP.put(item, fluid);
+            }
+        });
+    }
+
     public static ResourceLocation getManorsBountyResourceLocation(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
     public static Item getManorsBountyItem(String name) {
         return ForgeRegistries.ITEMS.getValue(getManorsBountyResourceLocation(name));
+    }
+
+    public static Fluid getManorBountyFluid(String name) {
+        return ForgeRegistries.FLUIDS.getValue(getManorsBountyResourceLocation(name));
     }
 
     public static boolean isIceCreamAndCone(ItemStack itemStack) {
@@ -168,8 +211,22 @@ public class ManorsBountyCompat {
         return itemStack.is(item);
     }
 
+    public static boolean isTeapotOutputItem(ItemStack itemStack) {
+        return isTeapotGuiGlassBottle(itemStack) || isTeapotGuiMug(itemStack) || isTeapotGuiGlassBottleMilkTea(itemStack)
+                || isTeapotGuiMugApricotKernel(itemStack) || isTeapotGuiMugBlackTea(itemStack) || isTeapotGuiMugCocoa(itemStack)
+                || isTeapotGuiMugCoffee(itemStack) || isTeapotGuiMugGreenTea(itemStack) || isTeapotGuiMugMatcha(itemStack);
+    }
+
     public static boolean isTeapotHeatBlock(BlockState blockState) {
         return blockState.is(TEAPOT_HEAT_BLOCKS) || blockState.is(Blocks.MAGMA_BLOCK);
+    }
+
+    public static boolean isOilFluid(FluidStack fluidStack) {
+        return OIL_FLUIDS.contains(fluidStack.getFluid());
+    }
+
+    public static boolean isIceCreamFluid(FluidStack fluidStack) {
+        return ICE_CREAM_FLUIDS.contains(fluidStack.getFluid());
     }
 
     public static void damageItem(ItemStack stack, Level level) {

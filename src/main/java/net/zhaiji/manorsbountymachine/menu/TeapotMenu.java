@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
-import net.zhaiji.manorsbountymachine.recipe.TeapotRecipe;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 public class TeapotMenu extends AbstractMachineMenu {
@@ -52,20 +52,13 @@ public class TeapotMenu extends AbstractMachineMenu {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
                 @Override
                 public boolean mayPlace(ItemStack pStack) {
-                    boolean canPlace = super.mayPlace(pStack);
-                    if (!canPlace) return false;
-                    for (TeapotRecipe recipe : blockEntity.getAllRecipe()) {
-                        if (recipe.input.get(slot[3]).test(pStack)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return super.mayPlace(pStack) && ManorsBountyCompat.isTeapotOutputItem(pStack);
                 }
 
                 @Override
                 public boolean mayPickup(Player pPlayer) {
                     boolean canPickup = super.mayPickup(pPlayer);
-                    if(!canPickup) return false;
+                    if (!canPickup) return false;
                     if (slot[0] == TeapotBlockEntity.OUTPUT) {
                         return getCookingTime() == 0;
                     }

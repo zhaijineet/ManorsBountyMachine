@@ -29,6 +29,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.OVEN.get(), "Oven");
         add(InitBlock.TEAPOT.get(), "Teapot");
         add(InitBlock.FERMENTER.get(), "Fermenter");
+        add(InitBlock.BLENDER.get(), "Blender");
         add(InitItem.SHAKER.get(), "Shaker");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
@@ -51,8 +52,11 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "Teapot Cup Place");
         add(InitSoundEvent.TEAPOT_OPEN_TRANSLATABLE, "Teapot Open");
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "Teapot Close");
-        add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "Teapot Running");
+        add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
+        add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "Blender：Done");
+        add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "Blender：Done");
+        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "Blender：Running");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
     }
@@ -65,6 +69,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.OVEN.get(), "烤箱");
         add(InitBlock.TEAPOT.get(), "茶壶");
         add(InitBlock.FERMENTER.get(), "发酵桶");
+        add(InitBlock.BLENDER.get(), "破壁机");
         add(InitItem.SHAKER.get(), "雪克壶");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");
@@ -83,12 +88,15 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "炸锅：油炸");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "烤箱：叮");
-        add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "烤箱：运行中");
+        add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "烤箱：运行");
         add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "茶壶：杯子放置");
         add(InitSoundEvent.TEAPOT_OPEN_TRANSLATABLE, "茶壶：揭盖");
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "茶壶：盖上");
-        add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "茶壶：倒出");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "茶壶：冲泡中");
+        add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "茶壶：倒出");
+        add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "破壁机：倒出");
+        add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "破壁机：倒出");
+        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "破壁机：运行");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
     }

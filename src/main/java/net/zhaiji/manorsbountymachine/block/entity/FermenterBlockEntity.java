@@ -51,31 +51,6 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
     public final RecipeManager.CachedCheck<FermenterBlockEntity, NormalFermentationRecipe> normalRecipeCheck;
     public final RecipeManager.CachedCheck<FermenterBlockEntity, BrightFermentationRecipe> brightRecipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
-    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
-        @Override
-        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
-            FermenterBlockEntity.this.playBarrelOpenSound();
-            FermenterBlockEntity.this.setOpen(true);
-        }
-
-        @Override
-        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
-            FermenterBlockEntity.this.playBarrelCloseSound();
-            FermenterBlockEntity.this.setOpen(false);
-        }
-
-        @Override
-        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
-        }
-
-        @Override
-        protected boolean isOwnContainer(Player pPlayer) {
-            if (pPlayer.containerMenu instanceof FermenterMenu menu) {
-                return menu.blockEntity == FermenterBlockEntity.this;
-            }
-            return false;
-        }
-    };
     public boolean isRunning = false;
     public int cookingTime = 0;
     public int maxCookingTime = 0;
@@ -102,6 +77,31 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
             return 2;
         }
     };
+    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
+        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
+            FermenterBlockEntity.this.playBarrelOpenSound();
+            FermenterBlockEntity.this.setOpen(true);
+        }
+
+        @Override
+        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            FermenterBlockEntity.this.playBarrelCloseSound();
+            FermenterBlockEntity.this.setOpen(false);
+        }
+
+        @Override
+        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
+        }
+
+        @Override
+        protected boolean isOwnContainer(Player pPlayer) {
+            if (pPlayer.containerMenu instanceof FermenterMenu menu) {
+                return menu.blockEntity == FermenterBlockEntity.this;
+            }
+            return false;
+        }
+    };
     public int outputMultiple = 0;
 
     public FermenterBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -118,6 +118,7 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }
+            pBlockEntity.setChanged();
         }
     }
 
@@ -139,15 +140,15 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
         }
         this.playBarrelCloseSound();
         this.isRunning = true;
+        this.setCookingTime(0);
         this.setMaxCookingTime(this.handleMaxCookingTime(maxCookingTime));
-        this.setChanged();
     }
 
     public void stopRunning() {
         this.playBarrelOpenSound();
         this.isRunning = false;
-        this.setMaxCookingTime(0);
         this.setCookingTime(0);
+        this.setMaxCookingTime(0);
     }
 
     public void craftItem() {

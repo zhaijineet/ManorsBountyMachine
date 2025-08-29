@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityDataPacket;
@@ -58,7 +59,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
     public static final int SOUND_TIME = 20;
     public final RecipeManager.CachedCheck<FryerCraftContainer, FastFryRecipe> fastRecipeCheck;
     public final RecipeManager.CachedCheck<FryerCraftContainer, SlowFryRecipe> slowRecipeCheck;
-    public final FluidTank fluidTank = new FluidTank(4000) {
+    public final FluidTank fluidTank = new FluidTank(4000, ManorsBountyCompat::isOilFluid) {
         @Override
         protected void onContentsChanged() {
             BlockPos blockPos = FryerBlockEntity.this.getBlockPos();
@@ -131,6 +132,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         if (!flag) return;
         this.isRunning = true;
         this.playSoundCooldown = 0;
+        this.setCookingTime(0);
         if (this.level instanceof ServerLevel serverLevel && serverLevel.random.nextInt(10000) < count * 625) {
             this.fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
             ManorsBountyMachinePacket.sendToClientWithChunk((LevelChunk) serverLevel.getChunk(this.getBlockPos()), new SyncBlockEntityFluidTankPacket(this.getBlockPos(), fluidTank.getFluid()));
@@ -141,7 +143,7 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
 
     public void stopRunning() {
         this.isRunning = false;
-        this.cookingTime = 0;
+        this.setCookingTime(0);
         this.craftState = 0;
         for (FryerCraftContainer craftContainer : this.fryerCraftContainers) {
             craftContainer.reset();

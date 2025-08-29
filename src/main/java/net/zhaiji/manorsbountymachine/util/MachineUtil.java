@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -14,6 +15,7 @@ import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 
@@ -22,7 +24,8 @@ import java.util.List;
 public class MachineUtil {
     public static void handlerFluidSlot(int slot, Container container, IFluidHandler fluidHandler, Level level, BlockPos blockPos) {
         ItemStack stack = container.getItem(slot);
-        if (stack.isEmpty() || !FluidUtil.getFluidHandler(stack).isPresent()) return;
+        if (stack.isEmpty() || !(FluidUtil.getFluidHandler(stack).isPresent() || ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(stack.getItem())))
+            return;
         ItemStack emptyStackableFluidTank = ItemStack.EMPTY;
         int emptyStackableFluidTankCount = 0;
         for (int i = 0; i < stack.getCount(); i++) {
@@ -31,6 +34,14 @@ public class MachineUtil {
             if (fluidActionResult.isSuccess()) {
                 emptyStackableFluidTankCount++;
                 emptyStackableFluidTank = fluidActionResult.getResult().copy();
+            } else if (
+                    fluidHandler.getTankCapacity(0) - fluidHandler.getFluidInTank(0).getAmount() >= 1000
+                            && ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(stack.getItem())
+            ) {
+                new FluidStack(ManorsBountyCompat.BUCKET_FLUID_MAP.get(stack.getItem()), 1000);
+                fluidHandler.fill(new FluidStack(ManorsBountyCompat.BUCKET_FLUID_MAP.get(stack.getItem()), 1000), IFluidHandler.FluidAction.EXECUTE);
+                emptyStackableFluidTankCount++;
+                emptyStackableFluidTank = Items.BUCKET.getDefaultInstance();
             } else {
                 break;
             }

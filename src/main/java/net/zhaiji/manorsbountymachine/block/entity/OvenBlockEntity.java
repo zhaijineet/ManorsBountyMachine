@@ -104,7 +104,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
         this.isRunning = true;
         this.playSoundCooldown = 0;
         this.setRunningState(true);
-        this.setChanged();
+        this.setCookingTime(0);
     }
 
     public void stopRunning() {

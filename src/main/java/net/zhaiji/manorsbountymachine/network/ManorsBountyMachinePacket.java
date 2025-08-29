@@ -81,6 +81,12 @@ public class ManorsBountyMachinePacket {
                 .encoder(FermentationStopPacket::encode)
                 .consumerMainThread(FermentationStopPacket::handle)
                 .add();
+
+        INSTANCE.messageBuilder(BlenderStartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(BlenderStartPacket::decode)
+                .encoder(BlenderStartPacket::encode)
+                .consumerMainThread(BlenderStartPacket::handle)
+                .add();
     }
 
     public static void registerClientPacket() {

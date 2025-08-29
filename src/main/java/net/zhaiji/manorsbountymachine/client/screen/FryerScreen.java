@@ -154,6 +154,8 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
         guiGraphics.blit(FRYER_GUI_WIDGET, this.leftPos + 41, this.topPos + 21, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT);
     }
 
+    // 嘎巴一下死在电脑前了
+    // mcr不知道干了啥，把blit的渲染搞坏了
     public void renderFluid(GuiGraphics pGuiGraphics, FluidTank fluidTank) {
         if (fluidTank.isEmpty()) return;
         IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidTank.getFluid().getFluid());
@@ -162,11 +164,13 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
         SpriteContents contents = textureAtlasSprite.contents();
         int width = contents.width();
         int height = contents.height();
+//        int width = 16;
+//        int height = 16;
         int count = (int) contents.getUniqueFrames().count();
         int x = this.leftPos + 141;
         int y = this.topPos + 57;
         int renderWidth = 16;
-        int renderHeight = 16 * 4 + 6;
+        int renderHeight = height * 4 + 6;
         int scissorY = y + renderHeight - (renderHeight * fluidTank.getFluidAmount() / fluidTank.getCapacity());
         // shit
         if (fluidTank.getFluidAmount() >= 3000) {
@@ -182,8 +186,9 @@ public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
         pGuiGraphics.setColor(r, g, b, alpha);
-        pGuiGraphics.enableScissor(x, scissorY, x + renderWidth, y + renderHeight);
+        pGuiGraphics.enableScissor(x, scissorY, x + width, y + renderHeight);
         for (int i = 0; i < 4; i++) {
+//            pGuiGraphics.blit(x, y + (height + 2) * i, 0, width, height, textureAtlasSprite);
             pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y + (height + 2) * i, 0, 0, renderWidth, height, width, height * count);
         }
         pGuiGraphics.disableScissor();

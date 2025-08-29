@@ -34,4 +34,9 @@ public class InitBlockEntityType {
             "fermenter",
             () -> BlockEntityType.Builder.of(FermenterBlockEntity::new, InitBlock.FERMENTER.get()).build(null)
     );
+
+    public static final RegistryObject<BlockEntityType<BlenderBlockEntity>> BLENDER = BLOCK_ENTITY_TYPE.register(
+            "blender",
+            () -> BlockEntityType.Builder.of(BlenderBlockEntity::new, InitBlock.BLENDER.get()).build(null)
+    );
 }

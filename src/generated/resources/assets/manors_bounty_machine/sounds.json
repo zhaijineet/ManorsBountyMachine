@@ -1,4 +1,22 @@
 {
+  "blender_powder_done": {
+    "sounds": [
+      "manors_bounty_machine:blender_powder_done"
+    ],
+    "subtitle": "sound.manors_bounty_machine.blender_powder_done"
+  },
+  "blender_running": {
+    "sounds": [
+      "manors_bounty_machine:blender_running"
+    ],
+    "subtitle": "sound.manors_bounty_machine.blender_running"
+  },
+  "blender_water_done": {
+    "sounds": [
+      "manors_bounty_machine:blender_water_done"
+    ],
+    "subtitle": "sound.manors_bounty_machine.blender_water_done"
+  },
   "fryer_frying": {
     "sounds": [
       "manors_bounty_machine:fryer_frying"

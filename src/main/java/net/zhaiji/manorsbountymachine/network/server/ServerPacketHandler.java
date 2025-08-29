@@ -70,4 +70,11 @@ public class ServerPacketHandler {
             blockEntity.stopRunning();
         }
     }
+
+    public static void handlerBlenderStart(BlenderStartPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof BlenderBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
 }

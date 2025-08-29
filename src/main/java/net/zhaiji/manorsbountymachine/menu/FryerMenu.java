@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
@@ -45,7 +46,7 @@ public class FryerMenu extends AbstractMachineMenu {
         this.addSlot(new Slot(this.blockEntity, FryerBlockEntity.FLUID_TANK_SLOT, 141, 35) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && FluidUtil.getFluidHandler(pStack).isPresent();
+                return super.mayPlace(pStack) && FluidUtil.getFluidHandler(pStack).isPresent() || ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(pStack.getItem());
             }
         });
         int[][] slots = {

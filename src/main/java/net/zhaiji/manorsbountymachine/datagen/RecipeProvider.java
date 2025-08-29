@@ -71,6 +71,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new BrightFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
+    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item output, int outputCount, Item outgrowth, float outgrowthChance, Item[] mainInput, Item[] secondaryInput) {
+        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    }
+
     public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item output, Item... input) {
         new ShakerRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
@@ -100,6 +104,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         dimFermentationRecipe(pWriter, 1200, Items.APPLE, Items.AIR, Items.IRON_INGOT);
         normalFermentationRecipe(pWriter, 1200, Items.STONE, Items.AIR, Items.GOLD_INGOT);
         brightFermentationRecipe(pWriter, 1200, Items.DIAMOND, Items.IRON_INGOT, Items.GOLD_INGOT);
+
+        blenderRecipe(pWriter, Items.APPLE, 4, Items.AIR, 0, new Item[]{Items.IRON_INGOT}, new Item[]{});
 
         shakerRecipe(pWriter, Items.APPLE, Items.IRON_INGOT, Items.GOLD_INGOT);
         shakerRecipe(pWriter, Items.DIAMOND, Items.IRON_INGOT, Items.MILK_BUCKET);

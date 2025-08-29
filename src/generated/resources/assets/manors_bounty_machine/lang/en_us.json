@@ -1,4 +1,5 @@
 {
+  "block.manors_bounty_machine.blender": "Blender",
   "block.manors_bounty_machine.fermenter": "Fermenter",
   "block.manors_bounty_machine.fryer": "Fryer",
   "block.manors_bounty_machine.ice_cream_machine": "Ice Cream Machine",
@@ -17,6 +18,9 @@
   "gui.manors_bounty_machine.two_flavor_switch": "Two Flavor Switch",
   "item.manors_bounty_machine.shaker": "Shaker",
   "itemGroup.manors_bounty_machine.machine": "Manor's Bounty Machine",
+  "sound.manors_bounty_machine.blender_powder_done": "Blender：Done",
+  "sound.manors_bounty_machine.blender_running": "Blender：Running",
+  "sound.manors_bounty_machine.blender_water_done": "Blender：Done",
   "sound.manors_bounty_machine.fryer_frying": "Fryer Frying",
   "sound.manors_bounty_machine.ice_cream_machine_clank": "Ice Cream Machine Clank",
   "sound.manors_bounty_machine.oven_ding": "Oven Ding",

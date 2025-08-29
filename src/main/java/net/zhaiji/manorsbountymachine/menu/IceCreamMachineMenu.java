@@ -8,7 +8,6 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
-import net.zhaiji.manorsbountymachine.recipe.IceCreamRecipe;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 public class IceCreamMachineMenu extends AbstractMachineMenu {
@@ -31,7 +30,7 @@ public class IceCreamMachineMenu extends AbstractMachineMenu {
         this.addSlot(new Slot(this.blockEntity, IceCreamMachineBlockEntity.FLUID_TANK_SLOT, 141, 41) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && FluidUtil.getFluidHandler(pStack).isPresent();
+                return super.mayPlace(pStack) && FluidUtil.getFluidHandler(pStack).isPresent() || ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(pStack.getItem());
             }
         });
         this.addSlot(new Slot(this.blockEntity, IceCreamMachineBlockEntity.OUTPUT_SLOT, 38, 118) {

@@ -1,0 +1,90 @@
+package net.zhaiji.manorsbountymachine.menu;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.register.InitMenuType;
+
+public class BlenderMenu extends AbstractMachineMenu {
+    public BlenderBlockEntity blockEntity;
+    public ContainerData data;
+
+    public BlenderMenu(int pContainerId, Inventory pPlayerInventory, FriendlyByteBuf extraData) {
+        this(pContainerId, pPlayerInventory, (BlenderBlockEntity) pPlayerInventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(1));
+    }
+
+    public BlenderMenu(int pContainerId, Inventory pPlayerInventory, BlenderBlockEntity blockEntity, ContainerData data) {
+        super(InitMenuType.BLENDER.get(), pContainerId, pPlayerInventory, blockEntity);
+        this.blockEntity = blockEntity;
+        this.data = data;
+        this.playerInventoryYOffset += 5;
+        this.initSlot();
+        this.addDataSlots(data);
+    }
+
+    public int getCookingTime() {
+        return this.data.get(0);
+    }
+
+    public void setCookingTime(int value) {
+        this.data.set(0, value);
+    }
+
+    @Override
+    public void initMachineInventorySlot() {
+        this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.BOTTLE, 28, 63) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && ManorsBountyCompat.isTeapotGuiGlassBottle(pStack);
+            }
+
+            @Override
+            public boolean mayPickup(Player pPlayer) {
+                return super.mayPickup(pPlayer) && getCookingTime() == 0;
+            }
+        });
+        int[][] slots = {
+                {BlenderBlockEntity.MAIN_TOP_LEFT, 103, 54},
+                {BlenderBlockEntity.MAIN_TOP_RIGHT, 129, 54},
+                {BlenderBlockEntity.MAIN_CENTER_LEFT, 103, 74},
+                {BlenderBlockEntity.MAIN_CENTER_RIGHT, 129, 74},
+                {BlenderBlockEntity.MAIN_BOTTOM_LEFT, 103, 94},
+                {BlenderBlockEntity.MAIN_BOTTOM_RIGHT, 129, 94},
+                {BlenderBlockEntity.SECONDARY_TOP_LEFT, 18, 14},
+                {BlenderBlockEntity.SECONDARY_TOP_RIGHT, 38, 14},
+                {BlenderBlockEntity.SECONDARY_BOTTOM_LEFT, 18, 34},
+                {BlenderBlockEntity.SECONDARY_BOTTOM_RIGHT, 38, 34},
+        };
+        for (int[] slot : slots) {
+            this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
+                @Override
+                public boolean mayPickup(Player pPlayer) {
+                    return super.mayPickup(pPlayer) && getCookingTime() == 0;
+                }
+            });
+        }
+        slots = new int[][]{
+                {BlenderBlockEntity.SECONDARY_OUTPUT, 28, 90},
+                {BlenderBlockEntity.MAIN_OUTPUT, 28, 115}
+        };
+        for (int[] slot : slots) {
+            this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
+                @Override
+                public boolean mayPlace(ItemStack pStack) {
+                    return false;
+                }
+
+                @Override
+                public boolean isActive() {
+                    return super.isActive() && this.hasItem();
+                }
+            });
+        }
+    }
+}
