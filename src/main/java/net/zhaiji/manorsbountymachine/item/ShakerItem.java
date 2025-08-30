@@ -1,7 +1,6 @@
 package net.zhaiji.manorsbountymachine.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -10,7 +9,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,6 +21,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
+import net.zhaiji.manorsbountymachine.client.sound.ShakerSoundInstance;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.ShakerMenu;
 import net.zhaiji.manorsbountymachine.recipe.ShakerRecipe;
@@ -32,7 +31,6 @@ import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ShakerItem extends Item {
@@ -129,27 +127,12 @@ public class ShakerItem extends Item {
             } else if (canStartUsing(itemStack)) {
                 pPlayer.startUsingItem(pUsedHand);
                 if (pLevel.isClientSide()) {
-                    Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(
-                            InitSoundEvent.SHAKER_SHAKE.get(),
-                            SoundSource.PLAYERS,
-                            1,
-                            1,
-                            pLevel.getRandom(),
-                            pPlayer.getOnPos()
-                    ));
+                    Minecraft.getInstance().getSoundManager().play(new ShakerSoundInstance(pPlayer));
                 }
                 return InteractionResultHolder.success(itemStack);
             }
         }
         return InteractionResultHolder.fail(itemStack);
-    }
-
-    @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pLevel.isClientSide() && pEntity instanceof Player player && player.getUseItem() != pStack) {
-            Minecraft.getInstance().getSoundManager().stop(InitSoundEvent.SHAKER_SHAKE.get().getLocation(), SoundSource.PLAYERS);
-        }
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
     @Override

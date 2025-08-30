@@ -122,7 +122,17 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
             output = recipe.get().assemble(this, this.level.registryAccess());
             this.handlerCraft(true, craftRemaining);
         } else {
-            output = this.getFailItemStack();
+            int count = 0;
+            if (recipe.isPresent()) {
+                count = recipe.get().output.getCount();
+            } else {
+                for (int slot : INPUT_SLOTS) {
+                    ItemStack input = this.getItem(slot);
+                    if (input.isEmpty()) continue;
+                    count++;
+                }
+            }
+            output = this.getFailItemStack().copyWithCount(count);
             this.handlerCraft(false, craftRemaining);
         }
         this.setItem(OUTPUT, output);

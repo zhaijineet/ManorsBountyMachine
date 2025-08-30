@@ -3,6 +3,7 @@ package net.zhaiji.manorsbountymachine.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -126,8 +127,12 @@ public class BlenderBlockEntity extends AbstractMachineBlockEntity {
                 }
             }
             // 这里需要一个检测物品是粉状还是液体的标签，用于配方完成播放音效
-//            if(output){
-//
+//            if (output.is()) {
+//                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_POWDER_DONE.get(), SoundSource.BLOCKS);
+//            } else if (output.is()) {
+//                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_WATER_DONE.get(), SoundSource.BLOCKS);
+//            } else {
+//                this.level.playSound(null, this.getBlockPos(), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
 //            }
             this.setItem(MAIN_OUTPUT, output);
             ItemStack outgrowth = blenderRecipe.getOutgrowth(this.level);

@@ -27,9 +27,9 @@ public class FastFryRecipe implements Recipe<FryerBlockEntity.FryerCraftContaine
     public boolean matches(FryerBlockEntity.FryerCraftContainer pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         FryerBlockEntity blockEntity = pContainer.blockEntity;
-        if(!blockEntity.isRunning) return false;
         int cookingTime = blockEntity.cookingTime;
-        if (cookingTime < FryerBlockEntity.FAST_COOKING_TIME || cookingTime > FryerBlockEntity.SLOW_COOKING_TIME) return false;
+        if (cookingTime < FryerBlockEntity.FAST_COOKING_TIME || cookingTime > FryerBlockEntity.SLOW_COOKING_TIME)
+            return false;
         return input.test(pContainer.getItem());
     }
 

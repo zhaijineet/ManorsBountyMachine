@@ -6,6 +6,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.render.FryerBlockEntityRenderer;
+import net.zhaiji.manorsbountymachine.client.render.IceCreamMachineBlockEntityRenderer;
+import net.zhaiji.manorsbountymachine.client.render.OvenBlockEntityRenderer;
 import net.zhaiji.manorsbountymachine.client.screen.*;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
@@ -26,5 +28,7 @@ public class ClientEventHandler {
 
     public static void handlerEntityRenderersEvent$RegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(InitBlockEntityType.FRYER.get(), FryerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(InitBlockEntityType.ICE_CREAM_MACHINE.get(), IceCreamMachineBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(InitBlockEntityType.OVEN.get(), OvenBlockEntityRenderer::new);
     }
 }

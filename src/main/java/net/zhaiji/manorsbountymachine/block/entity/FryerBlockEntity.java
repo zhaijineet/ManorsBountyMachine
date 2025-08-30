@@ -429,32 +429,13 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             return this.getItem(this.index);
         }
 
-        public void setItem(ItemStack pStack) {
-            this.setItem(this.index, pStack);
-        }
-
         @Override
         public ItemStack removeItem(int pSlot, int pAmount) {
-            ItemStack itemstack = ContainerHelper.removeItem(this.blockEntity.items, this.index, pAmount);
-            if (!itemstack.isEmpty()) {
-                this.setChanged();
-            }
-            return itemstack;
+            return this.blockEntity.removeItem(pSlot, pAmount);
         }
 
         public ItemStack removeItem(int pAmount) {
             return this.removeItem(this.index, pAmount);
-        }
-
-        @Override
-        public ItemStack removeItemNoUpdate(int pSlot) {
-            ItemStack itemstack = this.blockEntity.items.get(this.index);
-            if (itemstack.isEmpty()) {
-                return ItemStack.EMPTY;
-            } else {
-                this.blockEntity.items.set(this.index, ItemStack.EMPTY);
-                return itemstack;
-            }
         }
 
         public ItemStack removeItemNoUpdate() {
@@ -462,13 +443,17 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         }
 
         @Override
+        public ItemStack removeItemNoUpdate(int pSlot) {
+            return this.blockEntity.removeItemNoUpdate(pSlot);
+        }
+
+        public void setItem(ItemStack pStack) {
+            this.setItem(this.index, pStack);
+        }
+
+        @Override
         public void setItem(int pSlot, ItemStack pStack) {
-            this.blockEntity.items.set(this.index, pStack);
-            if (!pStack.isEmpty() && pStack.getCount() > this.getMaxStackSize()) {
-                pStack.setCount(this.getMaxStackSize());
-            }
-            this.setChanged();
-            this.blockEntity.handlerFluidSlot();
+            this.blockEntity.setItem(pSlot, pStack);
         }
 
         @Override

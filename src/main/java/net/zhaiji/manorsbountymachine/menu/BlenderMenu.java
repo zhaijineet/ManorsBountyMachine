@@ -41,7 +41,7 @@ public class BlenderMenu extends AbstractMachineMenu {
         this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.BOTTLE, 28, 63) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && ManorsBountyCompat.isTeapotGuiGlassBottle(pStack);
+                return super.mayPlace(pStack) && ManorsBountyCompat.isDeformedGlassBottle(pStack);
             }
 
             @Override

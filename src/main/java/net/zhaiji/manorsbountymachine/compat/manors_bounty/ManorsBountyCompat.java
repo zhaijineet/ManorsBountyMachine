@@ -211,6 +211,14 @@ public class ManorsBountyCompat {
         return itemStack.is(item);
     }
 
+    public static boolean isDeformedGlassBottle(ItemStack itemStack) {
+        Item item = getManorsBountyItem("deformed_glass_bottle");
+        if (item == Items.AIR) {
+            return false;
+        }
+        return itemStack.is(item);
+    }
+
     public static boolean isTeapotOutputItem(ItemStack itemStack) {
         return isTeapotGuiGlassBottle(itemStack) || isTeapotGuiMug(itemStack) || isTeapotGuiGlassBottleMilkTea(itemStack)
                 || isTeapotGuiMugApricotKernel(itemStack) || isTeapotGuiMugBlackTea(itemStack) || isTeapotGuiMugCocoa(itemStack)

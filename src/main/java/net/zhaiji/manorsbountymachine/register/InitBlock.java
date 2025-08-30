@@ -23,7 +23,13 @@ public class InitBlock {
 
     public static final RegistryObject<Block> OVEN = BLOCK.register(
             "oven",
-            () -> new OvenBlock(BlockBehaviour.Properties.of().noOcclusion())
+            () -> new OvenBlock(BlockBehaviour.Properties.of().noOcclusion().lightLevel(blockState -> {
+                if (blockState.getValue(OvenBlock.RUNNING)) {
+                    return 15;
+                } else {
+                    return 0;
+                }
+            }))
     );
 
     public static final RegistryObject<Block> TEAPOT = BLOCK.register(
