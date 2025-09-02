@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/cutting_board",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/cutting_board",
+    "all": "manors_bounty_machine:block/cutting_board",
+    "particle": "manors_bounty_machine:block/cutting_board"
+  }
+}

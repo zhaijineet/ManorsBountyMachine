@@ -11,6 +11,10 @@ public class DimFermentationRecipeBuilder extends BaseFermentationRecipeBuilder 
         super(cookingTime, input, output);
     }
 
+    public DimFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
+        super(cookingTime, bottle, input, output);
+    }
+
     @Override
     public RecipeSerializer<?> getRecipeSerializer() {
         return InitRecipe.DIM_FERMENTATION_RECIPE_SERIALIZER.get();

@@ -12,14 +12,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class FermenterBlock extends AbstractMachineBlock {
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
-    public FermenterBlock(Properties pProperties) {
-        super(pProperties);
+    public FermenterBlock() {
+        super(InitBlock.getBlockProperties());
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
     }
 

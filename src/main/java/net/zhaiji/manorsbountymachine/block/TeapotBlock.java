@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +23,8 @@ import org.jetbrains.annotations.Nullable;
 public class TeapotBlock extends AbstractMachineBlock {
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
-    public TeapotBlock(Properties pProperties) {
-        super(pProperties);
+    public TeapotBlock() {
+        super(InitBlock.getBlockProperties());
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
     }
 

@@ -13,13 +13,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
 public class IceCreamMachineBlock extends AbstractMachineBlock {
-    public IceCreamMachineBlock(Properties pProperties) {
-        super(pProperties);
+    public IceCreamMachineBlock() {
+        super(InitBlock.getBlockProperties());
     }
 
     @Nullable
@@ -31,10 +32,10 @@ public class IceCreamMachineBlock extends AbstractMachineBlock {
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return switch (pState.getValue(FACING)) {
+            case NORTH -> BlockShapeManager.NORTH_ICE_CREAM_MACHINE_SHAPE;
             case SOUTH -> BlockShapeManager.SOUTH_ICE_CREAM_MACHINE_SHAPE;
             case WEST -> BlockShapeManager.WEST_ICE_CREAM_MACHINE_SHAPE;
-            case EAST -> BlockShapeManager.EAST_ICE_CREAM_MACHINE_SHAPE;
-            default -> BlockShapeManager.NORTH_ICE_CREAM_MACHINE_SHAPE;
+            default -> BlockShapeManager.EAST_ICE_CREAM_MACHINE_SHAPE;
         };
     }
 

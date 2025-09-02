@@ -40,6 +40,12 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<BlenderRecipe>> BLENDER_RECIPE_TYPE = registerRecipeType("blender");
     public static final RegistryObject<RecipeSerializer<BlenderRecipe>> BLENDER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("blender", BlenderRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<CuttingBoardSingleRecipe>> CUTTING_BOARD_SINGLE_RECIPE_TYPE = registerRecipeType("cutting_board_single");
+    public static final RegistryObject<RecipeSerializer<CuttingBoardSingleRecipe>> CUTTING_BOARD_SINGLE_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("cutting_board_single", CuttingBoardSingleRecipe.Serializer::new);
+
+    public static final RegistryObject<RecipeType<CuttingBoardMultipleRecipe>> CUTTING_BOARD_MULTIPLE_RECIPE_TYPE = registerRecipeType("cutting_board_multiple");
+    public static final RegistryObject<RecipeSerializer<CuttingBoardMultipleRecipe>> CUTTING_BOARD_MULTIPLE_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("cutting_board_multiple", CuttingBoardMultipleRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

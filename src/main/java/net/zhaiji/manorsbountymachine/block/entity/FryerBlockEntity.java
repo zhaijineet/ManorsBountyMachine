@@ -8,7 +8,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -429,6 +428,10 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
             return this.getItem(this.index);
         }
 
+        public void setItem(ItemStack pStack) {
+            this.setItem(this.index, pStack);
+        }
+
         @Override
         public ItemStack removeItem(int pSlot, int pAmount) {
             return this.blockEntity.removeItem(pSlot, pAmount);
@@ -445,10 +448,6 @@ public class FryerBlockEntity extends AbstractMachineBlockEntity {
         @Override
         public ItemStack removeItemNoUpdate(int pSlot) {
             return this.blockEntity.removeItemNoUpdate(pSlot);
-        }
-
-        public void setItem(ItemStack pStack) {
-            this.setItem(this.index, pStack);
         }
 
         @Override

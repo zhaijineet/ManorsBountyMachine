@@ -17,14 +17,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlenderRecipe implements Recipe<BlenderBlockEntity> {
     public final ResourceLocation id;
+    public final Ingredient bottle;
     public final NonNullList<Ingredient> mainInput;
     public final NonNullList<Ingredient> secondaryInput;
     public final ItemStack output;
     public final ItemStack outgrowth;
     public final float outgrowthChance;
 
-    public BlenderRecipe(ResourceLocation id, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, ItemStack output, ItemStack outgrowth, float outgrowthChance) {
+    public BlenderRecipe(ResourceLocation id, Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, ItemStack output, ItemStack outgrowth, float outgrowthChance) {
         this.id = id;
+        this.bottle = bottle;
         this.mainInput = mainInput;
         this.secondaryInput = secondaryInput;
         this.output = output;
@@ -32,24 +34,12 @@ public class BlenderRecipe implements Recipe<BlenderBlockEntity> {
         this.outgrowthChance = outgrowthChance;
     }
 
-    public Ingredient getBottle() {
-        return this.mainInput.get(0);
-    }
-
     public boolean hasBottle() {
-        return !this.getBottle().isEmpty();
+        return !this.bottle.isEmpty();
     }
 
     public boolean isBottleMatch(ItemStack bottle) {
-        return this.getBottle().test(bottle);
-    }
-
-    public NonNullList<Ingredient> getMainInput() {
-        NonNullList<Ingredient> input = NonNullList.withSize(BlenderBlockEntity.MAIN_INPUT_SLOTS.length, Ingredient.EMPTY);
-        for (int i = 0; i < input.size(); i++) {
-            input.set(i, this.mainInput.get(i + 1));
-        }
-        return input;
+        return this.bottle.test(bottle);
     }
 
     public ItemStack getOutgrowth(Level level) {
@@ -60,9 +50,9 @@ public class BlenderRecipe implements Recipe<BlenderBlockEntity> {
     public boolean matches(BlenderBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         ItemStack bottle = pContainer.getItem(BlenderBlockEntity.BOTTLE);
-        if (!this.isBottleMatch(bottle)) return false;
+        if (this.hasBottle() && !this.isBottleMatch(bottle)) return false;
         if (bottle.getCount() < this.output.getCount()) return false;
-        if (RecipeMatcher.findMatches(pContainer.getMainInput(), this.getMainInput()) == null) return false;
+        if (RecipeMatcher.findMatches(pContainer.getMainInput(), this.mainInput) == null) return false;
         return RecipeMatcher.findMatches(pContainer.getSecondaryInput(), this.secondaryInput) != null;
     }
 
@@ -113,8 +103,11 @@ public class BlenderRecipe implements Recipe<BlenderBlockEntity> {
     public static class Serializer implements RecipeSerializer<BlenderRecipe> {
         @Override
         public BlenderRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+            Ingredient bottle = pSerializedRecipe.has("bottle")
+                    ? Ingredient.fromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "bottle"))
+                    : Ingredient.EMPTY;
             JsonArray mainInputArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "mainInput");
-            NonNullList<Ingredient> mainInput = NonNullList.withSize(BlenderBlockEntity.MAIN_INPUT_SLOTS.length + 1, Ingredient.EMPTY);
+            NonNullList<Ingredient> mainInput = NonNullList.withSize(BlenderBlockEntity.MAIN_INPUT_SLOTS.length, Ingredient.EMPTY);
             for (int i = 0; i < mainInputArray.size(); i++) {
                 mainInput.set(i, Ingredient.fromJson(mainInputArray.get(i)));
             }
@@ -128,23 +121,25 @@ public class BlenderRecipe implements Recipe<BlenderBlockEntity> {
                     ? ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "outgrowth"))
                     : ItemStack.EMPTY;
             float outgrowthChance = outgrowth.isEmpty() ? 0 : GsonHelper.getAsFloat(pSerializedRecipe, "outgrowthChance");
-            return new BlenderRecipe(pRecipeId, mainInput, secondaryInput, output, outgrowth, outgrowthChance);
+            return new BlenderRecipe(pRecipeId, bottle, mainInput, secondaryInput, output, outgrowth, outgrowthChance);
         }
 
         @Override
         public @Nullable BlenderRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            NonNullList<Ingredient> mainInput = NonNullList.withSize(BlenderBlockEntity.MAIN_INPUT_SLOTS.length + 1, Ingredient.EMPTY);
+            Ingredient bottle = Ingredient.fromNetwork(pBuffer);
+            NonNullList<Ingredient> mainInput = NonNullList.withSize(BlenderBlockEntity.MAIN_INPUT_SLOTS.length, Ingredient.EMPTY);
             mainInput.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
             NonNullList<Ingredient> secondaryInput = NonNullList.withSize(BlenderBlockEntity.SECONDARY_INPUT_SLOTS.length, Ingredient.EMPTY);
             secondaryInput.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
             ItemStack output = pBuffer.readItem();
             ItemStack outgrowth = pBuffer.readItem();
             float outgrowthChance = pBuffer.readFloat();
-            return new BlenderRecipe(pRecipeId, mainInput, secondaryInput, output, outgrowth, outgrowthChance);
+            return new BlenderRecipe(pRecipeId, bottle, mainInput, secondaryInput, output, outgrowth, outgrowthChance);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, BlenderRecipe pRecipe) {
+            pRecipe.bottle.toNetwork(pBuffer);
             for (Ingredient ingredient : pRecipe.mainInput) {
                 ingredient.toNetwork(pBuffer);
             }

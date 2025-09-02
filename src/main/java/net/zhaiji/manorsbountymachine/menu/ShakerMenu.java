@@ -16,7 +16,6 @@ import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ShakerMenu extends AbstractContainerMenu {
     public final Player player;
@@ -64,7 +63,6 @@ public class ShakerMenu extends AbstractContainerMenu {
                 return false;
             }
         });
-
         int[][] slots = {
                 {ShakerCapabilityProvider.TOP_LEFT, 62, 54},
                 {ShakerCapabilityProvider.TOP_CENTER, 80, 54},

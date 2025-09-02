@@ -2,7 +2,6 @@
   "type": "manors_bounty_machine:normal_fermentation",
   "cookingTime": 1200,
   "input": [
-    [],
     {
       "item": "minecraft:gold_ingot"
     }

@@ -17,8 +17,8 @@ public class DataGenHandler {
     public static void handlerGatherDataEvent(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(event.includeClient(), new ItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockStateProvider(packOutput, existingFileHelper));
@@ -26,6 +26,7 @@ public class DataGenHandler {
         generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.EN_US));
         generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.ZH_CN));
 
+        generator.addProvider(event.includeServer(), new BlockTagProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), AllLootTableProvider.create(packOutput));
         generator.addProvider(event.includeServer(), new RecipeProvider(packOutput));
     }

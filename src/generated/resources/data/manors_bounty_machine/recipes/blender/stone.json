@@ -1,0 +1,15 @@
+{
+  "type": "manors_bounty_machine:blender",
+  "bottle": {
+    "item": "minecraft:iron_ingot"
+  },
+  "mainInput": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "minecraft:stone"
+  }
+}

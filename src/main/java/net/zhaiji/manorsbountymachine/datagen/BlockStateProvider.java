@@ -26,6 +26,7 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         this.oven();
         this.teapot();
         this.fermenter();
+        this.cuttingBoard();
     }
 
     public void iceCreamMachine() {
@@ -111,6 +112,20 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                                 .modelFile(state.getValue(TeapotBlock.OPEN) ? modelFile2 : modelFile1)
                                 .build()
                 );
+    }
+
+    public void cuttingBoard() {
+        Block block = InitBlock.CUTTING_BOARD.get();
+        ResourceLocation registerKey = ForgeRegistries.BLOCKS.getKey(block);
+        String namespace = registerKey.getNamespace();
+        String path = registerKey.getPath();
+        String texture = namespace + ":block/" + path;
+        ModelFile modelFile = modelFile(path, texture);
+        this.horizontalBlock(
+                block,
+                modelFile
+        );
+        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile);
     }
 
     public ModelFile modelFile(String path, String texture) {

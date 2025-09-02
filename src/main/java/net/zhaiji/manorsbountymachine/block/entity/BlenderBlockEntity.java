@@ -96,7 +96,6 @@ public class BlenderBlockEntity extends AbstractMachineBlockEntity {
         this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_RUNNING.get(), SoundSource.BLOCKS);
         this.isRunning = true;
         this.setCookingTime(0);
-        this.setChanged();
     }
 
     public void stopRunning() {
@@ -126,7 +125,7 @@ public class BlenderBlockEntity extends AbstractMachineBlockEntity {
                     craftRemaining.add(remaining);
                 }
             }
-            // 这里需要一个检测物品是粉状还是液体的标签，用于配方完成播放音效
+            //TODO 这里需要一个检测物品是粉状还是液体的标签，用于配方完成播放音效
 //            if (output.is()) {
 //                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_POWDER_DONE.get(), SoundSource.BLOCKS);
 //            } else if (output.is()) {

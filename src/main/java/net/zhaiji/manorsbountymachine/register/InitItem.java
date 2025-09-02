@@ -41,6 +41,11 @@ public class InitItem {
             () -> new BlockItem(InitBlock.BLENDER.get(), new Item.Properties())
     );
 
+    public static final RegistryObject<Item> CUTTING_BOARD = ITEM.register(
+            "cutting_board",
+            () -> new BlockItem(InitBlock.CUTTING_BOARD.get(), new Item.Properties())
+    );
+
     public static final RegistryObject<Item> SHAKER = ITEM.register(
             "shaker",
             ShakerItem::new

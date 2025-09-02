@@ -30,6 +30,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.TEAPOT.get(), "Teapot");
         add(InitBlock.FERMENTER.get(), "Fermenter");
         add(InitBlock.BLENDER.get(), "Blender");
+        add(InitBlock.CUTTING_BOARD.get(), "Cutting Board");
         add(InitItem.SHAKER.get(), "Shaker");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
@@ -70,6 +71,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.TEAPOT.get(), "茶壶");
         add(InitBlock.FERMENTER.get(), "发酵桶");
         add(InitBlock.BLENDER.get(), "破壁机");
+        add(InitBlock.CUTTING_BOARD.get(), "砧板");
         add(InitItem.SHAKER.get(), "雪克壶");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");

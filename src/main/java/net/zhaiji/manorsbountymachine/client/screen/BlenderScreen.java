@@ -102,7 +102,7 @@ public class BlenderScreen extends AbstractMachineScreen<BlenderMenu> {
         if (cookingTime == 0) {
             guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 74, this.topPos + 14, BLENDER_X_OFFSET, BLENDER_Y_OFFSET, BLENDER_WIDTH, BLENDER_HEIGHT);
         } else {
-            guiGraphics.blit(BLENDER_GUI_WIDGET_2, this.leftPos + 74, this.topPos, BLENDER_RUNNING_X_OFFSET + BLENDER_RUNNING_WIDTH * ((cookingTime / 4) % 2), BLENDER_RUNNING_Y_OFFSET, BLENDER_RUNNING_WIDTH, BLENDER_RUNNING_HEIGHT);
+            guiGraphics.blit(BLENDER_GUI_WIDGET_2, this.leftPos + 74, this.topPos, BLENDER_RUNNING_X_OFFSET + BLENDER_RUNNING_WIDTH * ((cookingTime / 2) % 2), BLENDER_RUNNING_Y_OFFSET, BLENDER_RUNNING_WIDTH, BLENDER_RUNNING_HEIGHT);
         }
     }
 

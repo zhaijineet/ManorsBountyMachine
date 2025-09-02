@@ -71,23 +71,24 @@ public class FermenterMenu extends AbstractMachineMenu {
                 }
             });
         }
+        // TODO 之后添加自定义资源读取监听，这里要做调整
         this.addSlot(new Slot(this.blockEntity, FermenterBlockEntity.BOTTLE, 121, 116) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 boolean canPlace = super.mayPlace(pStack);
                 if (!canPlace) return false;
                 for (DimFermentationRecipe recipe : blockEntity.getAllDimRecipe()) {
-                    if (recipe.input.get(0).test(pStack)) {
+                    if (recipe.bottle.test(pStack)) {
                         return true;
                     }
                 }
                 for (NormalFermentationRecipe recipe : blockEntity.getAllNormalRecipe()) {
-                    if (recipe.input.get(0).test(pStack)) {
+                    if (recipe.bottle.test(pStack)) {
                         return true;
                     }
                 }
                 for (BrightFermentationRecipe recipe : blockEntity.getAllBrightRecipe()) {
-                    if (recipe.input.get(0).test(pStack)) {
+                    if (recipe.bottle.test(pStack)) {
                         return true;
                     }
                 }

@@ -11,6 +11,10 @@ public class NormalFermentationRecipeBuilder extends BaseFermentationRecipeBuild
         super(cookingTime, input, output);
     }
 
+    public NormalFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
+        super(cookingTime, bottle, input, output);
+    }
+
     @Override
     public RecipeSerializer<?> getRecipeSerializer() {
         return InitRecipe.NORMAL_FERMENTATION_RECIPE_SERIALIZER.get();

@@ -13,37 +13,40 @@ public class InitBlock {
 
     public static final RegistryObject<Block> ICE_CREAM_MACHINE = BLOCK.register(
             "ice_cream_machine",
-            () -> new IceCreamMachineBlock(BlockBehaviour.Properties.of().noOcclusion())
+            IceCreamMachineBlock::new
     );
 
     public static final RegistryObject<Block> FRYER = BLOCK.register(
             "fryer",
-            () -> new FryerBlock(BlockBehaviour.Properties.of().noOcclusion())
+            FryerBlock::new
     );
 
     public static final RegistryObject<Block> OVEN = BLOCK.register(
             "oven",
-            () -> new OvenBlock(BlockBehaviour.Properties.of().noOcclusion().lightLevel(blockState -> {
-                if (blockState.getValue(OvenBlock.RUNNING)) {
-                    return 15;
-                } else {
-                    return 0;
-                }
-            }))
+            OvenBlock::new
     );
 
     public static final RegistryObject<Block> TEAPOT = BLOCK.register(
             "teapot",
-            () -> new TeapotBlock(BlockBehaviour.Properties.of().noOcclusion())
+            TeapotBlock::new
     );
 
     public static final RegistryObject<Block> FERMENTER = BLOCK.register(
             "fermenter",
-            () -> new FermenterBlock(BlockBehaviour.Properties.of().noOcclusion())
+            FermenterBlock::new
     );
 
     public static final RegistryObject<Block> BLENDER = BLOCK.register(
             "blender",
-            () -> new BlenderBlock(BlockBehaviour.Properties.of().noOcclusion())
+            BlenderBlock::new
     );
+
+    public static final RegistryObject<Block> CUTTING_BOARD = BLOCK.register(
+            "cutting_board",
+            CuttingBoardBlock::new
+    );
+
+    public static BlockBehaviour.Properties getBlockProperties() {
+        return BlockBehaviour.Properties.of().noOcclusion().strength(1);
+    }
 }

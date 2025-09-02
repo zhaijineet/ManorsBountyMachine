@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class BlenderRecipeBuilder {
+    public final Ingredient bottle;
     public final NonNullList<Ingredient> mainInput;
     public final NonNullList<Ingredient> secondaryInput;
     public final Item output;
@@ -24,7 +25,36 @@ public class BlenderRecipeBuilder {
     public final Item outgrowth;
     public final float outgrowthChance;
 
+    public BlenderRecipeBuilder(NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output) {
+        this(Ingredient.EMPTY, mainInput, secondaryInput, output, 1, Items.AIR, 0);
+    }
+
+    public BlenderRecipeBuilder(NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
+        this(Ingredient.EMPTY, mainInput, secondaryInput, output, 1, outgrowth, outgrowthChance);
+    }
+
+    public BlenderRecipeBuilder(Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output) {
+        this(bottle, mainInput, secondaryInput, output, 1, Items.AIR, 0);
+    }
+
+    public BlenderRecipeBuilder(Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
+        this(bottle, mainInput, secondaryInput, output, 1, outgrowth, outgrowthChance);
+    }
+
+    public BlenderRecipeBuilder(NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount) {
+        this(Ingredient.EMPTY, mainInput, secondaryInput, output, outputCount, Items.AIR, 0);
+    }
+
     public BlenderRecipeBuilder(NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+        this(Ingredient.EMPTY, mainInput, secondaryInput, output, outputCount, outgrowth, outgrowthChance);
+    }
+
+    public BlenderRecipeBuilder(Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount) {
+        this(bottle, mainInput, secondaryInput, output, outputCount, Items.AIR, 0);
+    }
+
+    public BlenderRecipeBuilder(Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+        this.bottle = bottle;
         this.mainInput = mainInput;
         this.secondaryInput = secondaryInput;
         this.output = output;
@@ -35,11 +65,12 @@ public class BlenderRecipeBuilder {
 
     public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
         ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix("blender/").getPath());
-        pRecipeConsumer.accept(new BlenderRecipeBuilder.Result(recipePath, this.mainInput, this.secondaryInput, this.output, this.outputCount, this.outgrowth, this.outgrowthChance));
+        pRecipeConsumer.accept(new BlenderRecipeBuilder.Result(recipePath, this.bottle, this.mainInput, this.secondaryInput, this.output, this.outputCount, this.outgrowth, this.outgrowthChance));
     }
 
     public static class Result implements FinishedRecipe {
         public final ResourceLocation id;
+        public final Ingredient bottle;
         public final NonNullList<Ingredient> mainInput;
         public final NonNullList<Ingredient> secondaryInput;
         public final Item output;
@@ -47,8 +78,9 @@ public class BlenderRecipeBuilder {
         public final Item outgrowth;
         public final float outgrowthChance;
 
-        public Result(ResourceLocation id, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+        public Result(ResourceLocation id, Ingredient bottle, NonNullList<Ingredient> mainInput, NonNullList<Ingredient> secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
             this.id = id;
+            this.bottle = bottle;
             this.mainInput = mainInput;
             this.secondaryInput = secondaryInput;
             this.output = output;
@@ -59,6 +91,9 @@ public class BlenderRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
+            if (!this.bottle.isEmpty()) {
+                pJson.add("bottle", this.bottle.toJson());
+            }
             JsonArray mainInput = new JsonArray();
             for (Ingredient ingredient : this.mainInput) {
                 mainInput.add(ingredient.toJson());

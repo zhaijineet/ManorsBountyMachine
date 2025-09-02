@@ -65,13 +65,13 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
         if (recipe.hasBottle()) {
             builder.addInputSlot(110, 53)
-                    .addIngredients(recipe.getBottle());
+                    .addIngredients(recipe.bottle);
         }
         int[][] slots = {
-                {1, 25, 20},
-                {2, 45, 20},
-                {3, 25, 40},
-                {4, 45, 40},
+                {0, 25, 20},
+                {1, 45, 20},
+                {2, 25, 40},
+                {3, 45, 40},
         };
         for (int[] slot : slots) {
             Ingredient input = recipe.input.get(slot[0]);

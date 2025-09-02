@@ -10,12 +10,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class BlenderBlock extends AbstractMachineBlock {
-    public BlenderBlock(Properties pProperties) {
-        super(pProperties);
+    public BlenderBlock() {
+        super(InitBlock.getBlockProperties());
     }
 
     @Nullable

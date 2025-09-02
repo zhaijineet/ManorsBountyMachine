@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "manors_bounty_machine:block/cutting_board",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "manors_bounty_machine:block/cutting_board"
+    },
+    "facing=south": {
+      "model": "manors_bounty_machine:block/cutting_board",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "manors_bounty_machine:block/cutting_board",
+      "y": 270
+    }
+  }
+}

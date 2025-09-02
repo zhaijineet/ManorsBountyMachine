@@ -39,4 +39,9 @@ public class InitBlockEntityType {
             "blender",
             () -> BlockEntityType.Builder.of(BlenderBlockEntity::new, InitBlock.BLENDER.get()).build(null)
     );
+
+    public static final RegistryObject<BlockEntityType<CuttingBoardBlockEntity>> CUTTING_BOARD = BLOCK_ENTITY_TYPE.register(
+            "cutting_board",
+            () -> BlockEntityType.Builder.of(CuttingBoardBlockEntity::new, InitBlock.CUTTING_BOARD.get()).build(null)
+    );
 }

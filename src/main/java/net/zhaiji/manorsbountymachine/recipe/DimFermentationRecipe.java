@@ -1,25 +1,19 @@
 package net.zhaiji.manorsbountymachine.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import org.jetbrains.annotations.Nullable;
 
 public class DimFermentationRecipe extends BaseFermentationRecipe {
     public static final FermenterBlockEntity.LightState LIGHT_STATE = FermenterBlockEntity.LightState.DIM;
 
-    public DimFermentationRecipe(ResourceLocation id, int cookingTime, NonNullList<Ingredient> input, ItemStack output) {
-        super(id, LIGHT_STATE, cookingTime, input, output);
+    public DimFermentationRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
+        super(id, LIGHT_STATE, cookingTime, bottle, input, output);
     }
 
     @Override
@@ -32,35 +26,10 @@ public class DimFermentationRecipe extends BaseFermentationRecipe {
         return InitRecipe.DIM_FERMENTATION_RECIPE_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<DimFermentationRecipe> {
+    public static class Serializer extends BaseFermentationRecipeSerializer<DimFermentationRecipe> {
         @Override
-        public DimFermentationRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-            int cookingTime = GsonHelper.getAsInt(pSerializedRecipe, "cookingTime");
-            JsonArray inputsArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "input");
-            NonNullList<Ingredient> input = NonNullList.withSize(FermenterBlockEntity.ITEMS_SIZE, Ingredient.EMPTY);
-            for (int i = 0; i < inputsArray.size(); i++) {
-                input.set(i, Ingredient.fromJson(inputsArray.get(i)));
-            }
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-            return new DimFermentationRecipe(pRecipeId, cookingTime, input, output);
-        }
-
-        @Override
-        public @Nullable DimFermentationRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            int cookingTime = pBuffer.readInt();
-            NonNullList<Ingredient> input = NonNullList.withSize(FermenterBlockEntity.ITEMS_SIZE, Ingredient.EMPTY);
-            input.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
-            ItemStack output = pBuffer.readItem();
-            return new DimFermentationRecipe(pRecipeId, cookingTime, input, output);
-        }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, DimFermentationRecipe pRecipe) {
-            pBuffer.writeInt(pRecipe.cookingTime);
-            for (Ingredient ingredient : pRecipe.input) {
-                ingredient.toNetwork(pBuffer);
-            }
-            pBuffer.writeItem(pRecipe.output);
+        public DimFermentationRecipe createRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
+            return new DimFermentationRecipe(id, cookingTime, bottle, input, output);
         }
     }
 }

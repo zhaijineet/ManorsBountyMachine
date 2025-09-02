@@ -79,4 +79,19 @@ public class BlockShapeManager {
             4.5, 0, 4.5, 11.5, 8, 11.5
     );
 
+    public static final VoxelShape NORTH_CUTTING_BOARD_SHAPE = Block.box(
+            1.0, 0.0, 1.0, 15.0, 1.0, 15.0
+    );
+
+    public static final VoxelShape SOUTH_CUTTING_BOARD_SHAPE = Block.box(
+            1.0, 0.0, 1.0, 15.0, 1.0, 15.0
+    );
+
+    public static final VoxelShape WEST_CUTTING_BOARD_SHAPE = Block.box(
+            1.0, 0.0, 1.0, 15.0, 1.0, 15.0
+    );
+
+    public static final VoxelShape EAST_CUTTING_BOARD_SHAPE = Block.box(
+            1.0, 0.0, 1.0, 15.0, 1.0, 15.0
+    );
 }

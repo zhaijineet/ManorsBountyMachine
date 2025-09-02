@@ -11,14 +11,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class OvenBlock extends AbstractMachineBlock {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
-    public OvenBlock(Properties pProperties) {
-        super(pProperties);
+    public OvenBlock() {
+        super(InitBlock.getBlockProperties().lightLevel(blockState -> blockState.getValue(RUNNING) ? 15 : 0));
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(RUNNING, false));
     }
 
