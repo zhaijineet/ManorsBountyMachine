@@ -12,8 +12,8 @@ import net.zhaiji.manorsbountymachine.register.InitRecipe;
 public class NormalFermentationRecipe extends BaseFermentationRecipe {
     public static final FermenterBlockEntity.LightState LIGHT_STATE = FermenterBlockEntity.LightState.NORMAL;
 
-    public NormalFermentationRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
-        super(id, LIGHT_STATE, cookingTime, bottle, input, output);
+    public NormalFermentationRecipe(ResourceLocation id, int cookingTime, Ingredient container, NonNullList<Ingredient> input, ItemStack output) {
+        super(id, LIGHT_STATE, cookingTime, container, input, output);
     }
 
     @Override
@@ -28,8 +28,8 @@ public class NormalFermentationRecipe extends BaseFermentationRecipe {
 
     public static class Serializer extends BaseFermentationRecipeSerializer<NormalFermentationRecipe> {
         @Override
-        public NormalFermentationRecipe createRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
-            return new NormalFermentationRecipe(id, cookingTime, bottle, input, output);
+        public NormalFermentationRecipe createRecipe(ResourceLocation id, int cookingTime, Ingredient container, NonNullList<Ingredient> input, ItemStack output) {
+            return new NormalFermentationRecipe(id, cookingTime, container, input, output);
         }
     }
 }

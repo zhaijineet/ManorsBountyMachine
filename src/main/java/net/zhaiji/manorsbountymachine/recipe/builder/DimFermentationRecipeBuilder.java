@@ -11,8 +11,8 @@ public class DimFermentationRecipeBuilder extends BaseFermentationRecipeBuilder 
         super(cookingTime, input, output);
     }
 
-    public DimFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
-        super(cookingTime, bottle, input, output);
+    public DimFermentationRecipeBuilder(int cookingTime, Ingredient container, NonNullList<Ingredient> input, Item output) {
+        super(cookingTime, container, input, output);
     }
 
     @Override

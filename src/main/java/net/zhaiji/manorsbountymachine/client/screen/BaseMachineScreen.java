@@ -10,10 +10,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class AbstractMachineScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
+public abstract class BaseMachineScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
     public final ResourceLocation backgroundTexture;
 
-    public AbstractMachineScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation backgroundTexture) {
+    public BaseMachineScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation backgroundTexture) {
         super(pMenu, pPlayerInventory, pTitle);
         this.imageWidth = 176;
         this.imageHeight = 227;

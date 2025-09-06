@@ -44,4 +44,9 @@ public class InitBlockEntityType {
             "cutting_board",
             () -> BlockEntityType.Builder.of(CuttingBoardBlockEntity::new, InitBlock.CUTTING_BOARD.get()).build(null)
     );
+
+    public static final RegistryObject<BlockEntityType<StockPotBlockEntity>> STOCK_POT = BLOCK_ENTITY_TYPE.register(
+            "stock_pot",
+            () -> BlockEntityType.Builder.of(StockPotBlockEntity::new, InitBlock.STOCK_POT.get()).build(null)
+    );
 }

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class IceCreamMachineBlockEntity extends AbstractMachineBlockEntity {
+public class IceCreamMachineBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 4;
     public static final int FLUID_TANK_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;

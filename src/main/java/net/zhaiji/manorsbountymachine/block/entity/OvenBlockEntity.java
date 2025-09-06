@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OvenBlockEntity extends AbstractMachineBlockEntity {
+public class OvenBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 7;
     public static final int TOP_LEFT = 0;
     public static final int TOP_CENTER = 1;
@@ -240,7 +240,7 @@ public class OvenBlockEntity extends AbstractMachineBlockEntity {
     public void load(CompoundTag pTag) {
         super.load(pTag);
         this.isRunning = pTag.getBoolean("isRunning");
-        this.cookingTime = pTag.getInt("cookingTime");
+        this.setCookingTime(pTag.getInt("cookingTime"));
         this.setTemperature(pTag.getInt("temperature"));
         this.setMaxCookingTime(pTag.getInt("maxCookingTime"));
     }

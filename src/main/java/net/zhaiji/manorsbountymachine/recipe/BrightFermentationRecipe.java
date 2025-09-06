@@ -12,8 +12,8 @@ import net.zhaiji.manorsbountymachine.register.InitRecipe;
 public class BrightFermentationRecipe extends BaseFermentationRecipe {
     public static final FermenterBlockEntity.LightState LIGHT_STATE = FermenterBlockEntity.LightState.BRIGHT;
 
-    public BrightFermentationRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
-        super(id, LIGHT_STATE, cookingTime, bottle, input, output);
+    public BrightFermentationRecipe(ResourceLocation id, int cookingTime, Ingredient container, NonNullList<Ingredient> input, ItemStack output) {
+        super(id, LIGHT_STATE, cookingTime, container, input, output);
     }
 
     @Override
@@ -28,8 +28,8 @@ public class BrightFermentationRecipe extends BaseFermentationRecipe {
 
     public static class Serializer extends BaseFermentationRecipeSerializer<BrightFermentationRecipe> {
         @Override
-        public BrightFermentationRecipe createRecipe(ResourceLocation id, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, ItemStack output) {
-            return new BrightFermentationRecipe(id, cookingTime, bottle, input, output);
+        public BrightFermentationRecipe createRecipe(ResourceLocation id, int cookingTime, Ingredient container, NonNullList<Ingredient> input, ItemStack output) {
+            return new BrightFermentationRecipe(id, cookingTime, container, input, output);
         }
     }
 }

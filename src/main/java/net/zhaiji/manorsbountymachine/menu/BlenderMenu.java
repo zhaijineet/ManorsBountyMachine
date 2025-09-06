@@ -11,7 +11,7 @@ import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class BlenderMenu extends AbstractMachineMenu {
+public class BlenderMenu extends BaseMachineMenu {
     public BlenderBlockEntity blockEntity;
     public ContainerData data;
 
@@ -38,7 +38,7 @@ public class BlenderMenu extends AbstractMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
-        this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.BOTTLE, 28, 63) {
+        this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack) && ManorsBountyCompat.isDeformedGlassBottle(pStack);

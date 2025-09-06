@@ -41,6 +41,8 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> CATALYSTS_B = ItemTags.create(getManorsBountyResourceLocation("catalysts_b"));
     public static final TagKey<Item> CATALYSTS_C = ItemTags.create(getManorsBountyResourceLocation("catalysts_c"));
     public static final TagKey<Item> CATALYSTS_X = ItemTags.create(getManorsBountyResourceLocation("catalysts_x"));
+    public static final TagKey<Item> KNIVES = ItemTags.create(getForgeResourceLocation("tools/knives"));
+    public static final TagKey<Item> ROLLING_PINS = ItemTags.create(getForgeResourceLocation("tools/rolling_pins"));
 
     public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks.json"));
 
@@ -78,6 +80,11 @@ public class ManorsBountyCompat {
     public static ResourceLocation getManorsBountyResourceLocation(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
+
+    public static ResourceLocation getForgeResourceLocation(String name) {
+        return ResourceLocation.fromNamespaceAndPath("forge", name);
+    }
+
 
     public static Item getManorsBountyItem(String name) {
         return ForgeRegistries.ITEMS.getValue(getManorsBountyResourceLocation(name));
@@ -225,14 +232,12 @@ public class ManorsBountyCompat {
         return itemStack.is(item);
     }
 
-    // TODO
     public static boolean isKnife(ItemStack itemStack) {
-        return itemStack.is(ItemTags.SWORDS);
+        return !itemStack.isEmpty() && itemStack.is(KNIVES);
     }
 
-    // TODO
     public static boolean isRollingPin(ItemStack itemStack) {
-        return !itemStack.isEmpty();
+        return !itemStack.isEmpty() && itemStack.is(ROLLING_PINS);
     }
 
     public static boolean isTeapotHeatBlock(BlockState blockState) {

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FryerBlockEntity extends AbstractMachineBlockEntity {
+public class FryerBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 5;
     public static final int FLUID_TANK_SLOT = 0;
     public static final int TOP_LEFT = 1;

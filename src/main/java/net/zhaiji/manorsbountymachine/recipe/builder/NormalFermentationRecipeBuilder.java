@@ -11,8 +11,8 @@ public class NormalFermentationRecipeBuilder extends BaseFermentationRecipeBuild
         super(cookingTime, input, output);
     }
 
-    public NormalFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
-        super(cookingTime, bottle, input, output);
+    public NormalFermentationRecipeBuilder(int cookingTime, Ingredient container, NonNullList<Ingredient> input, Item output) {
+        super(cookingTime, container, input, output);
     }
 
     @Override

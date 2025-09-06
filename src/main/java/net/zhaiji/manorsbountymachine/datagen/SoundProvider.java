@@ -91,6 +91,38 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.BLENDER_POWDER_DONE_NAME)))
         );
         add(
+                InitSoundEvent.CUTTING_BOARD_CUTTING,
+                definition()
+                        .subtitle(InitSoundEvent.CUTTING_BOARD_CUTTING_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.CUTTING_BOARD_CUTTING_NAME)))
+        );
+
+        add(
+                InitSoundEvent.CUTTING_BOARD_ROLL_OUT,
+                definition()
+                        .subtitle(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_NAME)))
+        );
+
+        add(
+                InitSoundEvent.CUTTING_BOARD_CRAFTING,
+                definition()
+                        .subtitle(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.CUTTING_BOARD_CRAFTING_NAME)))
+        );
+        add(
+                InitSoundEvent.STOCK_POT_COVER_MOVING,
+                definition()
+                        .subtitle(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.STOCK_POT_COVER_MOVING_NAME)))
+        );
+        add(
+                InitSoundEvent.STOCK_POT_RUNNING,
+                definition()
+                        .subtitle(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.STOCK_POT_RUNNING_NAME)))
+        );
+        add(
                 InitSoundEvent.SHAKER_OPEN,
                 definition()
                         .subtitle(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE)

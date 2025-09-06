@@ -46,6 +46,11 @@ public class InitBlock {
             CuttingBoardBlock::new
     );
 
+    public static final RegistryObject<Block> STOCK_POT = BLOCK.register(
+            "stock_pot",
+            StockPotBlock::new
+    );
+
     public static BlockBehaviour.Properties getBlockProperties() {
         return BlockBehaviour.Properties.of().noOcclusion().strength(1);
     }

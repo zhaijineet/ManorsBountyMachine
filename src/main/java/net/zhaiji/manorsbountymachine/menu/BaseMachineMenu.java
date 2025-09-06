@@ -6,15 +6,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.zhaiji.manorsbountymachine.block.entity.AbstractMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.BaseMachineBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractMachineMenu extends AbstractContainerMenu {
+public abstract class BaseMachineMenu extends AbstractContainerMenu {
     public final Inventory playerInventory;
-    public final AbstractMachineBlockEntity machineBlockEntity;
+    public final BaseMachineBlockEntity machineBlockEntity;
     public int playerInventoryYOffset;
 
-    public AbstractMachineMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Inventory pPlayerInventory, AbstractMachineBlockEntity machineBlockEntity) {
+    public BaseMachineMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Inventory pPlayerInventory, BaseMachineBlockEntity machineBlockEntity) {
         super(pMenuType, pContainerId);
         this.playerInventory = pPlayerInventory;
         this.machineBlockEntity = machineBlockEntity;

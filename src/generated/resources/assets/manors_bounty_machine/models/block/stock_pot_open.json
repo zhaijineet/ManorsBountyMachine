@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/stock_pot_open",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/stock_pot",
+    "all": "manors_bounty_machine:block/stock_pot",
+    "particle": "manors_bounty_machine:block/stock_pot"
+  }
+}

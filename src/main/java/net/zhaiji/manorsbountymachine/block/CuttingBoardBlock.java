@@ -14,7 +14,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity;
-import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
@@ -62,26 +61,31 @@ public class CuttingBoardBlock extends AbstractMachineBlock {
         return false;
     }
 
-    public InteractionResult handlerSingleItem(CuttingBoardBlockEntity blockEntity, Level level, ItemStack heldItem, ItemStack otherHeldItem) {
+    public InteractionResult handlerSingleItem(CuttingBoardBlockEntity blockEntity, Level level, Player player, ItemStack heldItem, ItemStack otherHeldItem) {
         if (!otherHeldItem.isEmpty() && !blockEntity.isFull()) {
             return InteractionResult.PASS;
         }
+        boolean flag;
         if (blockEntity.isEmpty()) {
-            addItem(blockEntity, heldItem);
+            flag = this.addItem(blockEntity, heldItem);
         } else {
-            blockEntity.craftSingleItem(heldItem);
+            flag = blockEntity.craftSingleItem(player, heldItem);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return flag
+                ? InteractionResult.sidedSuccess(level.isClientSide())
+                : InteractionResult.CONSUME_PARTIAL;
     }
 
-    public InteractionResult handlerMultipleItem(CuttingBoardBlockEntity blockEntity, Level level, BlockPos blockPos, ItemStack otherHeldItem) {
-        if (blockEntity.craftMultipleItem()) {
-            return InteractionResult.sidedSuccess(level.isClientSide());
+    public InteractionResult handlerMultipleItem(CuttingBoardBlockEntity blockEntity, Level level, BlockPos blockPos, Player player) {
+        boolean flag = false;
+        if (blockEntity.craftMultipleItem(player)) {
+            flag = true;
         } else {
-            return dropSingleItem(blockEntity, level, blockPos)
-                    ? InteractionResult.sidedSuccess(level.isClientSide())
-                    : InteractionResult.CONSUME_PARTIAL;
+            flag = dropSingleItem(blockEntity, level, blockPos);
         }
+        return flag
+                ? InteractionResult.sidedSuccess(level.isClientSide())
+                : InteractionResult.CONSUME_PARTIAL;
     }
 
     @Override
@@ -94,17 +98,15 @@ public class CuttingBoardBlock extends AbstractMachineBlock {
                 Containers.dropContents(pLevel, pPos, blockEntity);
                 return InteractionResult.sidedSuccess(pLevel.isClientSide());
             }
-            // TODO 检测持有物品匹配tool
-            // 添加对资源重载的监听
-            if (pHand == InteractionHand.MAIN_HAND && ManorsBountyCompat.isKnife(heldItem)) {
-                return this.handlerSingleItem(blockEntity, pLevel, heldItem, otherHeldItem);
-            }
             if (!heldItem.isEmpty()) {
+                if (pHand == InteractionHand.MAIN_HAND) {
+                    return this.handlerSingleItem(blockEntity, pLevel, pPlayer, heldItem, otherHeldItem);
+                }
                 return this.addItem(blockEntity, heldItem)
                         ? InteractionResult.sidedSuccess(pLevel.isClientSide())
                         : InteractionResult.CONSUME_PARTIAL;
             } else if (otherHeldItem.isEmpty()) {
-                return this.handlerMultipleItem(blockEntity, pLevel, pPos, otherHeldItem);
+                return this.handlerMultipleItem(blockEntity, pLevel, pPos, pPlayer);
             }
         }
         return InteractionResult.PASS;

@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class TeapotBlockEntity extends AbstractMachineBlockEntity {
+public class TeapotBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 7;
     public static final int OUTPUT = 0;
     public static final int DRINK = 1;
@@ -155,6 +155,11 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
         this.setChanged();
     }
 
+    public void setOutput(ItemStack output) {
+        this.output = output;
+        this.setChanged();
+    }
+
     public Optional<TeapotRecipe> getRecipe() {
         return this.recipeCheck.getRecipeFor(this, this.level);
     }
@@ -217,8 +222,8 @@ public class TeapotBlockEntity extends AbstractMachineBlockEntity {
     public void load(CompoundTag pTag) {
         super.load(pTag);
         this.isRunning = pTag.getBoolean("isRunning");
-        this.cookingTime = pTag.getInt("cookingTime");
-        this.output = ItemStack.of(pTag.getCompound("output"));
+        this.setCookingTime(pTag.getInt("cookingTime"));
+        this.setOutput(ItemStack.of(pTag.getCompound("output")));
     }
 
     @Override

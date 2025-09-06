@@ -63,9 +63,9 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
-        if (recipe.hasBottle()) {
+        if (recipe.hasContainer()) {
             builder.addInputSlot(110, 53)
-                    .addIngredients(recipe.bottle);
+                    .addIngredients(recipe.container);
         }
         int[][] slots = {
                 {0, 25, 20},
@@ -88,7 +88,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         this.guiHelper.createDrawable(background, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
-        int minutes = recipe.cookingTime / (20 * 60);
+        int minutes = recipe.maxCookingTime / (20 * 60);
         String texture = "textures/item/light_" + (minutes < 10 ? "0" + minutes : minutes) + ".png";
         guiGraphics.blit(ResourceLocation.withDefaultNamespace(texture), 80, 53, 0, 0, 16, 16, 16, 16);
         if (TIME_RECT.contains((int) mouseX, (int) mouseY)) {

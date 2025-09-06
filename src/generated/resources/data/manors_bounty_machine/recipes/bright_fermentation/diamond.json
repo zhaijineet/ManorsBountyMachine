@@ -1,6 +1,6 @@
 {
   "type": "manors_bounty_machine:bright_fermentation",
-  "bottle": {
+  "container": {
     "item": "minecraft:iron_ingot"
   },
   "cookingTime": 1200,

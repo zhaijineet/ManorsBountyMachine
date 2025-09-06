@@ -15,7 +15,7 @@ import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class FryerMenu extends AbstractMachineMenu {
+public class FryerMenu extends BaseMachineMenu {
     public final FluidTank fluidTank;
     public final FryerBlockEntity blockEntity;
     public final ContainerData data;

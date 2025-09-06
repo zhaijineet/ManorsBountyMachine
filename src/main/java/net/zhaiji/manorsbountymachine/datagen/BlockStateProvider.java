@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
+import net.zhaiji.manorsbountymachine.block.StockPotBlock;
 import net.zhaiji.manorsbountymachine.block.TeapotBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 
@@ -27,6 +28,7 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         this.teapot();
         this.fermenter();
         this.cuttingBoard();
+        this.stockPot();
     }
 
     public void iceCreamMachine() {
@@ -49,7 +51,7 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         String namespace = registerKey.getNamespace();
         String path = registerKey.getPath();
         String texture = namespace + ":block/" + path;
-        ModelFile modelFile1 = modelFile(path, texture, "cutout_mipped");
+        ModelFile modelFile1 = modelFile(path, texture);
         ModelFile modelFile2 = modelFile(path + "_oil", texture, "translucent");
         this.getVariantBuilder(block)
                 .forAllStatesExcept(
@@ -68,8 +70,8 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         String path = registerKey.getPath();
         String texture1 = namespace + ":block/" + path;
         String texture2 = namespace + ":block/" + path + "_running";
-        ModelFile modelFile1 = modelFile(path, texture1, "cutout_mipped");
-        ModelFile modelFile2 = modelFile(path + "_running", texture2, "cutout_mipped");
+        ModelFile modelFile1 = modelFile(path, texture1);
+        ModelFile modelFile2 = modelFile(path + "_running", texture2);
         this.getVariantBuilder(block)
                 .forAllStatesExcept(
                         state -> ConfiguredModel.builder()
@@ -86,8 +88,8 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         String namespace = registerKey.getNamespace();
         String path = registerKey.getPath();
         String texture = namespace + ":block/" + path;
-        ModelFile modelFile1 = modelFile(path, texture, "cutout_mipped");
-        ModelFile modelFile2 = modelFile(path + "_open", texture, "cutout_mipped");
+        ModelFile modelFile1 = modelFile(path, texture);
+        ModelFile modelFile2 = modelFile(path + "_open", texture);
         this.getVariantBuilder(block)
                 .forAllStatesExcept(
                         state -> ConfiguredModel.builder()
@@ -103,8 +105,8 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         String namespace = registerKey.getNamespace();
         String path = registerKey.getPath();
         String texture = namespace + ":block/" + path;
-        ModelFile modelFile1 = modelFile(path, texture, "cutout_mipped");
-        ModelFile modelFile2 = modelFile(path + "_open", texture, "cutout_mipped");
+        ModelFile modelFile1 = modelFile(path, texture);
+        ModelFile modelFile2 = modelFile(path + "_open", texture);
         this.getVariantBuilder(block)
                 .forAllStatesExcept(
                         state -> ConfiguredModel.builder()
@@ -126,6 +128,24 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                 modelFile
         );
         this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile);
+    }
+
+    public void stockPot() {
+        Block block = InitBlock.STOCK_POT.get();
+        ResourceLocation registerKey = ForgeRegistries.BLOCKS.getKey(block);
+        String namespace = registerKey.getNamespace();
+        String path = registerKey.getPath();
+        String texture = namespace + ":block/" + path;
+        ModelFile modelFile1 = modelFile(path, texture);
+        ModelFile modelFile2 = modelFile(path + "_open", texture);
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(
+                        state -> ConfiguredModel.builder()
+                                .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                                .modelFile(state.getValue(StockPotBlock.OPEN) ? modelFile2 : modelFile1)
+                                .build()
+                );
+        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile1);
     }
 
     public ModelFile modelFile(String path, String texture) {

@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
-import net.zhaiji.manorsbountymachine.block.entity.AbstractContainerBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.AbstractMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.BaseContainerBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.BaseMachineBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractMachineBlock extends BaseEntityBlock {
@@ -58,7 +58,7 @@ public abstract class AbstractMachineBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
         if (!pLevel.isClientSide()) {
-            if (pLevel.getBlockEntity(pPos) instanceof AbstractMachineBlockEntity blockEntity) {
+            if (pLevel.getBlockEntity(pPos) instanceof BaseMachineBlockEntity blockEntity) {
                 NetworkHooks.openScreen((ServerPlayer) pPlayer, blockEntity, pPos);
             }
         }
@@ -68,7 +68,7 @@ public abstract class AbstractMachineBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (!pState.is(pNewState.getBlock())) {
-            if (pLevel.getBlockEntity(pPos) instanceof AbstractContainerBlockEntity blockEntity && !pLevel.isClientSide()) {
+            if (pLevel.getBlockEntity(pPos) instanceof BaseContainerBlockEntity blockEntity && !pLevel.isClientSide()) {
                 Containers.dropContents(pLevel, pPos, blockEntity);
             }
         }

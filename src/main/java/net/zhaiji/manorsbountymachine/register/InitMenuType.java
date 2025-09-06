@@ -42,6 +42,11 @@ public class InitMenuType {
             () -> IForgeMenuType.create((BlenderMenu::new))
     );
 
+    public static final RegistryObject<MenuType<StockPotMenu>> STOCK_POT = MENU_TYPE.register(
+            "stock_pot",
+            () -> IForgeMenuType.create((StockPotMenu::new))
+    );
+
     public static final RegistryObject<MenuType<ShakerMenu>> SHAKER_MENU = MENU_TYPE.register(
             "shaker",
             () -> new MenuType<>(ShakerMenu::new, FeatureFlags.DEFAULT_FLAGS)

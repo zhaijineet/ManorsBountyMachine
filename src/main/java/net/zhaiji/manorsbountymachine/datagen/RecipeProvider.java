@@ -65,24 +65,24 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new DimFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void dimFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item bottle, Item[] input, Item output) {
-        new DimFermentationRecipeBuilder(cookingTime, Ingredient.of(bottle), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void dimFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
+        new DimFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
     public static void normalFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
         new NormalFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void normalFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item bottle, Item[] input, Item output) {
-        new NormalFermentationRecipeBuilder(cookingTime, Ingredient.of(bottle), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void normalFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
+        new NormalFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
     public static void brightFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
         new BrightFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void brightFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item bottle, Item[] input, Item output) {
-        new BrightFermentationRecipeBuilder(cookingTime, Ingredient.of(bottle), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void brightFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
+        new BrightFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output) {
@@ -93,12 +93,12 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item bottle, Item[] mainInput, Item[] secondaryInput, Item output) {
-        new BlenderRecipeBuilder(Ingredient.of(bottle), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output) {
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item bottle, Item[] mainInput, Item[] secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(Ingredient.of(bottle), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount) {
@@ -109,12 +109,12 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item bottle, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount) {
-        new BlenderRecipeBuilder(Ingredient.of(bottle), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount) {
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
-    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item bottle, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(Ingredient.of(bottle), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
     }
 
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output) {

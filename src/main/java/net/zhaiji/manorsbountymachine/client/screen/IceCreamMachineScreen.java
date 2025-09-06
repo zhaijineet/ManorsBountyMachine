@@ -1,14 +1,11 @@
 package net.zhaiji.manorsbountymachine.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -36,10 +33,9 @@ import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamCraftPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.IceCreamTowFlavorSwitchPacket;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
-import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
-public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachineMenu> {
+public class IceCreamMachineScreen extends BaseMachineScreen<IceCreamMachineMenu> {
     public static final ResourceLocation ICE_CREAM_MACHINE_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui.png");
     public static final ResourceLocation CONE_TEXTURE = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/ice_cream_machine_gui/ice_cream_cone.png");
     public static final String TWO_FLAVOR_SWITCH_TRANSLATABLE = "gui.manors_bounty_machine.two_flavor_switch";
@@ -140,7 +136,7 @@ public class IceCreamMachineScreen extends AbstractMachineScreen<IceCreamMachine
             case IceCreamMachineBlockEntity.OUTPUT_SLOT ->
                     level.playLocalSound(blockPos, SoundEvents.BAMBOO_SAPLING_PLACE, SoundSource.BLOCKS, 1F, 1.5F, false);
             case IceCreamMachineBlockEntity.LEFT_INPUT_SLOT, IceCreamMachineBlockEntity.RIGHT_INPUT_SLOT ->
-                    level.playLocalSound(blockPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.15F, 1F, false);
+                    level.playLocalSound(blockPos, InitSoundEvent.ICE_CREAM_MACHINE_CLANK.get(), SoundSource.BLOCKS, 0.3F, 1F, false);
         }
     }
 

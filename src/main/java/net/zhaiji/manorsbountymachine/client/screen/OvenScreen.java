@@ -16,7 +16,7 @@ import net.zhaiji.manorsbountymachine.network.server.packet.BakeItemCraftPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.SyncOvenTimeOrTemperaturePacket;
 
 @OnlyIn(Dist.CLIENT)
-public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
+public class OvenScreen extends BaseMachineScreen<OvenMenu> {
     public static final ResourceLocation OVEN_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui.png");
     public static final ResourceLocation OVEN_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/oven_gui_widget.png");
 
@@ -122,7 +122,7 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
                 ) {
                     @Override
                     public void renderTexture(GuiGraphics pGuiGraphics, ResourceLocation pTexture, int pX, int pY, int pUOffset, int pVOffset, int pTextureDifference, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
-                        if (OvenScreen.this.menu.getCookingTime() == 0) {
+                        if (menu.getCookingTime() == 0) {
                             RenderSystem.enableDepthTest();
                             RenderSystem.enableBlend();
                             // 我受不了了，为什么上面的只能用255，下面的只能用1
@@ -134,6 +134,11 @@ public class OvenScreen extends AbstractMachineScreen<OvenMenu> {
                                 pGuiGraphics.setColor(1, 1, 1, 1);
                             }
                         }
+                    }
+
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && menu.getCookingTime() == 0;
                     }
                 }
         );

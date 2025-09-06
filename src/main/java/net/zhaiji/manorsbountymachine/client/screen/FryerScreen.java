@@ -25,7 +25,7 @@ import net.zhaiji.manorsbountymachine.network.server.packet.StopFryingPacket;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class FryerScreen extends AbstractMachineScreen<FryerMenu> {
+public class FryerScreen extends BaseMachineScreen<FryerMenu> {
     public static final ResourceLocation FRYER_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fryer_gui.png");
     public static final ResourceLocation FRYER_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fryer_gui_widget.png");
 

@@ -10,7 +10,7 @@ import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class IceCreamMachineMenu extends AbstractMachineMenu {
+public class IceCreamMachineMenu extends BaseMachineMenu {
     public final FluidTank fluidTank;
     public final IceCreamMachineBlockEntity blockEntity;
 

@@ -3,7 +3,6 @@ package net.zhaiji.manorsbountymachine.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -28,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BlenderBlockEntity extends AbstractMachineBlockEntity {
+public class BlenderBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 13;
-    public static final int BOTTLE = 0;
+    public static final int CONTAINER = 0;
     public static final int MAIN_TOP_LEFT = 1;
     public static final int MAIN_TOP_RIGHT = 2;
     public static final int MAIN_CENTER_LEFT = 3;
@@ -45,7 +44,7 @@ public class BlenderBlockEntity extends AbstractMachineBlockEntity {
     public static final int MAIN_OUTPUT = 12;
     public static final int[] MAIN_INPUT_SLOTS = {MAIN_TOP_LEFT, MAIN_TOP_RIGHT, MAIN_CENTER_LEFT, MAIN_CENTER_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_RIGHT};
     public static final int[] SECONDARY_INPUT_SLOTS = {SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
-    public static final int[] INPUT_SLOTS = {BOTTLE, MAIN_TOP_LEFT, MAIN_TOP_RIGHT, MAIN_CENTER_LEFT, MAIN_CENTER_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
+    public static final int[] INPUT_SLOTS = {CONTAINER, MAIN_TOP_LEFT, MAIN_TOP_RIGHT, MAIN_CENTER_LEFT, MAIN_CENTER_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
     public final RecipeManager.CachedCheck<BlenderBlockEntity, BlenderRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public boolean isRunning = false;
@@ -117,7 +116,7 @@ public class BlenderBlockEntity extends AbstractMachineBlockEntity {
                         remaining = ItemStack.EMPTY;
                     }
                 } else {
-                    input.shrink(slot == BOTTLE ? output.getCount() : this.outputMultiple);
+                    input.shrink(slot == CONTAINER ? output.getCount() : this.outputMultiple);
                 }
                 if (input.isEmpty() && !remaining.isEmpty()) {
                     this.setItem(slot, remaining);

@@ -17,6 +17,24 @@
     ],
     "subtitle": "sound.manors_bounty_machine.blender_water_done"
   },
+  "cutting_board_crafting": {
+    "sounds": [
+      "manors_bounty_machine:cutting_board_crafting"
+    ],
+    "subtitle": "sound.manors_bounty_machine.cutting_board_crafting"
+  },
+  "cutting_board_cutting": {
+    "sounds": [
+      "manors_bounty_machine:cutting_board_cutting"
+    ],
+    "subtitle": "sound.manors_bounty_machine.cutting_board_cutting"
+  },
+  "cutting_board_roll_out": {
+    "sounds": [
+      "manors_bounty_machine:cutting_board_roll_out"
+    ],
+    "subtitle": "sound.manors_bounty_machine.cutting_board_roll_out"
+  },
   "fryer_frying": {
     "sounds": [
       "manors_bounty_machine:fryer_frying"
@@ -52,6 +70,18 @@
       "manors_bounty_machine:shaker_shake"
     ],
     "subtitle": "sound.manors_bounty_machine.shaker_shake"
+  },
+  "sound.manors_bounty_machine.stock_pot_cover_moving": {
+    "sounds": [
+      "manors_bounty_machine:stock_pot_cover_moving"
+    ],
+    "subtitle": "sound.manors_bounty_machine.stock_pot_cover_moving"
+  },
+  "sound.manors_bounty_machine.stock_pot_running": {
+    "sounds": [
+      "manors_bounty_machine:stock_pot_running"
+    ],
+    "subtitle": "sound.manors_bounty_machine.stock_pot_running"
   },
   "teapot_close": {
     "sounds": [

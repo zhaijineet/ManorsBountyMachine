@@ -14,7 +14,9 @@ import net.zhaiji.manorsbountymachine.recipe.DimFermentationRecipe;
 import net.zhaiji.manorsbountymachine.recipe.NormalFermentationRecipe;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class FermenterMenu extends AbstractMachineMenu {
+import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.*;
+
+public class FermenterMenu extends BaseMachineMenu {
     public FermenterBlockEntity blockEntity;
     public ContainerData data;
 
@@ -55,8 +57,8 @@ public class FermenterMenu extends AbstractMachineMenu {
     @Override
     public void initMachineInventorySlot() {
         int[][] slots = {
-                {FermenterBlockEntity.CATALYSTS_TOP, 144, 48},
-                {FermenterBlockEntity.CATALYSTS_BOTTOM, 144, 74}
+                {CATALYSTS_TOP, 144, 48},
+                {CATALYSTS_BOTTOM, 144, 74}
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
@@ -67,28 +69,28 @@ public class FermenterMenu extends AbstractMachineMenu {
 
                 @Override
                 public boolean isActive() {
-                    return super.isActive() && getCookingTime() == 0 && blockEntity.getItem(FermenterBlockEntity.OUTPUT).isEmpty();
+                    return super.isActive() && getCookingTime() == 0 && blockEntity.getItem(OUTPUT).isEmpty();
                 }
             });
         }
         // TODO 之后添加自定义资源读取监听，这里要做调整
-        this.addSlot(new Slot(this.blockEntity, FermenterBlockEntity.BOTTLE, 121, 116) {
+        this.addSlot(new Slot(this.blockEntity, CONTAINER, 121, 116) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 boolean canPlace = super.mayPlace(pStack);
                 if (!canPlace) return false;
                 for (DimFermentationRecipe recipe : blockEntity.getAllDimRecipe()) {
-                    if (recipe.bottle.test(pStack)) {
+                    if (recipe.container.test(pStack)) {
                         return true;
                     }
                 }
                 for (NormalFermentationRecipe recipe : blockEntity.getAllNormalRecipe()) {
-                    if (recipe.bottle.test(pStack)) {
+                    if (recipe.container.test(pStack)) {
                         return true;
                     }
                 }
                 for (BrightFermentationRecipe recipe : blockEntity.getAllBrightRecipe()) {
-                    if (recipe.bottle.test(pStack)) {
+                    if (recipe.container.test(pStack)) {
                         return true;
                     }
                 }
@@ -101,10 +103,10 @@ public class FermenterMenu extends AbstractMachineMenu {
             }
         });
         slots = new int[][]{
-                {FermenterBlockEntity.TOP_LEFT, 40, 50},
-                {FermenterBlockEntity.TOP_RIGHT, 72, 50},
-                {FermenterBlockEntity.BOTTOM_LEFT, 40, 76},
-                {FermenterBlockEntity.BOTTOM_RIGHT, 72, 76},
+                {TOP_LEFT, 40, 50},
+                {TOP_RIGHT, 72, 50},
+                {BOTTOM_LEFT, 40, 76},
+                {BOTTOM_RIGHT, 72, 76},
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
@@ -119,7 +121,7 @@ public class FermenterMenu extends AbstractMachineMenu {
                 }
             });
         }
-        this.addSlot(new Slot(this.blockEntity, FermenterBlockEntity.OUTPUT, 57, 63) {
+        this.addSlot(new Slot(this.blockEntity, OUTPUT, 57, 63) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return false;

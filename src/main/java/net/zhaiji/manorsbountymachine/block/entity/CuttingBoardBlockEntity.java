@@ -3,22 +3,26 @@ package net.zhaiji.manorsbountymachine.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardMultipleRecipe;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardSingleRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 import java.util.Optional;
 
-public class CuttingBoardBlockEntity extends AbstractContainerBlockEntity {
+public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
     public static final int ITEMS_SIZE = 6;
     public final RecipeManager.CachedCheck<CuttingBoardBlockEntity.CuttingBoardCraftContainer, CuttingBoardSingleRecipe> singleRecipeCheck;
     public final RecipeManager.CachedCheck<CuttingBoardBlockEntity.CuttingBoardCraftContainer, CuttingBoardMultipleRecipe> multipleRecipeCheck;
@@ -31,15 +35,26 @@ public class CuttingBoardBlockEntity extends AbstractContainerBlockEntity {
         this.multipleRecipeCheck = RecipeManager.createCheck(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get());
     }
 
-    public void craftSingleItem(ItemStack tool) {
+    public boolean craftSingleItem(Player player, ItemStack tool) {
         CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this, tool);
+        boolean flag = false;
         while (this.craftIndex >= 0) {
             Optional<CuttingBoardSingleRecipe> recipe = this.getSingleRecipe(container);
             if (recipe.isPresent()) {
                 CuttingBoardSingleRecipe cuttingBoardSingleRecipe = recipe.get();
+                if (ManorsBountyCompat.isKnife(tool)) {
+                    this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
+                } else if (ManorsBountyCompat.isRollingPin(tool)) {
+                    this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);
+                }
+                tool.hurtAndBreak(1, player, onBreak -> {
+                    onBreak.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+                });
                 this.items.remove(this.craftIndex);
                 this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
                 this.dropItemStack(cuttingBoardSingleRecipe.getOutgrowth(this.level));
+                this.craftIndex--;
+                flag = true;
                 break;
             }
             this.craftIndex--;
@@ -47,13 +62,15 @@ public class CuttingBoardBlockEntity extends AbstractContainerBlockEntity {
         if (this.craftIndex <= 0) {
             this.resetCraftIndex();
         }
+        return flag;
     }
 
-    public boolean craftMultipleItem() {
+    public boolean craftMultipleItem(Player player) {
         CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this);
         Optional<CuttingBoardMultipleRecipe> recipe = this.getMultipleRecipe(container);
         if (recipe.isPresent()) {
             CuttingBoardMultipleRecipe cuttingBoardMultipleRecipe = recipe.get();
+            this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
             this.clearContent();
             this.dropItemStack(cuttingBoardMultipleRecipe.assemble(container, this.level.registryAccess()));
             return true;

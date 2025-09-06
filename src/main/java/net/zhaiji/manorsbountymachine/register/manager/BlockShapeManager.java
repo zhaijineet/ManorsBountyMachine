@@ -94,4 +94,13 @@ public class BlockShapeManager {
     public static final VoxelShape EAST_CUTTING_BOARD_SHAPE = Block.box(
             1.0, 0.0, 1.0, 15.0, 1.0, 15.0
     );
+
+    public static final VoxelShape STOCK_POT_SHAPE = Shapes.or(
+            Block.box(3.0, 10.0, 3.0, 13.0, 11.0, 13.0),
+            Block.box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0)
+    );
+
+    public static final VoxelShape STOCK_POT_OPEN_SHAPE = Shapes.or(
+            Block.box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0)
+    );
 }

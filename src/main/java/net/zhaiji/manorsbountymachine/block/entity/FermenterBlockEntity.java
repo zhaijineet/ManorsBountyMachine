@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FermenterBlockEntity extends AbstractMachineBlockEntity {
+public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 8;
     public static final int CATALYSTS_TOP = 0;
     public static final int CATALYSTS_BOTTOM = 1;
-    public static final int BOTTLE = 2;
+    public static final int CONTAINER = 2;
     public static final int TOP_LEFT = 3;
     public static final int TOP_RIGHT = 4;
     public static final int BOTTOM_LEFT = 5;
@@ -51,6 +51,31 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
     public final RecipeManager.CachedCheck<FermenterBlockEntity, NormalFermentationRecipe> normalRecipeCheck;
     public final RecipeManager.CachedCheck<FermenterBlockEntity, BrightFermentationRecipe> brightRecipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
+        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
+            FermenterBlockEntity.this.playBarrelOpenSound();
+            FermenterBlockEntity.this.setOpen(true);
+        }
+
+        @Override
+        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            FermenterBlockEntity.this.playBarrelCloseSound();
+            FermenterBlockEntity.this.setOpen(false);
+        }
+
+        @Override
+        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
+        }
+
+        @Override
+        protected boolean isOwnContainer(Player pPlayer) {
+            if (pPlayer.containerMenu instanceof FermenterMenu menu) {
+                return menu.blockEntity == FermenterBlockEntity.this;
+            }
+            return false;
+        }
+    };
     public boolean isRunning = false;
     public int cookingTime = 0;
     public int maxCookingTime = 0;
@@ -75,31 +100,6 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
         @Override
         public int getCount() {
             return 2;
-        }
-    };
-    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
-        @Override
-        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
-            FermenterBlockEntity.this.playBarrelOpenSound();
-            FermenterBlockEntity.this.setOpen(true);
-        }
-
-        @Override
-        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
-            FermenterBlockEntity.this.playBarrelCloseSound();
-            FermenterBlockEntity.this.setOpen(false);
-        }
-
-        @Override
-        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
-        }
-
-        @Override
-        protected boolean isOwnContainer(Player pPlayer) {
-            if (pPlayer.containerMenu instanceof FermenterMenu menu) {
-                return menu.blockEntity == FermenterBlockEntity.this;
-            }
-            return false;
         }
     };
     public int outputMultiple = 0;
@@ -130,11 +130,11 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
         Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
         Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
         if (dimRecipe.isPresent()) {
-            maxCookingTime = dimRecipe.get().cookingTime;
+            maxCookingTime = dimRecipe.get().maxCookingTime;
         } else if (normalRecipe.isPresent()) {
-            maxCookingTime = normalRecipe.get().cookingTime;
+            maxCookingTime = normalRecipe.get().maxCookingTime;
         } else if (brightRecipe.isPresent()) {
-            maxCookingTime = brightRecipe.get().cookingTime;
+            maxCookingTime = brightRecipe.get().maxCookingTime;
         } else {
             return;
         }
@@ -167,8 +167,8 @@ public class FermenterBlockEntity extends AbstractMachineBlockEntity {
             return;
         }
         ItemStack output = recipe.assemble(this, this.level.registryAccess());
-        if (recipe.hasBottle()) {
-            this.getItem(BOTTLE).shrink(this.outputMultiple);
+        if (recipe.hasContainer()) {
+            this.getItem(CONTAINER).shrink(this.outputMultiple);
         }
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int slot : INPUT_SLOTS) {

@@ -46,6 +46,9 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<CuttingBoardMultipleRecipe>> CUTTING_BOARD_MULTIPLE_RECIPE_TYPE = registerRecipeType("cutting_board_multiple");
     public static final RegistryObject<RecipeSerializer<CuttingBoardMultipleRecipe>> CUTTING_BOARD_MULTIPLE_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("cutting_board_multiple", CuttingBoardMultipleRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<StockPotRecipe>> STOCK_POT_RECIPE_TYPE = registerRecipeType("stock_pot");
+    public static final RegistryObject<RecipeSerializer<StockPotRecipe>> STOCK_POT_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("stock_pot", StockPotRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

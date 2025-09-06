@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class OvenMenu extends AbstractMachineMenu {
+public class OvenMenu extends BaseMachineMenu {
     public OvenBlockEntity blockEntity;
     public ContainerData data;
 

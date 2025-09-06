@@ -1,6 +1,6 @@
 {
   "type": "manors_bounty_machine:blender",
-  "bottle": {
+  "container": {
     "item": "minecraft:iron_ingot"
   },
   "mainInput": [

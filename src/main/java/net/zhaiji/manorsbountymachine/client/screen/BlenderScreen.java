@@ -6,13 +6,16 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.BlenderMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BlenderStartPacket;
 
-public class BlenderScreen extends AbstractMachineScreen<BlenderMenu> {
+@OnlyIn(Dist.CLIENT)
+public class BlenderScreen extends BaseMachineScreen<BlenderMenu> {
     public static final ResourceLocation BLENDER_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/blender_gui.png");
     public static final ResourceLocation BLENDER_GUI_WIDGET_1 = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/blender_gui_widget_1.png");
     public static final ResourceLocation BLENDER_GUI_WIDGET_2 = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/blender_gui_widget_2.png");
@@ -37,10 +40,10 @@ public class BlenderScreen extends AbstractMachineScreen<BlenderMenu> {
     public static final int BLENDER_RUNNING_WIDTH = 100;
     public static final int BLENDER_RUNNING_HEIGHT = 142;
 
-    public static final int BOTTLE_X_OFFSET = 195;
-    public static final int BOTTLE_Y_OFFSET = 0;
-    public static final int BOTTLE_WIDTH = 26;
-    public static final int BOTTLE_HEIGHT = 35;
+    public static final int CONTAINER_X_OFFSET = 195;
+    public static final int CONTAINER_Y_OFFSET = 0;
+    public static final int CONTAINER_WIDTH = 26;
+    public static final int CONTAINER_HEIGHT = 35;
 
     public static final int OUTPUT_X_OFFSET = 146;
     public static final int OUTPUT_Y_OFFSET = 0;
@@ -112,8 +115,8 @@ public class BlenderScreen extends AbstractMachineScreen<BlenderMenu> {
     }
 
     public void renderBottle(GuiGraphics guiGraphics) {
-        if (this.blockEntity.getItem(BlenderBlockEntity.BOTTLE).isEmpty()) return;
-        guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 23, this.topPos + 101, BOTTLE_X_OFFSET, BOTTLE_Y_OFFSET, BOTTLE_WIDTH, BOTTLE_HEIGHT);
+        if (this.blockEntity.getItem(BlenderBlockEntity.CONTAINER).isEmpty()) return;
+        guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 23, this.topPos + 101, CONTAINER_X_OFFSET, CONTAINER_Y_OFFSET, CONTAINER_WIDTH, CONTAINER_HEIGHT);
     }
 
     public void renderOutput(GuiGraphics guiGraphics) {

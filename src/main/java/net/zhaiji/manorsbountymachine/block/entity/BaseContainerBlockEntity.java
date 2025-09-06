@@ -22,10 +22,10 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractContainerBlockEntity extends BlockEntity implements Container {
+public abstract class BaseContainerBlockEntity extends BlockEntity implements Container {
     public LazyOptional<IItemHandler> itemHandler = LazyOptional.empty();
 
-    public AbstractContainerBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public BaseContainerBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
         this.loadAndRevive();
     }

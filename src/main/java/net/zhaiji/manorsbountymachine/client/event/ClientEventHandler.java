@@ -23,6 +23,7 @@ public class ClientEventHandler {
             MenuScreens.register(InitMenuType.TEAPOT_MENU.get(), TeapotScreen::new);
             MenuScreens.register(InitMenuType.FERMENTER_MENU.get(), FermenterScreen::new);
             MenuScreens.register(InitMenuType.BLENDER.get(), BlenderScreen::new);
+            MenuScreens.register(InitMenuType.STOCK_POT.get(), StockPotScreen::new);
             MenuScreens.register(InitMenuType.SHAKER_MENU.get(), ShakerScreen::new);
         });
     }

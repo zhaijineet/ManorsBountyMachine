@@ -11,8 +11,8 @@ public class BrightFermentationRecipeBuilder extends BaseFermentationRecipeBuild
         super(cookingTime, input, output);
     }
 
-    public BrightFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
-        super(cookingTime, bottle, input, output);
+    public BrightFermentationRecipeBuilder(int cookingTime, Ingredient container, NonNullList<Ingredient> input, Item output) {
+        super(cookingTime, container, input, output);
     }
 
     @Override

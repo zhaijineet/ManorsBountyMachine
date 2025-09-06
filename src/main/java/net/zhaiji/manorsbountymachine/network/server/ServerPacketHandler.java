@@ -77,4 +77,11 @@ public class ServerPacketHandler {
             blockEntity.startRunning();
         }
     }
+
+    public static void handlerStockPotStart(StockPotStartPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof StockPotBlockEntity blockEntity) {
+            blockEntity.startRunning();
+        }
+    }
 }

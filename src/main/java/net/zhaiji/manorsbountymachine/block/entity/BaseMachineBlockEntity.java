@@ -6,8 +6,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class AbstractMachineBlockEntity extends AbstractContainerBlockEntity implements MenuProvider {
-    public AbstractMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+public abstract class BaseMachineBlockEntity extends BaseContainerBlockEntity implements MenuProvider {
+    public BaseMachineBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 

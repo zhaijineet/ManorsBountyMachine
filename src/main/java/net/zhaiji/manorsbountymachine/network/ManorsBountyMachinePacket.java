@@ -87,6 +87,12 @@ public class ManorsBountyMachinePacket {
                 .encoder(BlenderStartPacket::encode)
                 .consumerMainThread(BlenderStartPacket::handle)
                 .add();
+
+        INSTANCE.messageBuilder(StockPotStartPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(StockPotStartPacket::decode)
+                .encoder(StockPotStartPacket::encode)
+                .consumerMainThread(StockPotStartPacket::handle)
+                .add();
     }
 
     public static void registerClientPacket() {

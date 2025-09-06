@@ -21,6 +21,7 @@ public class BlockLootTable extends BlockLootSubProvider {
         this.dropSelf(InitBlock.TEAPOT.get());
         this.dropSelf(InitBlock.FERMENTER.get());
         this.dropSelf(InitBlock.BLENDER.get());
+        this.dropSelf(InitBlock.STOCK_POT.get());
         this.dropSelf(InitBlock.CUTTING_BOARD.get());
     }
 

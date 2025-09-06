@@ -6,6 +6,8 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.FermenterMenu;
@@ -13,7 +15,8 @@ import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.FermentationStartPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.FermentationStopPacket;
 
-public class FermenterScreen extends AbstractMachineScreen<FermenterMenu> {
+@OnlyIn(Dist.CLIENT)
+public class FermenterScreen extends BaseMachineScreen<FermenterMenu> {
     public static final ResourceLocation FERMENTER_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fermenter_gui.png");
     public static final ResourceLocation FERMENTER_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/fermenter_gui_widget.png");
 

@@ -11,7 +11,7 @@ import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
-public class TeapotMenu extends AbstractMachineMenu {
+public class TeapotMenu extends BaseMachineMenu {
     public final TeapotBlockEntity blockEntity;
     public ContainerData data;
 

@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public abstract class BaseFermentationRecipeBuilder {
     public final int cookingTime;
-    public final Ingredient bottle;
+    public final Ingredient container;
     public final NonNullList<Ingredient> input;
     public final Item output;
 
@@ -24,9 +24,9 @@ public abstract class BaseFermentationRecipeBuilder {
         this(cookingTime, Ingredient.EMPTY, input, output);
     }
 
-    public BaseFermentationRecipeBuilder(int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
+    public BaseFermentationRecipeBuilder(int cookingTime, Ingredient container, NonNullList<Ingredient> input, Item output) {
         this.cookingTime = cookingTime;
-        this.bottle = bottle;
+        this.container = container;
         this.input = input;
         this.output = output;
     }
@@ -37,22 +37,22 @@ public abstract class BaseFermentationRecipeBuilder {
 
     public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
         ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix(this.getRecipeLocation()).getPath());
-        pRecipeConsumer.accept(new BaseFermentationRecipeBuilder.Result(recipePath, this.getRecipeSerializer(), this.cookingTime, this.bottle, this.input, this.output));
+        pRecipeConsumer.accept(new BaseFermentationRecipeBuilder.Result(recipePath, this.getRecipeSerializer(), this.cookingTime, this.container, this.input, this.output));
     }
 
     public static class Result implements FinishedRecipe {
         public final ResourceLocation id;
         public final RecipeSerializer<?> recipeSerializer;
         public final int cookingTime;
-        public final Ingredient bottle;
+        public final Ingredient container;
         public final NonNullList<Ingredient> input;
         public final Item output;
 
-        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, int cookingTime, Ingredient bottle, NonNullList<Ingredient> input, Item output) {
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, int cookingTime, Ingredient container, NonNullList<Ingredient> input, Item output) {
             this.id = id;
             this.recipeSerializer = recipeSerializer;
             this.cookingTime = cookingTime;
-            this.bottle = bottle;
+            this.container = container;
             this.input = input;
             this.output = output;
         }
@@ -60,8 +60,8 @@ public abstract class BaseFermentationRecipeBuilder {
         @Override
         public void serializeRecipeData(JsonObject pJson) {
             pJson.addProperty("cookingTime", this.cookingTime);
-            if (!this.bottle.isEmpty()) {
-                pJson.add("bottle", this.bottle.toJson());
+            if (!this.container.isEmpty()) {
+                pJson.add("container", this.container.toJson());
             }
             JsonArray input = new JsonArray();
             for (Ingredient ingredient : this.input) {

@@ -31,6 +31,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.FERMENTER.get(), "Fermenter");
         add(InitBlock.BLENDER.get(), "Blender");
         add(InitBlock.CUTTING_BOARD.get(), "Cutting Board");
+        add(InitBlock.STOCK_POT.get(), "Stock Pot");
         add(InitItem.SHAKER.get(), "Shaker");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
@@ -58,6 +59,11 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "Blender：Done");
         add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "Blender：Done");
         add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "Blender：Running");
+        add(InitSoundEvent.CUTTING_BOARD_CUTTING_TRANSLATABLE, "Cutting Board Cutting");
+        add(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_TRANSLATABLE, "Cutting Board Roll Out");
+        add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "Cutting Board Crafting");
+        add(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE, "Pot Cover Moving");
+        add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "Stock Pot Running");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
     }
@@ -72,6 +78,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.FERMENTER.get(), "发酵桶");
         add(InitBlock.BLENDER.get(), "破壁机");
         add(InitBlock.CUTTING_BOARD.get(), "砧板");
+        add(InitBlock.STOCK_POT.get(), "煮锅");
         add(InitItem.SHAKER.get(), "雪克壶");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");
@@ -99,6 +106,11 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "破壁机：倒出");
         add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "破壁机：倒出");
         add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "破壁机：运行");
+        add(InitSoundEvent.CUTTING_BOARD_CUTTING_TRANSLATABLE, "砧板：切");
+        add(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_TRANSLATABLE, "砧板：碾平");
+        add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "砧板：制作");
+        add(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE, "锅盖：挪动");
+        add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "煮锅：烹饪");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
     }

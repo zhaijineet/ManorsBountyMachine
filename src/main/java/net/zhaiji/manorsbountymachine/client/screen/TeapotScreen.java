@@ -13,6 +13,8 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
@@ -21,7 +23,8 @@ import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BrewingStartPacket;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
-public class TeapotScreen extends AbstractMachineScreen<TeapotMenu> {
+@OnlyIn(Dist.CLIENT)
+public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
     public static final ResourceLocation TEAPOT_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/teapot_gui.png");
     public static final ResourceLocation TEAPOT_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/teapot_gui_widget.png");
     public static final String TRANSLATABLE = "block.manors_bounty_machine.teapot.tooltip";
@@ -41,10 +44,10 @@ public class TeapotScreen extends AbstractMachineScreen<TeapotMenu> {
     public static final int MUG_WIDTH = 78;
     public static final int MUG_HEIGHT = 78;
 
-    public static final int BOTTLE_X_OFFSET = 111;
-    public static final int BOTTLE_Y_OFFSET = 123;
-    public static final int BOTTLE_WIDTH = 78;
-    public static final int BOTTLE_HEIGHT = 78;
+    public static final int CONTAINER_X_OFFSET = 111;
+    public static final int CONTAINER_Y_OFFSET = 123;
+    public static final int CONTAINER_WIDTH = 78;
+    public static final int CONTAINER_HEIGHT = 78;
 
     public static final int OUTPUT_DRINK_X_OFFSET = 0;
     public static final int OUTPUT_DRINK_Y_OFFSET = 0;
@@ -144,7 +147,7 @@ public class TeapotScreen extends AbstractMachineScreen<TeapotMenu> {
     // 畏惧了
     public void renderOutputDrink(GuiGraphics guiGraphics, ItemStack output) {
         if (ManorsBountyCompat.isTeapotGuiGlassBottle(output)) {
-            guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, BOTTLE_X_OFFSET, BOTTLE_Y_OFFSET, BOTTLE_WIDTH, BOTTLE_HEIGHT);
+            guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, CONTAINER_X_OFFSET, CONTAINER_Y_OFFSET, CONTAINER_WIDTH, CONTAINER_HEIGHT);
         } else if (ManorsBountyCompat.isTeapotGuiMug(output)) {
             guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, MUG_X_OFFSET, MUG_Y_OFFSET, MUG_WIDTH, MUG_HEIGHT);
         }
