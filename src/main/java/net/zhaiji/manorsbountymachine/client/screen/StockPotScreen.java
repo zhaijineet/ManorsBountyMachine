@@ -39,9 +39,9 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
     public static final int SECONDARY_INPUT_RIGHT_WIDTH = 25;
     public static final int SECONDARY_INPUT_RIGHT_HEIGHT = 40;
 
-    public static final int RUNNING_X_OFFSET = 59;
-    public static final int RUNNING_Y_OFFSET = 0;
-    public static final int RUNNING_WIDTH = 127;
+    public static final int RUNNING_X_OFFSET = 0;
+    public static final int RUNNING_Y_OFFSET = 59;
+    public static final int RUNNING_WIDTH = 172;
     public static final int RUNNING_HEIGHT = 108;
 
     public static final int RUNNING_BAR_X_OFFSET = 0;
@@ -119,7 +119,7 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
         int x = this.leftPos + 20;
         int y = this.topPos + 40;
         int maxCookingTime = this.menu.getMaxCookingTime();
-        pGuiGraphics.enableScissor(x, y, x + 136 * cookingTime / maxCookingTime, y);
+        pGuiGraphics.enableScissor(x, y, x + RUNNING_BAR_WIDTH * cookingTime / maxCookingTime, y + RUNNING_BAR_HEIGHT);
         pGuiGraphics.blit(STOCK_POT_GUI_WIDGET, this.leftPos + 20, this.topPos + 40, RUNNING_BAR_X_OFFSET, RUNNING_BAR_Y_OFFSET, RUNNING_BAR_WIDTH, RUNNING_BAR_HEIGHT);
         pGuiGraphics.disableScissor();
     }

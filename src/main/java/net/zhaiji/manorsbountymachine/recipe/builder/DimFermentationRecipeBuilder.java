@@ -21,7 +21,7 @@ public class DimFermentationRecipeBuilder extends BaseFermentationRecipeBuilder 
     }
 
     @Override
-    public String getRecipeLocation() {
+    public String getRecipePath() {
         return "dim_fermentation/";
     }
 }

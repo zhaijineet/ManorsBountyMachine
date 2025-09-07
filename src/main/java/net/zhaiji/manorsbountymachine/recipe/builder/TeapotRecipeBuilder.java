@@ -1,6 +1,5 @@
 package net.zhaiji.manorsbountymachine.recipe.builder;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -8,14 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
-public class TeapotRecipeBuilder {
+public class TeapotRecipeBuilder extends BaseRecipeBuilder {
     public final NonNullList<Ingredient> input;
     public final Item output;
 
@@ -24,54 +18,40 @@ public class TeapotRecipeBuilder {
         this.output = output;
     }
 
-    public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
-        ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix("teapot/").getPath());
-        pRecipeConsumer.accept(new TeapotRecipeBuilder.Result(recipePath, this.input, this.output));
+    @Override
+    public String getRecipePath() {
+        return "teapot/";
     }
 
-    public static class Result implements FinishedRecipe {
-        public final ResourceLocation id;
+    @Override
+    public RecipeSerializer<?> getRecipeSerializer() {
+        return InitRecipe.TEAPOT_RECIPE_SERIALIZER.get();
+    }
+
+    @Override
+    public FinishedRecipe createResult(ResourceLocation path, RecipeSerializer<?> recipeSerializer) {
+        return new Result(
+                path,
+                recipeSerializer,
+                this.input,
+                this.output
+        );
+    }
+
+    public static class Result extends BaseResult {
         public final NonNullList<Ingredient> input;
         public final Item output;
 
-        public Result(ResourceLocation id, NonNullList<Ingredient> input, Item output) {
-            this.id = id;
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, NonNullList<Ingredient> input, Item output) {
+            super(id, recipeSerializer);
             this.input = input;
             this.output = output;
         }
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            JsonArray input = new JsonArray();
-            for (Ingredient ingredient : this.input) {
-                input.add(ingredient.toJson());
-            }
-            pJson.add("input", input);
-            JsonObject output = new JsonObject();
-            output.addProperty("item", ForgeRegistries.ITEMS.getKey(this.output).toString());
-            pJson.add("output", output);
-        }
-
-        @Override
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getType() {
-            return InitRecipe.TEAPOT_RECIPE_SERIALIZER.get();
-        }
-
-        @Nullable
-        @Override
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return null;
+            this.addInput(pJson, this.input);
+            this.addOutput(pJson, this.output);
         }
     }
 }

@@ -133,7 +133,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
 //                this.level.playSound(null, this.getBlockPos(), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
 //            }
             this.setItem(MAIN_OUTPUT, output);
-            ItemStack outgrowth = blenderRecipe.getOutgrowth(this.level);
+            ItemStack outgrowth = blenderRecipe.rollForOutgrowth(this.level);
             if (!outgrowth.isEmpty()) {
                 this.setItem(SECONDARY_OUTPUT, outgrowth);
             }

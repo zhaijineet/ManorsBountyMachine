@@ -21,7 +21,7 @@ public class NormalFermentationRecipeBuilder extends BaseFermentationRecipeBuild
     }
 
     @Override
-    public String getRecipeLocation() {
+    public String getRecipePath() {
         return "normal_fermentation/";
     }
 }

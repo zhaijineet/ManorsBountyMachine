@@ -52,7 +52,7 @@ public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
                 });
                 this.items.remove(this.craftIndex);
                 this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
-                this.dropItemStack(cuttingBoardSingleRecipe.getOutgrowth(this.level));
+                this.dropItemStack(cuttingBoardSingleRecipe.rollForOutgrowth(this.level));
                 this.craftIndex--;
                 flag = true;
                 break;

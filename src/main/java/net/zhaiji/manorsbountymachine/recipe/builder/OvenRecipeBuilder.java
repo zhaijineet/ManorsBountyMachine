@@ -1,6 +1,5 @@
 package net.zhaiji.manorsbountymachine.recipe.builder;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -8,87 +7,68 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
-public class OvenRecipeBuilder {
+public class OvenRecipeBuilder extends BaseRecipeBuilder {
     public final int temperature;
     public final int cookingTime;
     public final NonNullList<Ingredient> input;
     public final Item output;
-    public final int count;
+    public final int outputCount;
 
-    public OvenRecipeBuilder(int temperature, int cookingTime, NonNullList<Ingredient> input, Item output, int count) {
+    public OvenRecipeBuilder(int temperature, int cookingTime, NonNullList<Ingredient> input, Item output, int outputCount) {
         this.temperature = temperature;
         this.cookingTime = cookingTime;
         this.input = input;
         this.output = output;
-        this.count = count;
+        this.outputCount = outputCount;
     }
 
-    public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
-        ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix("oven/").getPath());
-        pRecipeConsumer.accept(new OvenRecipeBuilder.Result(recipePath, this.temperature, this.cookingTime, this.input, this.output, this.count));
+    @Override
+    public String getRecipePath() {
+        return "oven/";
     }
 
-    public static class Result implements FinishedRecipe {
-        public final ResourceLocation id;
+    @Override
+    public RecipeSerializer<?> getRecipeSerializer() {
+        return InitRecipe.OVEN_RECIPE_SERIALIZER.get();
+    }
+
+    @Override
+    public FinishedRecipe createResult(ResourceLocation path, RecipeSerializer<?> recipeSerializer) {
+        return new Result(
+                path,
+                recipeSerializer,
+                this.temperature,
+                this.cookingTime,
+                this.input,
+                this.output,
+                this.outputCount
+        );
+    }
+
+    public static class Result extends BaseResult {
         public final int temperature;
         public final int cookingTime;
         public final NonNullList<Ingredient> input;
         public final Item output;
-        public final int count;
+        public final int outputCount;
 
-        public Result(ResourceLocation id, int temperature, int cookingTime, NonNullList<Ingredient> input, Item output, int count) {
-            this.id = id;
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, int temperature, int cookingTime, NonNullList<Ingredient> input, Item output, int outputCount) {
+            super(id, recipeSerializer);
             this.temperature = temperature;
             this.cookingTime = cookingTime;
             this.input = input;
             this.output = output;
-            this.count = count;
+            this.outputCount = outputCount;
         }
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            pJson.addProperty("temperature", this.temperature);
-            pJson.addProperty("cookingTime", this.cookingTime);
-            JsonArray input = new JsonArray();
-            for (Ingredient ingredient : this.input) {
-                input.add(ingredient.toJson());
-            }
-            pJson.add("input", input);
-            JsonObject output = new JsonObject();
-            output.addProperty("item", ForgeRegistries.ITEMS.getKey(this.output).toString());
-            if (this.count > 1) {
-                output.addProperty("count", this.count);
-            }
-            pJson.add("output", output);
-        }
-
-        @Override
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getType() {
-            return InitRecipe.OVEN_RECIPE_SERIALIZER.get();
-        }
-
-        @Nullable
-        @Override
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return null;
+            this.addNumber(pJson, "temperature", this.temperature);
+            this.addMaxCookingTime(pJson, this.cookingTime);
+            this.addInput(pJson, this.input);
+            this.addOutput(pJson, this.output, this.outputCount);
         }
     }
 }

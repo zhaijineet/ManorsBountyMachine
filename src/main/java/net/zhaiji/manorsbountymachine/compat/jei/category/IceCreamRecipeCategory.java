@@ -60,16 +60,16 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, IceCreamRecipe recipe, IFocusGroup focuses) {
         builder.addInputSlot(7, 28)
-                .addIngredients(recipe.input.get(0));
+                .addIngredients(recipe.container);
         builder.addInputSlot(30, 28)
                 .addItemLike(recipe.fluidStack.getFluid().getBucket());
-        if (!recipe.input.get(1).isEmpty()) {
+        if (!recipe.input.get(0).isEmpty()) {
             builder.addInputSlot(54, 28)
-                    .addIngredients(recipe.input.get(1));
+                    .addIngredients(recipe.input.get(0));
         }
         if (recipe.isTowFlavor) {
             builder.addInputSlot(54, 50)
-                    .addIngredients(recipe.input.get(2));
+                    .addIngredients(recipe.input.get(1));
         }
         builder.addOutputSlot(109, 28)
                 .addItemStack(recipe.output);
@@ -79,7 +79,7 @@ public class IceCreamRecipeCategory implements IRecipeCategory<IceCreamRecipe> {
     public void draw(IceCreamRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         this.guiHelper.createDrawable(ICE_CREAM_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
-        if (recipe.input.get(1).isEmpty()) {
+        if (recipe.input.get(0).isEmpty()) {
             this.guiHelper.createDrawable(IceCreamMachineScreen.ICE_CREAM_MACHINE_GUI, BAN_SLOT_X_OFFSET, BAN_SLOT_Y_OFFSET, BAN_SLOT_WIDTH, BAN_SLOT_HEIGHT).draw(guiGraphics, 53, 27);
         }
         if (!recipe.isTowFlavor) {

@@ -1,66 +1,43 @@
 package net.zhaiji.manorsbountymachine.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
-public class ShakerRecipe implements Recipe<RecipeWrapper> {
-    public final ResourceLocation id;
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.ITEMS_SIZE;
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.OUTPUT;
+
+public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements OneInputRecipe {
     public final NonNullList<Ingredient> input;
-    public final ItemStack output;
 
     public ShakerRecipe(ResourceLocation id, NonNullList<Ingredient> input, ItemStack output) {
-        this.id = id;
+        super(id, output);
         this.input = input;
-        this.output = output;
     }
 
     public boolean matches(RecipeWrapper container) {
-        if (container.getItem(ShakerCapabilityProvider.OUTPUT).isEmpty()) return false;
+        if (container.getItem(OUTPUT).isEmpty()) return false;
         int size = container.getContainerSize();
         NonNullList<ItemStack> input = NonNullList.withSize(size, ItemStack.EMPTY);
         for (int i = 0; i < size; i++) {
             input.set(i, container.getItem(i));
         }
-        return RecipeMatcher.findMatches(input, this.input) != null;
+        return this.isInputMatch(input);
     }
 
     @Override
     public boolean matches(RecipeWrapper pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         return this.matches(pContainer);
-    }
-
-    @Override
-    public ItemStack assemble(RecipeWrapper pContainer, RegistryAccess pRegistryAccess) {
-        return this.output.copy();
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return this.output;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Override
@@ -73,32 +50,34 @@ public class ShakerRecipe implements Recipe<RecipeWrapper> {
         return InitRecipe.SHAKER_RECIPE_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<ShakerRecipe> {
+    @Override
+    public NonNullList<Ingredient> getInput() {
+        return this.input;
+    }
+
+    public static class Serializer extends BaseRecipeSerializer<ShakerRecipe> {
         @Override
         public ShakerRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-            JsonArray inputsArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "input");
-            NonNullList<Ingredient> input = NonNullList.withSize(ShakerCapabilityProvider.ITEMS_SIZE, Ingredient.EMPTY);
-            for (int i = 0; i < inputsArray.size(); i++) {
-                input.set(i, Ingredient.fromJson(inputsArray.get(i)));
-            }
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-            return new ShakerRecipe(pRecipeId, input, output);
+            return new ShakerRecipe(
+                    pRecipeId,
+                    this.getInput(pSerializedRecipe, ITEMS_SIZE),
+                    this.getOutput(pSerializedRecipe)
+            );
         }
 
         @Override
         public @Nullable ShakerRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            NonNullList<Ingredient> input = NonNullList.withSize(ShakerCapabilityProvider.ITEMS_SIZE, Ingredient.EMPTY);
-            input.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
-            ItemStack output = pBuffer.readItem();
-            return new ShakerRecipe(pRecipeId, input, output);
+            return new ShakerRecipe(
+                    pRecipeId,
+                    this.getInput(pBuffer, ITEMS_SIZE),
+                    this.getOutput(pBuffer)
+            );
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, ShakerRecipe pRecipe) {
-            for (Ingredient ingredient : pRecipe.input) {
-                ingredient.toNetwork(pBuffer);
-            }
-            pBuffer.writeItem(pRecipe.output);
+            this.toInput(pBuffer, pRecipe.input);
+            this.toOutput(pBuffer, pRecipe.output);
         }
     }
 }

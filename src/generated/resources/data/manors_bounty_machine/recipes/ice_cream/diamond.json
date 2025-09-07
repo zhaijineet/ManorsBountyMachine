@@ -1,14 +1,13 @@
 {
   "type": "manors_bounty_machine:ice_cream",
+  "container": {
+    "item": "minecraft:apple"
+  },
   "fluid": {
     "Amount": 250,
     "FluidName": "minecraft:water"
   },
-  "input": [
-    {
-      "item": "minecraft:apple"
-    }
-  ],
+  "input": [],
   "output": {
     "item": "minecraft:diamond"
   }

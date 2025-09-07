@@ -40,6 +40,7 @@ public class IceCreamMachineBlockEntity extends BaseMachineBlockEntity {
     public static final int LEFT_INPUT_SLOT = 2;
     public static final int RIGHT_INPUT_SLOT = 3;
     public static final int[] INPUT_SLOTS = {OUTPUT_SLOT, LEFT_INPUT_SLOT, RIGHT_INPUT_SLOT};
+    public static final int[] MATERIAL_SLOTS = {LEFT_INPUT_SLOT, RIGHT_INPUT_SLOT};
     public final RecipeManager.CachedCheck<IceCreamMachineBlockEntity, IceCreamRecipe> recipeCheck;
     public final FluidTank fluidTank = new FluidTank(3000, ManorsBountyCompat::isIceCreamFluid) {
         @Override

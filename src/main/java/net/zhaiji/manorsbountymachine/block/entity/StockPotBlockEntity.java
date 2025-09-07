@@ -119,6 +119,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
                 pBlockEntity.level.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.STOCK_POT_RUNNING.get(), SoundSource.BLOCKS);
                 pBlockEntity.playSoundCooldown += SOUND_TIME;
             }
+            pBlockEntity.playSoundCooldown--;
             pBlockEntity.setChanged();
         }
     }

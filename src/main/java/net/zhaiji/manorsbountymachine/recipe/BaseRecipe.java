@@ -16,6 +16,11 @@ public abstract class BaseRecipe<T extends Container> implements Recipe<T> {
     }
 
     @Override
+    public ItemStack assemble(T pContainer, RegistryAccess pRegistryAccess) {
+        return this.output.copy();
+    }
+
+    @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
         return true;
     }

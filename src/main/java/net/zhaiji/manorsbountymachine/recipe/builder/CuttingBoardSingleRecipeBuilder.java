@@ -7,14 +7,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
-public class CuttingBoardSingleRecipeBuilder {
+public class CuttingBoardSingleRecipeBuilder extends BaseRecipeBuilder {
     public final Ingredient tool;
     public final Ingredient input;
     public final Item output;
@@ -43,13 +38,31 @@ public class CuttingBoardSingleRecipeBuilder {
         this.outgrowthChance = outgrowthChance;
     }
 
-    public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
-        ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix("cutting_board_single/").getPath());
-        pRecipeConsumer.accept(new CuttingBoardSingleRecipeBuilder.Result(recipePath, this.tool, this.input, this.output, this.outputCount, this.outgrowth, this.outgrowthChance));
+    @Override
+    public String getRecipePath() {
+        return "cutting_board_single/";
     }
 
-    public static class Result implements FinishedRecipe {
-        public final ResourceLocation id;
+    @Override
+    public RecipeSerializer<?> getRecipeSerializer() {
+        return InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_SERIALIZER.get();
+    }
+
+    @Override
+    public FinishedRecipe createResult(ResourceLocation path, RecipeSerializer<?> recipeSerializer) {
+        return new Result(
+                path,
+                recipeSerializer,
+                this.tool,
+                this.input,
+                this.output,
+                this.outputCount,
+                this.outgrowth,
+                this.outgrowthChance
+        );
+    }
+
+    public static class Result extends BaseResult {
         public final Ingredient tool;
         public final Ingredient input;
         public final Item output;
@@ -57,8 +70,8 @@ public class CuttingBoardSingleRecipeBuilder {
         public final Item outgrowth;
         public final float outgrowthChance;
 
-        public Result(ResourceLocation id, Ingredient tool, Ingredient input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-            this.id = id;
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, Ingredient tool, Ingredient input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+            super(id, recipeSerializer);
             this.tool = tool;
             this.input = input;
             this.output = output;
@@ -69,42 +82,13 @@ public class CuttingBoardSingleRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            pJson.add("tool", this.tool.toJson());
-            pJson.add("input", this.input.toJson());
-            JsonObject output = new JsonObject();
-            output.addProperty("item", ForgeRegistries.ITEMS.getKey(this.output).toString());
-            if (this.outputCount > 1) {
-                output.addProperty("count", this.outputCount);
-            }
-            pJson.add("output", output);
+            this.addIngredient(pJson, "tool", this.tool);
+            this.addInput(pJson, this.input);
+            this.addOutput(pJson, this.output, this.outputCount);
             if (this.outgrowth != Items.AIR) {
-                JsonObject outgrowth = new JsonObject();
-                outgrowth.addProperty("item", ForgeRegistries.ITEMS.getKey(this.outgrowth).toString());
-                pJson.add("outgrowth", outgrowth);
-                pJson.addProperty("outgrowthChance", this.outgrowthChance);
+                this.addOutgrowth(pJson, this.outgrowth);
+                this.addOutgrowthChance(pJson, this.outgrowthChance);
             }
-        }
-
-        @Override
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getType() {
-            return InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_SERIALIZER.get();
-        }
-
-        @Nullable
-        @Override
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return null;
         }
     }
 }

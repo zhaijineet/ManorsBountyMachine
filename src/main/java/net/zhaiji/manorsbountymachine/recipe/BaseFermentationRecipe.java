@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.INPUT_SLOTS;
+import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.*;
 
 public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEntity> implements CookingTimeRecipe, HasContainerItem, OneInputRecipe {
     public final FermenterBlockEntity.LightState lightState;
@@ -31,7 +31,7 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
     public boolean matches(FermenterBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         if (this.lightState != pContainer.getLightState()) return false;
-        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(FermenterBlockEntity.CONTAINER)))
+        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER)))
             return false;
         return this.isInputMatch(pContainer.getInput());
     }
@@ -41,7 +41,7 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
         ItemStack output = this.output.copy();
         int count = output.getCount();
         int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
-        for (int slot : FermenterBlockEntity.INPUT_SLOTS) {
+        for (int slot : INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
             if (input.isEmpty()) continue;
             multiple = Math.min(multiple, input.getCount());

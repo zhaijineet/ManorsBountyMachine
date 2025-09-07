@@ -1,52 +1,45 @@
 package net.zhaiji.manorsbountymachine.recipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
-public class OvenRecipe implements Recipe<OvenBlockEntity> {
-    public final ResourceLocation id;
-    public final int temperature;
-    public final int cookingTime;
-    public final NonNullList<Ingredient> input;
-    public final ItemStack output;
+import static net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity.INPUT_SLOTS;
 
-    public OvenRecipe(ResourceLocation id, int temperature, int cookingTime, NonNullList<Ingredient> input, ItemStack output) {
-        this.id = id;
+public class OvenRecipe extends BaseRecipe<OvenBlockEntity> implements CookingTimeRecipe, OneInputRecipe {
+    public final int temperature;
+    public final int maxCookingTime;
+    public final NonNullList<Ingredient> input;
+
+    public OvenRecipe(ResourceLocation id, int temperature, int maxCookingTime, NonNullList<Ingredient> input, ItemStack output) {
+        super(id, output);
         this.temperature = temperature;
-        this.cookingTime = cookingTime;
+        this.maxCookingTime = maxCookingTime;
         this.input = input;
-        this.output = output;
     }
 
     public boolean isTemperatureMatch(OvenBlockEntity pContainer) {
         return this.temperature == pContainer.temperature.temperature;
     }
 
-    public boolean isCookingTimeMatch(OvenBlockEntity pContainer) {
-        return this.cookingTime <= pContainer.maxCookingTime.cookingTime;
-    }
-
     public boolean isStateMatch(OvenBlockEntity pContainer) {
-        return this.isTemperatureMatch(pContainer) && this.isCookingTimeMatch(pContainer);
+        return this.isTemperatureMatch(pContainer) && this.isCookingTimeMatch(pContainer.cookingTime);
     }
 
     @Override
     public boolean matches(OvenBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
-        if (!pContainer.getItem(OvenBlockEntity.OUTPUT).isEmpty()) return false;
-        return RecipeMatcher.findMatches(pContainer.getInput(), this.input) != null;
+        return this.isInputMatch(pContainer.getInput());
     }
 
     @Override
@@ -65,21 +58,6 @@ public class OvenRecipe implements Recipe<OvenBlockEntity> {
     }
 
     @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return this.output;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return InitRecipe.OVEN_RECIPE_SERIALIZER.get();
     }
@@ -89,38 +67,45 @@ public class OvenRecipe implements Recipe<OvenBlockEntity> {
         return InitRecipe.OVEN_RECIPE_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<OvenRecipe> {
+    @Override
+    public int getMaxCookingTime() {
+        return this.maxCookingTime;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getInput() {
+        return this.input;
+    }
+
+    public static class Serializer extends BaseRecipeSerializer<OvenRecipe> {
         @Override
         public OvenRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-            int temperature = GsonHelper.getAsInt(pSerializedRecipe, "temperature");
-            int cookingTime = GsonHelper.getAsInt(pSerializedRecipe, "cookingTime");
-            JsonArray inputsArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "input");
-            NonNullList<Ingredient> input = NonNullList.withSize(OvenBlockEntity.INPUT_SLOTS.length, Ingredient.EMPTY);
-            for (int i = 0; i < inputsArray.size(); i++) {
-                input.set(i, Ingredient.fromJson(inputsArray.get(i)));
-            }
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-            return new OvenRecipe(pRecipeId, temperature, cookingTime, input, output);
+            return new OvenRecipe(
+                    pRecipeId,
+                    this.getInt(pSerializedRecipe, "temperature"),
+                    this.getCookingTime(pSerializedRecipe),
+                    this.getInput(pSerializedRecipe, INPUT_SLOTS.length),
+                    this.getOutput(pSerializedRecipe)
+            );
         }
 
         @Override
         public @Nullable OvenRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            int temperature = pBuffer.readInt();
-            int cookingTime = pBuffer.readInt();
-            NonNullList<Ingredient> input = NonNullList.withSize(OvenBlockEntity.INPUT_SLOTS.length, Ingredient.EMPTY);
-            input.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
-            ItemStack output = pBuffer.readItem();
-            return new OvenRecipe(pRecipeId, temperature, cookingTime, input, output);
+            return new OvenRecipe(
+                    pRecipeId,
+                    this.getInt(pBuffer),
+                    this.getCookingTime(pBuffer),
+                    this.getInput(pBuffer, INPUT_SLOTS.length),
+                    this.getOutput(pBuffer)
+            );
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, OvenRecipe pRecipe) {
-            pBuffer.writeInt(pRecipe.temperature);
-            pBuffer.writeInt(pRecipe.cookingTime);
-            for (Ingredient ingredient : pRecipe.input) {
-                ingredient.toNetwork(pBuffer);
-            }
-            pBuffer.writeItem(pRecipe.output);
+            this.toInt(pBuffer, pRecipe.temperature);
+            this.toCookingTime(pBuffer, pRecipe.maxCookingTime);
+            this.toInput(pBuffer, pRecipe.input);
+            this.toOutput(pBuffer, pRecipe.output);
         }
     }
 }

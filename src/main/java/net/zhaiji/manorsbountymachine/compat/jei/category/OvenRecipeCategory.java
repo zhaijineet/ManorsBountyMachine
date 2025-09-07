@@ -126,7 +126,7 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
         guiGraphics.pose().scale(scale, scale, scale);
         int temperatureIndex = this.getTemperatureIndex(recipe.temperature) - 1;
         this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET, TEMPERATURE_Y_OFFSET + TEMPERATURE_HEIGHT * temperatureIndex, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, (int) (16 / scale), (int) (2 / scale));
-        int cookingTimeIndex = this.getCookingTimeIndex(recipe.cookingTime) - 1;
+        int cookingTimeIndex = this.getCookingTimeIndex(recipe.maxCookingTime) - 1;
         this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, (int) (122 / scale), (int) (2 / scale));
         guiGraphics.pose().popPose();
         Font font = Minecraft.getInstance().font;
@@ -134,7 +134,7 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
             guiGraphics.renderTooltip(font, Component.literal(recipe.temperature + "°"), (int) mouseX, (int) mouseY);
         }
         if (TIME_RECT.contains((int) mouseX, (int) mouseY)) {
-            guiGraphics.renderTooltip(font, Component.literal(recipe.cookingTime / 20 + "s"), (int) mouseX, (int) mouseY);
+            guiGraphics.renderTooltip(font, Component.literal(recipe.maxCookingTime / 20 + "s"), (int) mouseX, (int) mouseY);
         }
     }
 }

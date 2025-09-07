@@ -6,14 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
-public class SlowFryRecipeBuilder {
+public class SlowFryRecipeBuilder extends BaseRecipeBuilder {
     public final Ingredient input;
     public final Item output;
 
@@ -22,50 +17,40 @@ public class SlowFryRecipeBuilder {
         this.output = output;
     }
 
-    public void save(Consumer<FinishedRecipe> pRecipeConsumer, ResourceLocation pLocation) {
-        ResourceLocation recipePath = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, pLocation.withPrefix("slow_fry/").getPath());
-        pRecipeConsumer.accept(new SlowFryRecipeBuilder.Result(recipePath, this.input, this.output));
+    @Override
+    public String getRecipePath() {
+        return "slow_fry/";
     }
 
-    public static class Result implements FinishedRecipe {
-        public final ResourceLocation id;
+    @Override
+    public RecipeSerializer<?> getRecipeSerializer() {
+        return InitRecipe.SLOW_FRY_RECIPE_SERIALIZER.get();
+    }
+
+    @Override
+    public FinishedRecipe createResult(ResourceLocation path, RecipeSerializer<?> recipeSerializer) {
+        return new Result(
+                path,
+                recipeSerializer,
+                this.input,
+                this.output
+        );
+    }
+
+    public static class Result extends BaseResult {
         public final Ingredient input;
         public final Item output;
 
-        public Result(ResourceLocation id, Ingredient input, Item output) {
-            this.id = id;
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, Ingredient input, Item output) {
+            super(id, recipeSerializer);
             this.input = input;
             this.output = output;
         }
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            pJson.add("input", input.toJson());
-            JsonObject output = new JsonObject();
-            output.addProperty("item", ForgeRegistries.ITEMS.getKey(this.output).toString());
-            pJson.add("output", output);
-        }
-
-        @Override
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getType() {
-            return InitRecipe.SLOW_FRY_RECIPE_SERIALIZER.get();
-        }
-
-        @Nullable
-        @Override
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return null;
+            this.addInput(pJson, this.input);
+            this.addOutput(pJson, this.output);
         }
     }
 }

@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.fluids.FluidStack;
 
 public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements RecipeSerializer<T> {
     public int getInt(JsonObject serializedRecipe, String name) {
@@ -25,6 +27,14 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
 
     public float getFloat(FriendlyByteBuf buffer) {
         return buffer.readFloat();
+    }
+
+    public boolean getBoolean(JsonObject serializedRecipe, String name) {
+        return GsonHelper.getAsBoolean(serializedRecipe, name);
+    }
+
+    public boolean getBoolean(FriendlyByteBuf buffer) {
+        return buffer.readBoolean();
     }
 
     public Ingredient getIngredient(JsonObject serializedRecipe, String name) {
@@ -50,6 +60,12 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return ingredients;
     }
 
+    public NonNullList<Ingredient> getNullableIngredients(JsonObject serializedRecipe, String name, int size) {
+        return serializedRecipe.has(name)
+                ? this.getIngredients(serializedRecipe, name, size)
+                : NonNullList.withSize(size, Ingredient.EMPTY);
+    }
+
     public NonNullList<Ingredient> getIngredients(FriendlyByteBuf buffer, int size) {
         NonNullList<Ingredient> ingredients = NonNullList.withSize(size, Ingredient.EMPTY);
         ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buffer));
@@ -68,6 +84,17 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return serializedRecipe.has(name)
                 ? this.getItem(serializedRecipe, name)
                 : ItemStack.EMPTY;
+    }
+
+    public FluidStack getFluidStack(JsonObject serializedRecipe) {
+        return FluidStack.CODEC.parse(
+                JsonOps.INSTANCE,
+                GsonHelper.getAsJsonObject(serializedRecipe, "fluid")
+        ).get().left().orElse(FluidStack.EMPTY);
+    }
+
+    public FluidStack getFluidStack(FriendlyByteBuf buffer) {
+        return buffer.readFluidStack();
     }
 
     public int getCookingTime(JsonObject serializedRecipe) {
@@ -103,7 +130,7 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
     }
 
     public NonNullList<Ingredient> getMainInput(JsonObject serializedRecipe, int size) {
-        return this.getIngredients(serializedRecipe, "mainInput", size);
+        return this.getNullableIngredients(serializedRecipe, "mainInput", size);
     }
 
     public NonNullList<Ingredient> getMainInput(FriendlyByteBuf buffer, int size) {
@@ -111,7 +138,7 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
     }
 
     public NonNullList<Ingredient> getSecondaryInput(JsonObject serializedRecipe, int size) {
-        return this.getIngredients(serializedRecipe, "secondaryInput", size);
+        return this.getNullableIngredients(serializedRecipe, "secondaryInput", size);
     }
 
     public NonNullList<Ingredient> getSecondaryInput(FriendlyByteBuf buffer, int size) {
@@ -134,8 +161,8 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return this.getItem(buffer);
     }
 
-    public float getOutgrowthChance(JsonObject serializedRecipe, ItemStack outgrowth) {
-        return outgrowth.isEmpty()
+    public float getOutgrowthChance(JsonObject serializedRecipe) {
+        return this.getOutgrowth(serializedRecipe).isEmpty()
                 ? 0
                 : this.getFloat(serializedRecipe, "outgrowthChance");
     }
@@ -152,6 +179,10 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         buffer.writeFloat(value);
     }
 
+    public void toBoolean(FriendlyByteBuf buffer, boolean value) {
+        buffer.writeBoolean(value);
+    }
+
     public void toIngredient(FriendlyByteBuf buffer, Ingredient ingredient) {
         ingredient.toNetwork(buffer);
     }
@@ -164,6 +195,10 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
 
     public void toItem(FriendlyByteBuf buffer, ItemStack itemStack) {
         buffer.writeItem(itemStack);
+    }
+
+    public void toFluidStack(FriendlyByteBuf buffer, FluidStack fluidStack) {
+        buffer.writeFluidStack(fluidStack);
     }
 
     public void toCookingTime(FriendlyByteBuf buffer, int value) {

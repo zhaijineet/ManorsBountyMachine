@@ -3,7 +3,6 @@ package net.zhaiji.manorsbountymachine.datagen;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -12,7 +11,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.recipe.builder.*;
 
@@ -31,123 +29,121 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         return NonNullList.of(Ingredient.EMPTY, ingredients);
     }
 
-    public static ResourceLocation getItemRegisterKey(Item item) {
-        return ForgeRegistries.ITEMS.getKey(item);
+    public static void iceCreamRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, FluidStack fluidStack, Item container, Item output, Item[] input) {
+        new IceCreamRecipeBuilder(fluidStack, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
-    public static void iceCreamRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, FluidStack fluidStack, Item output, Item... input) {
-        Ingredient[] ingredients = new Ingredient[input.length + 1];
-//        ingredients[0] = Ingredient.of(InitItem.ICE_CREAM_CONE.get());
-        ingredients[0] = Ingredient.of(Items.APPLE);
-        for (int i = 0; i < input.length; i++) {
-            ingredients[i + 1] = Ingredient.of(input[i]);
-        }
-        new IceCreamRecipeBuilder(fluidStack, NonNullList.of(Ingredient.EMPTY, ingredients), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+    public static void iceCreamRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, FluidStack fluidStack, Item output, Item[] input) {
+        new IceCreamRecipeBuilder(fluidStack, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void fastFryRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item input, Item output) {
-        new FastFryRecipeBuilder(Ingredient.of(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new FastFryRecipeBuilder(Ingredient.of(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void slowFryRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item input, Item output) {
-        new SlowFryRecipeBuilder(Ingredient.of(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new SlowFryRecipeBuilder(Ingredient.of(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void ovenRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, OvenBlockEntity.Temperature temperature, OvenBlockEntity.MaxCookingTime maxCookingTime, Item[] input, Item output, int count) {
-        new OvenRecipeBuilder(temperature.temperature, maxCookingTime.cookingTime, toIngredientList(input), output, count).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new OvenRecipeBuilder(temperature.temperature, maxCookingTime.cookingTime, toIngredientList(input), output, count).save(pFinishedRecipeConsumer, output);
     }
 
     public static void teapotRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] input, Item output) {
-        new TeapotRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new TeapotRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void dimFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
-        new DimFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new DimFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void dimFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
-        new DimFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new DimFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void normalFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
-        new NormalFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new NormalFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void normalFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
-        new NormalFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new NormalFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void brightFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
-        new BrightFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BrightFermentationRecipeBuilder(cookingTime, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void brightFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] input, Item output) {
-        new BrightFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BrightFermentationRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output) {
-        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output) {
-        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount) {
-        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount) {
-        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount).save(pFinishedRecipeConsumer, output);
     }
 
     public static void blenderRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] mainInput, Item[] secondaryInput, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new BlenderRecipeBuilder(Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, Item outgrowth, float outgrowthChance) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, int outputCount) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, Item[] input, Item output) {
-        new CuttingBoardMultipleRecipeBuilder(isShaped, toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new CuttingBoardMultipleRecipeBuilder(isShaped, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
+    }
+
+    public static void stockPotRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item container, Item[] mainInput, Item[] secondaryInput, Item output) {
+        new StockPotRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] input, Item output) {
-        new ShakerRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, getItemRegisterKey(output));
+        new ShakerRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.DIAMOND);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STICK, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.STONE, Items.APPLE, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.IRON_INGOT, Items.AIR, Items.APPLE);
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.GOLD_INGOT, Items.MILK_BUCKET, Items.APPLE);
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.DIAMOND, new Item[]{});
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STICK, new Item[]{Items.APPLE});
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STONE, new Item[]{Items.APPLE, Items.APPLE});
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.IRON_INGOT, new Item[]{Items.AIR, Items.APPLE});
+        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.APPLE});
 
         fastFryRecipe(pWriter, Items.APPLE, Items.STICK);
         slowFryRecipe(pWriter, Items.APPLE, Items.DIAMOND);
@@ -174,6 +170,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
         cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
         cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
+
+        stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
 
         shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT}, Items.APPLE);
         shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.MILK_BUCKET}, Items.DIAMOND);
