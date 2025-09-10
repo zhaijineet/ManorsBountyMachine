@@ -33,7 +33,7 @@ public class StockPotRecipe extends BaseRecipe<StockPotBlockEntity> implements C
     @Override
     public boolean matches(StockPotBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
-        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
+        if (!this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
         return this.isInputMatch(pContainer.getMainInput(), pContainer.getSecondaryInput());
     }
 

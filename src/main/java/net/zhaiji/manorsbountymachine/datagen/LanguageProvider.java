@@ -32,6 +32,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.BLENDER.get(), "Blender");
         add(InitBlock.CUTTING_BOARD.get(), "Cutting Board");
         add(InitBlock.STOCK_POT.get(), "Stock Pot");
+        add(InitBlock.COOKTOP.get(), "Cooktop");
+        add(InitBlock.SAUCEPAN_AND_WHISK.get(), "Saucepan and Whisk");
         add(InitItem.SHAKER.get(), "Shaker");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
@@ -79,6 +81,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.BLENDER.get(), "破壁机");
         add(InitBlock.CUTTING_BOARD.get(), "砧板");
         add(InitBlock.STOCK_POT.get(), "煮锅");
+        add(InitBlock.SAUCEPAN_AND_WHISK.get(), "平底锅与搅拌器");
+        add(InitBlock.COOKTOP.get(), "炉灶");
         add(InitItem.SHAKER.get(), "雪克壶");
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");

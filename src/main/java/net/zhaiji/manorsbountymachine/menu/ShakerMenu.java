@@ -28,7 +28,7 @@ public class ShakerMenu extends AbstractContainerMenu {
     }
 
     public ShakerMenu(int pContainerId, Inventory pPlayerInventory, IItemHandler itemHandler) {
-        super(InitMenuType.SHAKER_MENU.get(), pContainerId);
+        super(InitMenuType.SHAKER.get(), pContainerId);
         this.player = pPlayerInventory.player;
         this.playerInventory = pPlayerInventory;
         if (!this.canOpen()) {

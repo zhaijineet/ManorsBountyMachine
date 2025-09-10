@@ -32,16 +32,8 @@ public class StockPotMenu extends BaseMachineMenu {
         return this.data.get(0);
     }
 
-    public void setCookingTime(int value) {
-        this.data.set(0, value);
-    }
-
     public int getMaxCookingTime() {
         return this.data.get(1);
-    }
-
-    public void setMaxCookingTime(int value) {
-        this.data.set(1, value);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class FermenterMenu extends BaseMachineMenu {
     }
 
     public FermenterMenu(int pContainerId, Inventory pPlayerInventory, FermenterBlockEntity blockEntity, ContainerData data) {
-        super(InitMenuType.FERMENTER_MENU.get(), pContainerId, pPlayerInventory, blockEntity);
+        super(InitMenuType.FERMENTER.get(), pContainerId, pPlayerInventory, blockEntity);
         this.blockEntity = blockEntity;
         this.data = data;
         this.initSlot();
@@ -36,16 +36,8 @@ public class FermenterMenu extends BaseMachineMenu {
         return this.data.get(0);
     }
 
-    public void setCookingTime(int value) {
-        this.data.set(0, value);
-    }
-
     public int getMaxCookingTime() {
         return this.data.get(1);
-    }
-
-    public void setMaxCookingTime(int value) {
-        this.data.set(1, value);
     }
 
     @Override

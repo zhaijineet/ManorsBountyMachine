@@ -1,10 +1,12 @@
 {
   "block.manors_bounty_machine.blender": "Blender",
+  "block.manors_bounty_machine.cooktop": "Cooktop",
   "block.manors_bounty_machine.cutting_board": "Cutting Board",
   "block.manors_bounty_machine.fermenter": "Fermenter",
   "block.manors_bounty_machine.fryer": "Fryer",
   "block.manors_bounty_machine.ice_cream_machine": "Ice Cream Machine",
   "block.manors_bounty_machine.oven": "Oven",
+  "block.manors_bounty_machine.saucepan_and_whisk": "Saucepan and Whisk",
   "block.manors_bounty_machine.stock_pot": "Stock Pot",
   "block.manors_bounty_machine.teapot": "Teapot",
   "block.manors_bounty_machine.teapot.tooltip": "Teapot need heat source (#manors_bounty:teapot_heat_blocks or minecraft:magma_block) to start working",

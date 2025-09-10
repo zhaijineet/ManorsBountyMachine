@@ -30,6 +30,10 @@ public abstract class BaseResult implements FinishedRecipe {
         json.addProperty(name, value);
     }
 
+    public void addString(JsonObject json, String name, String value) {
+        json.addProperty(name, value);
+    }
+
     public void addIngredient(JsonObject json, String name, Ingredient ingredient) {
         json.add(name, ingredient.toJson());
     }

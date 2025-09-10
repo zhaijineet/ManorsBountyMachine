@@ -11,7 +11,8 @@ import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.*;
+import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.CONTAINER;
+import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.INPUT_SLOTS;
 
 public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEntity> implements CookingTimeRecipe, HasContainerItem, OneInputRecipe {
     public final FermenterBlockEntity.LightState lightState;
@@ -31,8 +32,7 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
     public boolean matches(FermenterBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         if (this.lightState != pContainer.getLightState()) return false;
-        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER)))
-            return false;
+        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER))) return false;
         return this.isInputMatch(pContainer.getInput());
     }
 

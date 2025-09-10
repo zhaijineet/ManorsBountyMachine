@@ -12,6 +12,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.recipe.SaucepanAndWhiskRecipe;
 import net.zhaiji.manorsbountymachine.recipe.builder.*;
 
 import java.util.function.Consumer;
@@ -133,6 +134,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new StockPotRecipeBuilder(cookingTime, Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
     }
 
+    public static void saucepanAndWhiskRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, SaucepanAndWhiskRecipe.HeatState heatState, Item container, Item[] mainInput, Item[] secondaryInput, Item output) {
+        new SaucepanAndWhiskRecipeBuilder(heatState, Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
+    }
+
     public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] input, Item output) {
         new ShakerRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
@@ -172,6 +177,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
 
         stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
+
+        saucepanAndWhiskRecipe(pWriter, SaucepanAndWhiskRecipe.HeatState.NEED, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
 
         shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT}, Items.APPLE);
         shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.MILK_BUCKET}, Items.DIAMOND);

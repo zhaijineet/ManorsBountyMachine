@@ -49,4 +49,9 @@ public class InitBlockEntityType {
             "stock_pot",
             () -> BlockEntityType.Builder.of(StockPotBlockEntity::new, InitBlock.STOCK_POT.get()).build(null)
     );
+
+    public static final RegistryObject<BlockEntityType<SaucepanAndWhiskBlockEntity>> SAUCEPAN_AND_WHISK = BLOCK_ENTITY_TYPE.register(
+            "saucepan_and_whisk",
+            () -> BlockEntityType.Builder.of(SaucepanAndWhiskBlockEntity::new, InitBlock.SAUCEPAN_AND_WHISK.get()).build(null)
+    );
 }

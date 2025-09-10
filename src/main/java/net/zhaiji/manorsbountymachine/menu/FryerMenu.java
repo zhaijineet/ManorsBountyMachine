@@ -25,7 +25,7 @@ public class FryerMenu extends BaseMachineMenu {
     }
 
     public FryerMenu(int pContainerId, Inventory pPlayerInventory, FryerBlockEntity blockEntity, ContainerData data) {
-        super(InitMenuType.FRYER_MENU.get(), pContainerId, pPlayerInventory, blockEntity);
+        super(InitMenuType.FRYER.get(), pContainerId, pPlayerInventory, blockEntity);
         this.fluidTank = blockEntity.fluidTank;
         this.blockEntity = blockEntity;
         this.data = data;
@@ -35,10 +35,6 @@ public class FryerMenu extends BaseMachineMenu {
 
     public int getCookingTime() {
         return this.data.get(0);
-    }
-
-    public void setCookingTime(int value) {
-        this.data.set(0, value);
     }
 
     @Override

@@ -15,14 +15,7 @@ public class BlockLootTable extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(InitBlock.ICE_CREAM_MACHINE.get());
-        this.dropSelf(InitBlock.FRYER.get());
-        this.dropSelf(InitBlock.OVEN.get());
-        this.dropSelf(InitBlock.TEAPOT.get());
-        this.dropSelf(InitBlock.FERMENTER.get());
-        this.dropSelf(InitBlock.BLENDER.get());
-        this.dropSelf(InitBlock.STOCK_POT.get());
-        this.dropSelf(InitBlock.CUTTING_BOARD.get());
+        InitBlock.BLOCK.getEntries().stream().map(RegistryObject::get).forEach(this::dropSelf);
     }
 
     @Override

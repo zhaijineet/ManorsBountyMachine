@@ -1,3 +1,6 @@
 {
-  "parent": "manors_bounty_machine:block/oven"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "manors_bounty_machine:item/oven"
+  }
 }

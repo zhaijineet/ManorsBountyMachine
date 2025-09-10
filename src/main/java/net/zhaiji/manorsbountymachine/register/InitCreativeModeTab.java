@@ -15,10 +15,13 @@ public class InitCreativeModeTab {
     public static final RegistryObject<CreativeModeTab> MANORS_BOUNTY_MACHINE_TAB = CREATIVE_MODE_TAB.register(
             "manors_bounty_machine_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> InitItem.ICE_CREAM_MACHINE.get().getDefaultInstance())
+                    .icon(() -> InitItem.MANORS_BOUNTY_MACHINE_ICON.get().getDefaultInstance())
                     .title(Component.translatable(MANORS_BOUNTY_MACHINE_TAB_TRANSLATABLE))
                     .displayItems((pParameters, pOutput) -> {
-                        InitItem.ITEM.getEntries().forEach(item -> pOutput.accept(item.get()));
+                        InitItem.ITEM.getEntries()
+                                .stream().map(RegistryObject::get)
+                                .filter(item -> !item.equals(InitItem.MANORS_BOUNTY_MACHINE_ICON.get()))
+                                .forEach(pOutput::accept);
                     })
                     .build()
     );

@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty_machine:custom/cooktop",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "0": "manors_bounty_machine:block/cooktop",
+    "all": "manors_bounty_machine:block/cooktop",
+    "particle": "manors_bounty_machine:block/cooktop"
+  }
+}

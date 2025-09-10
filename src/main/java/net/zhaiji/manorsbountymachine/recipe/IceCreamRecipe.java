@@ -42,9 +42,9 @@ public class IceCreamRecipe extends BaseRecipe<IceCreamMachineBlockEntity> imple
         if (!this.isFluidStackMatch(pContainer.fluidTank)) return false;
         if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(OUTPUT_SLOT))) return false;
         if (!this.hasContainer() && !ManorsBountyCompat.isIceCreamCone(pContainer.getItem(OUTPUT_SLOT))) return false;
-        boolean match = this.input.get(1).test(pContainer.getItem(LEFT_INPUT_SLOT));
+        boolean match = this.input.get(0).test(pContainer.getItem(LEFT_INPUT_SLOT));
         if (pContainer.isTwoFlavor) {
-            return match && this.input.get(2).test(pContainer.getItem(RIGHT_INPUT_SLOT));
+            return match && this.input.get(1).test(pContainer.getItem(RIGHT_INPUT_SLOT));
         }
         return match;
     }

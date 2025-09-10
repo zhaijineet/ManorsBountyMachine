@@ -20,7 +20,7 @@ public class TeapotMenu extends BaseMachineMenu {
     }
 
     public TeapotMenu(int pContainerId, Inventory pPlayerInventory, TeapotBlockEntity blockEntity, ContainerData data) {
-        super(InitMenuType.TEAPOT_MENU.get(), pContainerId, pPlayerInventory, blockEntity);
+        super(InitMenuType.TEAPOT.get(), pContainerId, pPlayerInventory, blockEntity);
         this.blockEntity = blockEntity;
         this.data = data;
         this.initSlot();
@@ -29,10 +29,6 @@ public class TeapotMenu extends BaseMachineMenu {
 
     public int getCookingTime() {
         return this.data.get(0);
-    }
-
-    public void setCookingTime(int value) {
-        this.data.set(0, value);
     }
 
     @Override

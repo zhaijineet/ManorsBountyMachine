@@ -18,7 +18,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
-public class CuttingBoardBlock extends AbstractMachineBlock {
+public class CuttingBoardBlock extends BaseMachineBlock {
     public CuttingBoardBlock() {
         super(InitBlock.getBlockProperties());
     }

@@ -29,6 +29,7 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         this.fermenter();
         this.cuttingBoard();
         this.stockPot();
+        this.cooktop();
     }
 
     public void iceCreamMachine() {
@@ -42,7 +43,6 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                 block,
                 modelFile
         );
-        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile);
     }
 
     public void fryer() {
@@ -60,7 +60,6 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                                 .modelFile(state.getValue(FryerBlock.HAS_OIL) ? modelFile2 : modelFile1)
                                 .build()
                 );
-        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile1);
     }
 
     public void oven() {
@@ -79,7 +78,6 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                                 .modelFile(state.getValue(OvenBlock.RUNNING) ? modelFile2 : modelFile1)
                                 .build()
                 );
-        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile1);
     }
 
     public void teapot() {
@@ -127,7 +125,6 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                 block,
                 modelFile
         );
-        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile);
     }
 
     public void stockPot() {
@@ -145,7 +142,19 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
                                 .modelFile(state.getValue(StockPotBlock.OPEN) ? modelFile2 : modelFile1)
                                 .build()
                 );
-        this.itemModels().getBuilder(registerKey.getPath()).parent(modelFile1);
+    }
+
+    public void cooktop() {
+        Block block = InitBlock.COOKTOP.get();
+        ResourceLocation registerKey = ForgeRegistries.BLOCKS.getKey(block);
+        String namespace = registerKey.getNamespace();
+        String path = registerKey.getPath();
+        String texture = namespace + ":block/" + path;
+        ModelFile modelFile = modelFile(path, texture);
+        this.horizontalBlock(
+                block,
+                modelFile
+        );
     }
 
     public ModelFile modelFile(String path, String texture) {

@@ -6,6 +6,8 @@
     "manors_bounty_machine:teapot",
     "manors_bounty_machine:fermenter",
     "manors_bounty_machine:blender",
-    "manors_bounty_machine:stock_pot"
+    "manors_bounty_machine:stock_pot",
+    "manors_bounty_machine:saucepan_and_whisk",
+    "manors_bounty_machine:cooktop"
   ]
 }

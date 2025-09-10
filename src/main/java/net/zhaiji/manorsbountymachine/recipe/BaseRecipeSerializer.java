@@ -37,6 +37,14 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return buffer.readBoolean();
     }
 
+    public String getString(JsonObject serializedRecipe, String name) {
+        return GsonHelper.getAsString(serializedRecipe, name);
+    }
+
+    public String getString(FriendlyByteBuf buffer) {
+        return buffer.readUtf();
+    }
+
     public Ingredient getIngredient(JsonObject serializedRecipe, String name) {
         return Ingredient.fromJson(GsonHelper.getAsJsonObject(serializedRecipe, name));
     }
@@ -181,6 +189,10 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
 
     public void toBoolean(FriendlyByteBuf buffer, boolean value) {
         buffer.writeBoolean(value);
+    }
+
+    public void toString(FriendlyByteBuf buffer, String value) {
+        buffer.writeUtf(value);
     }
 
     public void toIngredient(FriendlyByteBuf buffer, Ingredient ingredient) {

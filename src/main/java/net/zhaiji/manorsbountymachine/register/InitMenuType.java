@@ -12,27 +12,27 @@ import net.zhaiji.manorsbountymachine.menu.*;
 public class InitMenuType {
     public static final DeferredRegister<MenuType<?>> MENU_TYPE = DeferredRegister.create(Registries.MENU, ManorsBountyMachine.MOD_ID);
 
-    public static final RegistryObject<MenuType<IceCreamMachineMenu>> ICE_CREAM_MACHINE_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<IceCreamMachineMenu>> ICE_CREAM_MACHINE = MENU_TYPE.register(
             "ice_cream_machine_menu",
             () -> IForgeMenuType.create((IceCreamMachineMenu::new))
     );
 
-    public static final RegistryObject<MenuType<FryerMenu>> FRYER_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<FryerMenu>> FRYER = MENU_TYPE.register(
             "fryer",
             () -> IForgeMenuType.create((FryerMenu::new))
     );
 
-    public static final RegistryObject<MenuType<OvenMenu>> OVEN_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<OvenMenu>> OVEN = MENU_TYPE.register(
             "oven",
             () -> IForgeMenuType.create((OvenMenu::new))
     );
 
-    public static final RegistryObject<MenuType<TeapotMenu>> TEAPOT_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<TeapotMenu>> TEAPOT = MENU_TYPE.register(
             "teapot",
             () -> IForgeMenuType.create((TeapotMenu::new))
     );
 
-    public static final RegistryObject<MenuType<FermenterMenu>> FERMENTER_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<FermenterMenu>> FERMENTER = MENU_TYPE.register(
             "fermenter",
             () -> IForgeMenuType.create((FermenterMenu::new))
     );
@@ -47,7 +47,12 @@ public class InitMenuType {
             () -> IForgeMenuType.create((StockPotMenu::new))
     );
 
-    public static final RegistryObject<MenuType<ShakerMenu>> SHAKER_MENU = MENU_TYPE.register(
+    public static final RegistryObject<MenuType<SaucepanAndWhiskMenu>> SAUCEPAN_AND_WHISK = MENU_TYPE.register(
+            "saucepan_and_whisk",
+            () -> IForgeMenuType.create((SaucepanAndWhiskMenu::new))
+    );
+
+    public static final RegistryObject<MenuType<ShakerMenu>> SHAKER = MENU_TYPE.register(
             "shaker",
             () -> new MenuType<>(ShakerMenu::new, FeatureFlags.DEFAULT_FLAGS)
     );

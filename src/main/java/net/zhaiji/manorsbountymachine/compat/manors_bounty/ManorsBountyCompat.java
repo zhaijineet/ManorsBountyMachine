@@ -16,6 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
+import net.zhaiji.manorsbountymachine.block.CookTopBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,8 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> KNIVES = ItemTags.create(getForgeResourceLocation("tools/knives"));
     public static final TagKey<Item> ROLLING_PINS = ItemTags.create(getForgeResourceLocation("tools/rolling_pins"));
 
-    public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks.json"));
+    public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks"));
+    public static final TagKey<Block> SAUCEPAN_AND_WHISK_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("saucepan_and_whisk_heat_blocks"));
 
     public static final Map<String, String> STRING_MAP = Map.of(
             "olive_oil_bucket", "olive_oil",
@@ -242,6 +244,11 @@ public class ManorsBountyCompat {
 
     public static boolean isTeapotHeatBlock(BlockState blockState) {
         return blockState.is(TEAPOT_HEAT_BLOCKS) || blockState.is(Blocks.MAGMA_BLOCK);
+    }
+
+    public static boolean isSaucepanAndWhiskHeatBlock(BlockState blockState) {
+        boolean flag = blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
+        return blockState.is(SAUCEPAN_AND_WHISK_HEAT_BLOCKS) && flag;
     }
 
     public static boolean isOilFluid(FluidStack fluidStack) {

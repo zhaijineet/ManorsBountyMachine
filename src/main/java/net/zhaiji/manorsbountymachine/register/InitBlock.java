@@ -51,6 +51,16 @@ public class InitBlock {
             StockPotBlock::new
     );
 
+    public static final RegistryObject<Block> SAUCEPAN_AND_WHISK = BLOCK.register(
+            "saucepan_and_whisk",
+            SaucepanAndWhiskBlock::new
+    );
+
+    public static final RegistryObject<Block> COOKTOP = BLOCK.register(
+            "cooktop",
+            CookTopBlock::new
+    );
+
     public static BlockBehaviour.Properties getBlockProperties() {
         return BlockBehaviour.Properties.of().noOcclusion().strength(1);
     }

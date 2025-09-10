@@ -19,10 +19,10 @@ import net.zhaiji.manorsbountymachine.block.entity.BaseContainerBlockEntity;
 import net.zhaiji.manorsbountymachine.block.entity.BaseMachineBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractMachineBlock extends BaseEntityBlock {
+public abstract class BaseMachineBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public AbstractMachineBlock(Properties pProperties) {
+    public BaseMachineBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }

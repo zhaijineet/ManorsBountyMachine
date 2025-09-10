@@ -19,7 +19,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
-public class FryerBlock extends AbstractMachineBlock {
+public class FryerBlock extends BaseMachineBlock {
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
 
     public FryerBlock() {

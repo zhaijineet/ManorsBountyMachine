@@ -20,7 +20,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
-public class StockPotBlock extends AbstractMachineBlock {
+public class StockPotBlock extends BaseMachineBlock {
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public StockPotBlock() {

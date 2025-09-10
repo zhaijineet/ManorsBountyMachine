@@ -14,7 +14,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public class BlenderBlock extends AbstractMachineBlock {
+public class BlenderBlock extends BaseMachineBlock {
     public BlenderBlock() {
         super(InitBlock.getBlockProperties());
     }

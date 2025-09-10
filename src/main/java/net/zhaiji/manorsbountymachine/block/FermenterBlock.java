@@ -16,7 +16,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public class FermenterBlock extends AbstractMachineBlock {
+public class FermenterBlock extends BaseMachineBlock {
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public FermenterBlock() {

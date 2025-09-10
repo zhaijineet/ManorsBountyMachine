@@ -11,6 +11,11 @@ import net.zhaiji.manorsbountymachine.item.ShakerItem;
 public class InitItem {
     public static final DeferredRegister<Item> ITEM = DeferredRegister.create(Registries.ITEM, ManorsBountyMachine.MOD_ID);
 
+    public static final RegistryObject<Item> MANORS_BOUNTY_MACHINE_ICON = ITEM.register(
+            "manors_bounty_machine_icon",
+            () -> new Item(new Item.Properties())
+    );
+
     public static final RegistryObject<Item> ICE_CREAM_MACHINE = ITEM.register(
             "ice_cream_machine",
             () -> new BlockItem(InitBlock.ICE_CREAM_MACHINE.get(), new Item.Properties())
@@ -49,6 +54,16 @@ public class InitItem {
     public static final RegistryObject<Item> STOCK_POT = ITEM.register(
             "stock_pot",
             () -> new BlockItem(InitBlock.STOCK_POT.get(), new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> SAUCEPAN_AND_WHISK = ITEM.register(
+            "saucepan_and_whisk",
+            () -> new BlockItem(InitBlock.SAUCEPAN_AND_WHISK.get(), new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> COOKTOP = ITEM.register(
+            "cooktop",
+            () -> new BlockItem(InitBlock.COOKTOP.get(), new Item.Properties())
     );
 
     public static final RegistryObject<Item> SHAKER = ITEM.register(

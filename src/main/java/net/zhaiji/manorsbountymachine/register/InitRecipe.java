@@ -49,6 +49,9 @@ public class InitRecipe {
     public static final RegistryObject<RecipeType<StockPotRecipe>> STOCK_POT_RECIPE_TYPE = registerRecipeType("stock_pot");
     public static final RegistryObject<RecipeSerializer<StockPotRecipe>> STOCK_POT_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("stock_pot", StockPotRecipe.Serializer::new);
 
+    public static final RegistryObject<RecipeType<SaucepanAndWhiskRecipe>> SAUCEPAN_AND_WHISK_RECIPE_TYPE = registerRecipeType("saucepan_and_whisk");
+    public static final RegistryObject<RecipeSerializer<SaucepanAndWhiskRecipe>> SAUCEPAN_AND_WHISK_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("saucepan_and_whisk", SaucepanAndWhiskRecipe.Serializer::new);
+
     public static final RegistryObject<RecipeType<ShakerRecipe>> SHAKER_RECIPE_TYPE = registerRecipeType("shaker");
     public static final RegistryObject<RecipeSerializer<ShakerRecipe>> SHAKER_RECIPE_SERIALIZER = RECIPE_SERIALIZER.register("shaker", ShakerRecipe.Serializer::new);
 

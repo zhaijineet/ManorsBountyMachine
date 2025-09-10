@@ -19,7 +19,7 @@ public class IceCreamMachineMenu extends BaseMachineMenu {
     }
 
     public IceCreamMachineMenu(int pContainerId, Inventory pPlayerInventory, IceCreamMachineBlockEntity blockEntity) {
-        super(InitMenuType.ICE_CREAM_MACHINE_MENU.get(), pContainerId, pPlayerInventory, blockEntity);
+        super(InitMenuType.ICE_CREAM_MACHINE.get(), pContainerId, pPlayerInventory, blockEntity);
         this.fluidTank = blockEntity.fluidTank;
         this.blockEntity = blockEntity;
         this.initSlot();

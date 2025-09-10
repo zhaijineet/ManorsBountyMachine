@@ -17,14 +17,15 @@ import net.zhaiji.manorsbountymachine.register.InitMenuType;
 public class ClientEventHandler {
     public static void handlerFMLClientSetupEvent(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(InitMenuType.ICE_CREAM_MACHINE_MENU.get(), IceCreamMachineScreen::new);
-            MenuScreens.register(InitMenuType.FRYER_MENU.get(), FryerScreen::new);
-            MenuScreens.register(InitMenuType.OVEN_MENU.get(), OvenScreen::new);
-            MenuScreens.register(InitMenuType.TEAPOT_MENU.get(), TeapotScreen::new);
-            MenuScreens.register(InitMenuType.FERMENTER_MENU.get(), FermenterScreen::new);
+            MenuScreens.register(InitMenuType.ICE_CREAM_MACHINE.get(), IceCreamMachineScreen::new);
+            MenuScreens.register(InitMenuType.FRYER.get(), FryerScreen::new);
+            MenuScreens.register(InitMenuType.OVEN.get(), OvenScreen::new);
+            MenuScreens.register(InitMenuType.TEAPOT.get(), TeapotScreen::new);
+            MenuScreens.register(InitMenuType.FERMENTER.get(), FermenterScreen::new);
             MenuScreens.register(InitMenuType.BLENDER.get(), BlenderScreen::new);
             MenuScreens.register(InitMenuType.STOCK_POT.get(), StockPotScreen::new);
-            MenuScreens.register(InitMenuType.SHAKER_MENU.get(), ShakerScreen::new);
+            MenuScreens.register(InitMenuType.SAUCEPAN_AND_WHISK.get(), SaucepanAndWhiskScreen::new);
+            MenuScreens.register(InitMenuType.SHAKER.get(), ShakerScreen::new);
         });
     }
 

@@ -15,7 +15,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public class OvenBlock extends AbstractMachineBlock {
+public class OvenBlock extends BaseMachineBlock {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
     public OvenBlock() {

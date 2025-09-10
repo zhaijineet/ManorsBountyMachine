@@ -18,7 +18,7 @@ import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
-public class IceCreamMachineBlock extends AbstractMachineBlock {
+public class IceCreamMachineBlock extends BaseMachineBlock {
     public IceCreamMachineBlock() {
         super(InitBlock.getBlockProperties());
     }

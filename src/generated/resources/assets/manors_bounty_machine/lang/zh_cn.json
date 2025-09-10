@@ -1,10 +1,12 @@
 {
   "block.manors_bounty_machine.blender": "破壁机",
+  "block.manors_bounty_machine.cooktop": "炉灶",
   "block.manors_bounty_machine.cutting_board": "砧板",
   "block.manors_bounty_machine.fermenter": "发酵桶",
   "block.manors_bounty_machine.fryer": "炸锅",
   "block.manors_bounty_machine.ice_cream_machine": "冰淇淋机",
   "block.manors_bounty_machine.oven": "烤箱",
+  "block.manors_bounty_machine.saucepan_and_whisk": "平底锅与搅拌器",
   "block.manors_bounty_machine.stock_pot": "煮锅",
   "block.manors_bounty_machine.teapot": "茶壶",
   "block.manors_bounty_machine.teapot.tooltip": "茶壶需要热源(#manors_bounty:teapot_heat_blocks 或者 minecraft:magma_block)才能工作",

@@ -1,3 +1,6 @@
 {
-  "parent": "manors_bounty_machine:block/ice_cream_machine"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "manors_bounty_machine:item/ice_cream_machine"
+  }
 }

@@ -18,7 +18,7 @@ public class OvenMenu extends BaseMachineMenu {
     }
 
     public OvenMenu(int pContainerId, Inventory pPlayerInventory, OvenBlockEntity blockEntity, ContainerData data) {
-        super(InitMenuType.OVEN_MENU.get(), pContainerId, pPlayerInventory, blockEntity);
+        super(InitMenuType.OVEN.get(), pContainerId, pPlayerInventory, blockEntity);
         this.blockEntity = blockEntity;
         this.data = data;
         this.initSlot();
@@ -34,16 +34,8 @@ public class OvenMenu extends BaseMachineMenu {
         };
     }
 
-    public void setTemperature(int value) {
-        this.data.set(0, value);
-    }
-
     public int getCookingTime() {
         return this.data.get(1);
-    }
-
-    public void setCookingTime(int value) {
-        this.data.set(1, value);
     }
 
     public OvenBlockEntity.MaxCookingTime getMaxCookingTime() {

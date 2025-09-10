@@ -32,10 +32,6 @@ public class BlenderMenu extends BaseMachineMenu {
         return this.data.get(0);
     }
 
-    public void setCookingTime(int value) {
-        this.data.set(0, value);
-    }
-
     @Override
     public void initMachineInventorySlot() {
         this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {

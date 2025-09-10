@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 
@@ -12,8 +13,6 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
     @Override
     protected void registerModels() {
-        this.basicItem(InitItem.SHAKER.get());
-        this.basicItem(InitItem.TEAPOT.get());
-        this.basicItem(InitItem.FERMENTER.get());
+        InitItem.ITEM.getEntries().stream().map(RegistryObject::get).forEach(this::basicItem);
     }
 }
