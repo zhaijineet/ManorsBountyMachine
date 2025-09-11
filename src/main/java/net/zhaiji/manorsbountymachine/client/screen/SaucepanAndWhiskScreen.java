@@ -4,8 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
@@ -13,6 +15,7 @@ import net.zhaiji.manorsbountymachine.menu.SaucepanAndWhiskMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.TrySaucepanAndWhiskCraftPacket;
 import net.zhaiji.manorsbountymachine.recipe.SaucepanAndWhiskRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMenu> {
     public static final ResourceLocation SAUCEPAN_AND_WHISK_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/saucepan_and_whisk_gui.png");
@@ -115,8 +118,19 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                                 }
                             }
                             if (flag) {
-                                ManorsBountyMachinePacket.sendToServer(new TrySaucepanAndWhiskCraftPacket(blockEntity.getBlockPos()));
+                                BlockPos blockPos = this.blockEntity.getBlockPos();
+                                ManorsBountyMachinePacket.sendToServer(new TrySaucepanAndWhiskCraftPacket(blockPos));
                                 whiskStir = !whiskStir;
+                                blockEntity.getLevel().playLocalSound(
+                                        blockPos,
+                                        whiskStir
+                                                ? InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1.get()
+                                                : InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2.get(),
+                                        SoundSource.BLOCKS,
+                                        1,
+                                        1,
+                                        false
+                                );
                             }
                         }
                 ) {

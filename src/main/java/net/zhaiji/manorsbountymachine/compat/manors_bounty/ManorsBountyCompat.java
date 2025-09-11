@@ -247,8 +247,9 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isSaucepanAndWhiskHeatBlock(BlockState blockState) {
-        boolean flag = blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
-        return blockState.is(SAUCEPAN_AND_WHISK_HEAT_BLOCKS) && flag;
+        return true;
+//        boolean flag = blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
+//        return blockState.is(SAUCEPAN_AND_WHISK_HEAT_BLOCKS) && flag;
     }
 
     public static boolean isOilFluid(FluidStack fluidStack) {

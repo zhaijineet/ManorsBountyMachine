@@ -1,7 +1,6 @@
 package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +29,6 @@ public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContai
 
     @Override
     public boolean matches(CuttingBoardCraftContainer pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
         if (!this.tool.test(pContainer.tool)) return false;
         return this.isInputMatch(pContainer.getMaterial());
     }

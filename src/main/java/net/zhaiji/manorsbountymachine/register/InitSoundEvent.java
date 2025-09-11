@@ -27,6 +27,8 @@ public class InitSoundEvent {
     public static final String CUTTING_BOARD_CRAFTING_NAME = "cutting_board_crafting";
     public static final String STOCK_POT_COVER_MOVING_NAME = "stock_pot_cover_moving";
     public static final String STOCK_POT_RUNNING_NAME = "stock_pot_running";
+    public static final String SAUCEPAN_AND_WHISK_STIRS_1_NAME = "saucepan_and_whisk_stirs_1";
+    public static final String SAUCEPAN_AND_WHISK_STIRS_2_NAME = "saucepan_and_whisk_stirs_2";
     public static final String SHAKER_OPEN_NAME = "shaker_open";
     public static final String SHAKER_SHAKE_NAME = "shaker_shake";
 
@@ -47,6 +49,8 @@ public class InitSoundEvent {
     public static final String CUTTING_BOARD_CRAFTING_TRANSLATABLE = "sound.manors_bounty_machine.cutting_board_crafting";
     public static final String STOCK_POT_COVER_MOVING_TRANSLATABLE = "sound.manors_bounty_machine.stock_pot_cover_moving";
     public static final String STOCK_POT_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.stock_pot_running";
+    public static final String SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE = "sound.manors_bounty_machine.saucepan_and_whisk_stirs_1";
+    public static final String SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE = "sound.manors_bounty_machine.saucepan_and_whisk_stirs_2";
     public static final String SHAKER_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.shaker_open";
     public static final String SHAKER_SHAKE_TRANSLATABLE = "sound.manors_bounty_machine.shaker_shake";
 
@@ -65,8 +69,10 @@ public class InitSoundEvent {
     public static final RegistryObject<SoundEvent> CUTTING_BOARD_CUTTING = register(CUTTING_BOARD_CUTTING_NAME);
     public static final RegistryObject<SoundEvent> CUTTING_BOARD_ROLL_OUT = register(CUTTING_BOARD_ROLL_OUT_NAME);
     public static final RegistryObject<SoundEvent> CUTTING_BOARD_CRAFTING = register(CUTTING_BOARD_CRAFTING_NAME);
-    public static final RegistryObject<SoundEvent> STOCK_POT_COVER_MOVING = register(STOCK_POT_COVER_MOVING_TRANSLATABLE);
-    public static final RegistryObject<SoundEvent> STOCK_POT_RUNNING = register(STOCK_POT_RUNNING_TRANSLATABLE);
+    public static final RegistryObject<SoundEvent> STOCK_POT_COVER_MOVING = register(STOCK_POT_COVER_MOVING_NAME);
+    public static final RegistryObject<SoundEvent> STOCK_POT_RUNNING = register(STOCK_POT_RUNNING_NAME);
+    public static final RegistryObject<SoundEvent> SAUCEPAN_AND_WHISK_STIRS_1 = register(SAUCEPAN_AND_WHISK_STIRS_1_NAME);
+    public static final RegistryObject<SoundEvent> SAUCEPAN_AND_WHISK_STIRS_2 = register(SAUCEPAN_AND_WHISK_STIRS_2_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_OPEN = register(SHAKER_OPEN_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_SHAKE = register(SHAKER_SHAKE_NAME);
 

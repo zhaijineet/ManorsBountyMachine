@@ -1,12 +1,13 @@
 package net.zhaiji.manorsbountymachine.network.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.zhaiji.manorsbountymachine.block.entity.BaseMachineBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.BaseContainerBlockEntity;
 import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityDataPacket;
 import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 
@@ -21,9 +22,9 @@ public class ClientPacketHandler {
         });
     }
 
-    public static void handlerSyncBlockEntityRenderer(SyncBlockEntityDataPacket packet) {
+    public static void handlerSyncBlockEntityData(SyncBlockEntityDataPacket packet) {
         Player player = Minecraft.getInstance().player;
-        if (player.level().getBlockEntity(packet.blockPos) instanceof BaseMachineBlockEntity blockEntity) {
+        if (player.level().getBlockEntity(packet.blockPos) instanceof BaseContainerBlockEntity blockEntity) {
             blockEntity.handleUpdateTag(packet.syncTag);
         }
     }

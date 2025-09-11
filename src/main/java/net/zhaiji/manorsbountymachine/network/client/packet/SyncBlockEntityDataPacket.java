@@ -31,7 +31,7 @@ public class SyncBlockEntityDataPacket {
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         this.context = supplier.get();
-        this.context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handlerSyncBlockEntityRenderer(this)));
+        this.context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handlerSyncBlockEntityData(this)));
         this.context.setPacketHandled(true);
     }
 }

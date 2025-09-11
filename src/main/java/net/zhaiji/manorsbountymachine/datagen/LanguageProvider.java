@@ -47,6 +47,9 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(DimFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Dim Environment");
         add(NormalFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Normal Environment");
         add(BrightFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Bright Environment");
+        add(BlenderRecipeCategory.TRANSLATABLE, "Blender");
+        add(StockPotRecipeCategory.TRANSLATABLE, "Stewing");
+        add(SaucepanAndWhiskRecipeCategory.TRANSLATABLE, "Stirs");
         add(ShakerRecipeCategory.TRANSLATABLE, "Mix a Drink");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "Ice Cream Machine Clank");
@@ -66,6 +69,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "Cutting Board Crafting");
         add(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE, "Pot Cover Moving");
         add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "Stock Pot Running");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "Whisk Stirs");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "Whisk Stirs");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
     }
@@ -96,6 +101,9 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(DimFermentationRecipeCategory.TRANSLATABLE, "发酵：黑暗环境");
         add(NormalFermentationRecipeCategory.TRANSLATABLE, "发酵：阴凉环境");
         add(BrightFermentationRecipeCategory.TRANSLATABLE, "发酵：明亮环境");
+        add(BlenderRecipeCategory.TRANSLATABLE, "破壁机");
+        add(StockPotRecipeCategory.TRANSLATABLE, "炖煮");
+        add(SaucepanAndWhiskRecipeCategory.TRANSLATABLE, "搅拌");
         add(ShakerRecipeCategory.TRANSLATABLE, "调制");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");
@@ -115,6 +123,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "砧板：制作");
         add(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE, "锅盖：挪动");
         add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "煮锅：烹饪");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "搅拌器：搅拌");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "搅拌器：搅拌");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
     }

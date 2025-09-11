@@ -28,6 +28,11 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<DimFermentationRecipe> DIM_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "dim_fermentation", DimFermentationRecipe.class);
     public static final RecipeType<NormalFermentationRecipe> NORMAL_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "normal_fermentation", NormalFermentationRecipe.class);
     public static final RecipeType<BrightFermentationRecipe> BRIGHT_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "bright_fermentation", BrightFermentationRecipe.class);
+    public static final RecipeType<BlenderRecipe> BLENDER = RecipeType.create(ManorsBountyMachine.MOD_ID, "blender", BlenderRecipe.class);
+    public static final RecipeType<CuttingBoardSingleRecipe> CUTTING_BOARD_SINGLE = RecipeType.create(ManorsBountyMachine.MOD_ID, "cutting_board_single", CuttingBoardSingleRecipe.class);
+    public static final RecipeType<CuttingBoardMultipleRecipe> CUTTING_BOARD_MULTIPLE = RecipeType.create(ManorsBountyMachine.MOD_ID, "cutting_board_multiple", CuttingBoardMultipleRecipe.class);
+    public static final RecipeType<StockPotRecipe> STOCK_POT = RecipeType.create(ManorsBountyMachine.MOD_ID, "stock_pot", StockPotRecipe.class);
+    public static final RecipeType<SaucepanAndWhiskRecipe> SAUCEPAN_AND_WHISK = RecipeType.create(ManorsBountyMachine.MOD_ID, "saucepan_and_whisk", SaucepanAndWhiskRecipe.class);
     public static final RecipeType<ShakerRecipe> SHAKER = RecipeType.create(ManorsBountyMachine.MOD_ID, "shaker", ShakerRecipe.class);
 
     @Override
@@ -46,6 +51,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new DimFermentationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new NormalFermentationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BrightFermentationRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BlenderRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new StockPotRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new SaucepanAndWhiskRecipeCategory(guiHelper));
         registration.addRecipeCategories(new ShakerRecipeCategory(guiHelper));
     }
 
@@ -59,6 +67,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), DIM_FERMENTATION);
         registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), NORMAL_FERMENTATION);
         registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), BRIGHT_FERMENTATION);
+        registration.addRecipeCatalyst(InitBlock.BLENDER.get(), BLENDER);
+        registration.addRecipeCatalyst(InitBlock.STOCK_POT.get(), STOCK_POT);
+        registration.addRecipeCatalyst(InitBlock.SAUCEPAN_AND_WHISK.get(), SAUCEPAN_AND_WHISK);
         registration.addRecipeCatalyst(InitItem.SHAKER.get(), SHAKER);
     }
 
@@ -73,6 +84,9 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(DIM_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.DIM_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(NORMAL_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.NORMAL_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(BRIGHT_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get()));
+        registration.addRecipes(BLENDER, recipeManager.getAllRecipesFor(InitRecipe.BLENDER_RECIPE_TYPE.get()));
+        registration.addRecipes(STOCK_POT, recipeManager.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()));
+        registration.addRecipes(SAUCEPAN_AND_WHISK, recipeManager.getAllRecipesFor(InitRecipe.SAUCEPAN_AND_WHISK_RECIPE_TYPE.get()));
         registration.addRecipes(SHAKER, recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));
     }
 

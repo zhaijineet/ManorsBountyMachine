@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
@@ -28,6 +29,7 @@ public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
     public final RecipeManager.CachedCheck<CuttingBoardBlockEntity.CuttingBoardCraftContainer, CuttingBoardMultipleRecipe> multipleRecipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public int craftIndex = 5;
+    public boolean inCraft = false;
 
     public CuttingBoardBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.CUTTING_BOARD.get(), pPos, pBlockState);
@@ -42,37 +44,41 @@ public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
             Optional<CuttingBoardSingleRecipe> recipe = this.getSingleRecipe(container);
             if (recipe.isPresent()) {
                 CuttingBoardSingleRecipe cuttingBoardSingleRecipe = recipe.get();
-                if (ManorsBountyCompat.isKnife(tool)) {
-                    this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
-                } else if (ManorsBountyCompat.isRollingPin(tool)) {
-                    this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);
-                }
                 tool.hurtAndBreak(1, player, onBreak -> {
                     onBreak.broadcastBreakEvent(EquipmentSlot.MAINHAND);
                 });
-                this.items.remove(this.craftIndex);
+                this.setItem(this.craftIndex, ItemStack.EMPTY);
                 this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
-                this.dropItemStack(cuttingBoardSingleRecipe.rollForOutgrowth(this.level));
+                ItemStack outgrowth = cuttingBoardSingleRecipe.rollForOutgrowth(this.level);
+                if (!outgrowth.isEmpty()) {
+                    this.dropItemStack(outgrowth);
+                }
+                if (ManorsBountyCompat.isKnife(tool)) {
+                    this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
+                } else if (ManorsBountyCompat.isRollingPin(tool)) {
+                    this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);
+                }
                 this.craftIndex--;
+                this.inCraft = true;
                 flag = true;
                 break;
             }
             this.craftIndex--;
         }
-        if (this.craftIndex <= 0) {
+        if (this.craftIndex < 0) {
+            this.inCraft = false;
             this.resetCraftIndex();
         }
         return flag;
     }
 
-    public boolean craftMultipleItem(Player player) {
+    public boolean craftMultipleItem() {
         CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this);
         Optional<CuttingBoardMultipleRecipe> recipe = this.getMultipleRecipe(container);
         if (recipe.isPresent()) {
-            CuttingBoardMultipleRecipe cuttingBoardMultipleRecipe = recipe.get();
-            this.level.playSound(player, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
             this.clearContent();
-            this.dropItemStack(cuttingBoardMultipleRecipe.assemble(container, this.level.registryAccess()));
+            this.dropItemStack(recipe.get().assemble(container, this.level.registryAccess()));
+            this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
             return true;
         }
         return false;

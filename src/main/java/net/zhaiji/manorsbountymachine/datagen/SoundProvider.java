@@ -123,6 +123,18 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.STOCK_POT_RUNNING_NAME)))
         );
         add(
+                InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1,
+                definition()
+                        .subtitle(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_NAME)))
+        );
+        add(
+                InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2,
+                definition()
+                        .subtitle(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_NAME)))
+        );
+        add(
                 InitSoundEvent.SHAKER_OPEN,
                 definition()
                         .subtitle(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE)

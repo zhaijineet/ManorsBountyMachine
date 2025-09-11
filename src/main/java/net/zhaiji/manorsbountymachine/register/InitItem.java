@@ -61,13 +61,13 @@ public class InitItem {
             () -> new BlockItem(InitBlock.SAUCEPAN_AND_WHISK.get(), new Item.Properties())
     );
 
-    public static final RegistryObject<Item> COOKTOP = ITEM.register(
-            "cooktop",
-            () -> new BlockItem(InitBlock.COOKTOP.get(), new Item.Properties())
-    );
-
     public static final RegistryObject<Item> SHAKER = ITEM.register(
             "shaker",
             ShakerItem::new
+    );
+
+    public static final RegistryObject<Item> COOKTOP = ITEM.register(
+            "cooktop",
+            () -> new BlockItem(InitBlock.COOKTOP.get(), new Item.Properties())
     );
 }

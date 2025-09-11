@@ -59,6 +59,18 @@
     ],
     "subtitle": "sound.manors_bounty_machine.oven_running"
   },
+  "saucepan_and_whisk_stirs_1": {
+    "sounds": [
+      "manors_bounty_machine:saucepan_and_whisk_stirs_1"
+    ],
+    "subtitle": "sound.manors_bounty_machine.saucepan_and_whisk_stirs_1"
+  },
+  "saucepan_and_whisk_stirs_2": {
+    "sounds": [
+      "manors_bounty_machine:saucepan_and_whisk_stirs_2"
+    ],
+    "subtitle": "sound.manors_bounty_machine.saucepan_and_whisk_stirs_2"
+  },
   "shaker_open": {
     "sounds": [
       "manors_bounty_machine:shaker_open"
@@ -71,13 +83,13 @@
     ],
     "subtitle": "sound.manors_bounty_machine.shaker_shake"
   },
-  "sound.manors_bounty_machine.stock_pot_cover_moving": {
+  "stock_pot_cover_moving": {
     "sounds": [
       "manors_bounty_machine:stock_pot_cover_moving"
     ],
     "subtitle": "sound.manors_bounty_machine.stock_pot_cover_moving"
   },
-  "sound.manors_bounty_machine.stock_pot_running": {
+  "stock_pot_running": {
     "sounds": [
       "manors_bounty_machine:stock_pot_running"
     ],
