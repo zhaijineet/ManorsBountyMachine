@@ -33,8 +33,15 @@ public class BlenderMenu extends BaseMachineMenu {
     }
 
     @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        this.blockEntity.stopOpen(pPlayer);
+    }
+
+    @Override
     public void initMachineInventorySlot() {
         this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {
+            // TODO
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack) && ManorsBountyCompat.isDeformedGlassBottle(pStack);

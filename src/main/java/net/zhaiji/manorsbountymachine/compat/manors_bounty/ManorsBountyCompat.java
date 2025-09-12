@@ -46,6 +46,7 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> ROLLING_PINS = ItemTags.create(getForgeResourceLocation("tools/rolling_pins"));
 
     public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks"));
+    public static final TagKey<Block> STOCK_POT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("stock_pot_heat_blocks"));
     public static final TagKey<Block> SAUCEPAN_AND_WHISK_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("saucepan_and_whisk_heat_blocks"));
 
     public static final Map<String, String> STRING_MAP = Map.of(
@@ -242,14 +243,20 @@ public class ManorsBountyCompat {
         return !itemStack.isEmpty() && itemStack.is(ROLLING_PINS);
     }
 
+    public static boolean isCookTopRunningOrTrue(BlockState blockState) {
+        return blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
+    }
+
     public static boolean isTeapotHeatBlock(BlockState blockState) {
-        return blockState.is(TEAPOT_HEAT_BLOCKS) || blockState.is(Blocks.MAGMA_BLOCK);
+        return blockState.is(TEAPOT_HEAT_BLOCKS) && isCookTopRunningOrTrue(blockState) || blockState.is(Blocks.MAGMA_BLOCK);
+    }
+
+    public static boolean isStockPotHeatBlock(BlockState blockState) {
+        return blockState.is(STOCK_POT_HEAT_BLOCKS) && isCookTopRunningOrTrue(blockState) || blockState.is(Blocks.MAGMA_BLOCK);
     }
 
     public static boolean isSaucepanAndWhiskHeatBlock(BlockState blockState) {
-        return true;
-//        boolean flag = blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
-//        return blockState.is(SAUCEPAN_AND_WHISK_HEAT_BLOCKS) && flag;
+        return blockState.is(SAUCEPAN_AND_WHISK_HEAT_BLOCKS) && isCookTopRunningOrTrue(blockState) || blockState.is(Blocks.MAGMA_BLOCK);
     }
 
     public static boolean isOilFluid(FluidStack fluidStack) {

@@ -1,4 +1,10 @@
 {
+  "blender_open": {
+    "sounds": [
+      "manors_bounty_machine:blender_open"
+    ],
+    "subtitle": "sound.manors_bounty_machine.blender_open"
+  },
   "blender_powder_done": {
     "sounds": [
       "manors_bounty_machine:blender_powder_done"

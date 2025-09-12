@@ -4,9 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
@@ -131,6 +134,8 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                                         1,
                                         false
                                 );
+                            } else {
+                                this.getMinecraft().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                             }
                         }
                 ) {
@@ -150,6 +155,10 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                         if (this.isHovered()) {
                             guiGraphics.setColor(1, 1, 1, 1);
                         }
+                    }
+
+                    @Override
+                    public void playDownSound(SoundManager pHandler) {
                     }
 
                     @Override

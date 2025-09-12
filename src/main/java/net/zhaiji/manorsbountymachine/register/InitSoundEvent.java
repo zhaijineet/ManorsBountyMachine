@@ -19,6 +19,7 @@ public class InitSoundEvent {
     public static final String TEAPOT_CLOSE_NAME = "teapot_close";
     public static final String TEAPOT_RUNNING_NAME = "teapot_running";
     public static final String TEAPOT_DONE_NAME = "teapot_done";
+    public static final String BLENDER_OPEN_NAME = "blender_open";
     public static final String BLENDER_RUNNING_NAME = "blender_running";
     public static final String BLENDER_WATER_DONE_NAME = "blender_water_done";
     public static final String BLENDER_POWDER_DONE_NAME = "blender_powder_done";
@@ -41,6 +42,7 @@ public class InitSoundEvent {
     public static final String TEAPOT_CLOSE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_close";
     public static final String TEAPOT_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.teapot_running";
     public static final String TEAPOT_DONE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_done";
+    public static final String BLENDER_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.blender_open";
     public static final String BLENDER_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.blender_running";
     public static final String BLENDER_WATER_DONE_TRANSLATABLE = "sound.manors_bounty_machine.blender_water_done";
     public static final String BLENDER_POWDER_DONE_TRANSLATABLE = "sound.manors_bounty_machine.blender_powder_done";
@@ -63,6 +65,7 @@ public class InitSoundEvent {
     public static final RegistryObject<SoundEvent> TEAPOT_CLOSE = register(TEAPOT_CLOSE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_DONE = register(TEAPOT_DONE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_RUNNING = register(TEAPOT_RUNNING_NAME);
+    public static final RegistryObject<SoundEvent> BLENDER_OPEN = register(BLENDER_OPEN_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_RUNNING = register(BLENDER_RUNNING_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_WATER_DONE = register(BLENDER_WATER_DONE_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_POWDER_DONE = register(BLENDER_POWDER_DONE_NAME);

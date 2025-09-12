@@ -38,7 +38,7 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
         if (pLevel.isClientSide()) return false;
         ItemStack container = pContainer.getItem(BlenderBlockEntity.CONTAINER);
         if (this.hasContainer() && !this.isContainerMatch(container)) return false;
-        if (container.getCount() < this.output.getCount()) return false;
+        if (this.hasContainer() && container.getCount() < this.output.getCount()) return false;
         return this.isInputMatch(pContainer.getMainInput(), pContainer.getSecondaryInput());
     }
 
@@ -49,11 +49,11 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
         int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
         for (int slot : BlenderBlockEntity.INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
             if (slot == BlenderBlockEntity.CONTAINER) {
                 multiple = Math.min(multiple, input.getCount() / count);
                 continue;
             }
-            if (input.isEmpty()) continue;
             multiple = Math.min(multiple, input.getCount());
         }
         pContainer.outputMultiple = multiple;

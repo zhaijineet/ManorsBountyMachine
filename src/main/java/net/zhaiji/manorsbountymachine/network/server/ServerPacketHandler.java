@@ -89,6 +89,7 @@ public class ServerPacketHandler {
         Player player = packet.context.getSender();
         if (player.level().getBlockEntity(packet.blockPos) instanceof SaucepanAndWhiskBlockEntity blockEntity) {
             blockEntity.addStirsCount();
+            blockEntity.triggerAnim("saucepan_and_whisk", "animation.saucepan_and_whisk.working");
             if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT) {
                 blockEntity.craftItem();
                 blockEntity.setStirsCount(3);

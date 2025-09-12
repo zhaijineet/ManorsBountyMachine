@@ -25,6 +25,7 @@
   "gui.manors_bounty_machine.two_flavor_switch": "Two Flavor Switch",
   "item.manors_bounty_machine.shaker": "Shaker",
   "itemGroup.manors_bounty_machine.machine": "Manor's Bounty Machine",
+  "sound.manors_bounty_machine.blender_open": "Blender Open",
   "sound.manors_bounty_machine.blender_powder_done": "Blender：Done",
   "sound.manors_bounty_machine.blender_running": "Blender：Running",
   "sound.manors_bounty_machine.blender_water_done": "Blender：Done",

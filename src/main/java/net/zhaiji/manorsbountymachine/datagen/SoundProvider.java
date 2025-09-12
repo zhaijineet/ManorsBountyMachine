@@ -73,6 +73,12 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.TEAPOT_DONE_NAME)))
         );
         add(
+                InitSoundEvent.BLENDER_OPEN,
+                definition()
+                        .subtitle(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.BLENDER_OPEN_NAME)))
+        );
+        add(
                 InitSoundEvent.BLENDER_RUNNING,
                 definition()
                         .subtitle(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE)

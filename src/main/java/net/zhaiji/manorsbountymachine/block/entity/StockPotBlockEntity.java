@@ -126,6 +126,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
 
     public void startRunning() {
         if (this.isRunning) return;
+        if (!ManorsBountyCompat.isStockPotHeatBlock(this.level.getBlockState(this.getBlockPos().below()))) return;
         Optional<StockPotRecipe> recipe = this.getRecipe();
         if (recipe.isEmpty()) return;
         this.isRunning = true;

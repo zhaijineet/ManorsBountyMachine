@@ -1,0 +1,31 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.saucepan_and_whisk.working": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"group": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [22.5, 0, 0]
+						},
+						"0.25": {
+							"vector": [20.94102, 8.42106, -20.94102]
+						},
+						"0.375": {
+							"vector": [-11.56, 8.42, -20.94]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

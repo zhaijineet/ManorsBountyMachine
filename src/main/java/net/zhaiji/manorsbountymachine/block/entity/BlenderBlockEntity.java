@@ -11,9 +11,11 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.zhaiji.manorsbountymachine.block.BlenderBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.BlenderMenu;
 import net.zhaiji.manorsbountymachine.recipe.BlenderRecipe;
@@ -22,12 +24,17 @@ import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BlenderBlockEntity extends BaseMachineBlockEntity {
+public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlockEntity {
     public static final int ITEMS_SIZE = 13;
     public static final int CONTAINER = 0;
     public static final int MAIN_TOP_LEFT = 1;
@@ -45,8 +52,35 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
     public static final int[] MAIN_INPUT_SLOTS = {MAIN_TOP_LEFT, MAIN_TOP_RIGHT, MAIN_CENTER_LEFT, MAIN_CENTER_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_RIGHT};
     public static final int[] SECONDARY_INPUT_SLOTS = {SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
     public static final int[] INPUT_SLOTS = {CONTAINER, MAIN_TOP_LEFT, MAIN_TOP_RIGHT, MAIN_CENTER_LEFT, MAIN_CENTER_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
+    public static final RawAnimation DEPLOY_ANIM = RawAnimation.begin().then("animation.blender.working", Animation.LoopType.PLAY_ONCE);
+    public final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public final RecipeManager.CachedCheck<BlenderBlockEntity, BlenderRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
+        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
+            BlenderBlockEntity.this.playBlenderOpenSound();
+            BlenderBlockEntity.this.setOpen(true);
+        }
+
+        @Override
+        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            BlenderBlockEntity.this.setOpen(false);
+        }
+
+        @Override
+        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
+        }
+
+        @Override
+        protected boolean isOwnContainer(Player pPlayer) {
+            if (pPlayer.containerMenu instanceof BlenderMenu menu) {
+                return menu.blockEntity == BlenderBlockEntity.this;
+            }
+            return false;
+        }
+    };
+
     public boolean isRunning = false;
     public int cookingTime = 0;
     public final ContainerData data = new ContainerData() {
@@ -79,10 +113,12 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, BlenderBlockEntity pBlockEntity) {
+        pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
             pBlockEntity.cookingTime++;
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
+                pBlockEntity.stopTriggeredAnimation("blender", "animation.blender.working");
             }
             pBlockEntity.setChanged();
         }
@@ -95,6 +131,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
         this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_RUNNING.get(), SoundSource.BLOCKS);
         this.isRunning = true;
         this.setCookingTime(0);
+        this.triggerAnim("blender", "animation.blender.working");
     }
 
     public void stopRunning() {
@@ -180,6 +217,36 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
         return input;
     }
 
+    public void playBlenderOpenSound() {
+        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_OPEN.get(), SoundSource.BLOCKS);
+    }
+
+    public void setOpen(boolean open) {
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(BlenderBlock.OPEN, open));
+    }
+
+    @Override
+    public void startOpen(Player pPlayer) {
+        super.startOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.incrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    @Override
+    public void stopOpen(Player pPlayer) {
+        super.stopOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.decrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public void recheckOpen() {
+        if (!this.remove) {
+            this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
     @Override
     public NonNullList<ItemStack> getItems() {
         return this.items;
@@ -208,5 +275,27 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity {
         super.saveAdditional(pTag);
         pTag.putBoolean("isRunning", this.isRunning);
         pTag.putInt("cookingTime", this.cookingTime);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(
+                new AnimationController<>(
+                        this,
+                        "blender",
+                        this::deployAnimController
+                )
+                        .triggerableAnim("animation.blender.working", DEPLOY_ANIM)
+        );
+    }
+
+    protected <E extends BlenderBlockEntity> PlayState deployAnimController(final AnimationState<E> state) {
+        state.getController().setAnimation(DEPLOY_ANIM);
+        return PlayState.STOP;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
     }
 }

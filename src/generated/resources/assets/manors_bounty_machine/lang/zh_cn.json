@@ -25,6 +25,7 @@
   "gui.manors_bounty_machine.two_flavor_switch": "双拼开关",
   "item.manors_bounty_machine.shaker": "雪克壶",
   "itemGroup.manors_bounty_machine.machine": "庄园馀事：机器",
+  "sound.manors_bounty_machine.blender_open": "破壁机：打开",
   "sound.manors_bounty_machine.blender_powder_done": "破壁机：倒出",
   "sound.manors_bounty_machine.blender_running": "破壁机：运行",
   "sound.manors_bounty_machine.blender_water_done": "破壁机：倒出",

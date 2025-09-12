@@ -1,6 +1,7 @@
 package net.zhaiji.manorsbountymachine.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
@@ -16,5 +17,10 @@ public class SaucepanAndWhiskBlock extends BaseMachineBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new SaucepanAndWhiskBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 }

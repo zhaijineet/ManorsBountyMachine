@@ -61,9 +61,10 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "Teapot Close");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "Teapot Running");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
+        add(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE, "Blender Open");
+        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "Blender：Running");
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "Blender：Done");
         add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "Blender：Done");
-        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "Blender：Running");
         add(InitSoundEvent.CUTTING_BOARD_CUTTING_TRANSLATABLE, "Cutting Board Cutting");
         add(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_TRANSLATABLE, "Cutting Board Roll Out");
         add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "Cutting Board Crafting");
@@ -115,9 +116,10 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "茶壶：盖上");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "茶壶：冲泡中");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "茶壶：倒出");
+        add(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE, "破壁机：打开");
+        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "破壁机：运行");
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "破壁机：倒出");
         add(InitSoundEvent.BLENDER_POWDER_DONE_TRANSLATABLE, "破壁机：倒出");
-        add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "破壁机：运行");
         add(InitSoundEvent.CUTTING_BOARD_CUTTING_TRANSLATABLE, "砧板：切");
         add(InitSoundEvent.CUTTING_BOARD_ROLL_OUT_TRANSLATABLE, "砧板：碾平");
         add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "砧板：制作");
