@@ -12,5 +12,6 @@ public class CommonEventManager {
     }
 
     public static void forgeBusListener(IEventBus forgeEventBus) {
+        forgeEventBus.addListener(CommonEventHandler::handlerAddReloadListenerEvent);
     }
 }

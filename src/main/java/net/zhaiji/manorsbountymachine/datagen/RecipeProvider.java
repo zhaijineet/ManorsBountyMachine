@@ -126,6 +126,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
     }
 
+    public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, TagKey<Item> tool, Item[] input, Item output) {
+        new CuttingBoardMultipleRecipeBuilder(isShaped, Ingredient.of(tool), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
+    }
+
     public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, Item[] input, Item output) {
         new CuttingBoardMultipleRecipeBuilder(isShaped, toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
@@ -172,9 +176,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         blenderRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.STONE, 4);
 
         cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.APPLE, Items.DIAMOND);
+        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, Items.STICK, 0.5F);
 
         cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
         cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
+        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.STICK, Items.DIAMOND, Items.STICK}, Items.DIAMOND);
 
         stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
 

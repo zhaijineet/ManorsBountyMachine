@@ -17,5 +17,6 @@ public class ClientEventManager {
     }
 
     public static void forgeBusListener(IEventBus forgeEventBus) {
+        forgeEventBus.addListener(ClientEventHandler::handlerRecipesUpdatedEvent);
     }
 }

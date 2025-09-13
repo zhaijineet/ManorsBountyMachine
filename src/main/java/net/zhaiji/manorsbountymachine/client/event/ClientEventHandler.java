@@ -1,9 +1,11 @@
 package net.zhaiji.manorsbountymachine.client.event;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
@@ -33,5 +35,9 @@ public class ClientEventHandler {
         event.registerBlockEntityRenderer(InitBlockEntityType.BLENDER.get(), BlenderBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(InitBlockEntityType.CUTTING_BOARD.get(), CuttingBoardBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(InitBlockEntityType.SAUCEPAN_AND_WHISK.get(), SaucepanAndWhiskBlockEntityRenderer::new);
+    }
+
+    public static void handlerRecipesUpdatedEvent(RecipesUpdatedEvent event) {
+        RecipeManager recipeManager = event.getRecipeManager();
     }
 }

@@ -235,10 +235,12 @@ public class ManorsBountyCompat {
         return itemStack.is(item);
     }
 
+    // TODO
     public static boolean isKnife(ItemStack itemStack) {
         return !itemStack.isEmpty() && itemStack.is(KNIVES);
     }
 
+    // TODO
     public static boolean isRollingPin(ItemStack itemStack) {
         return !itemStack.isEmpty() && itemStack.is(ROLLING_PINS);
     }

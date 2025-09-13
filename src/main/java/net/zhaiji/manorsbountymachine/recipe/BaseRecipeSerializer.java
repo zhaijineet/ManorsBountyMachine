@@ -45,6 +45,12 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return buffer.readUtf();
     }
 
+    public String getNullableString(JsonObject serializedRecipe, String name) {
+        return serializedRecipe.has(name)
+                ? this.getString(serializedRecipe, name)
+                : "";
+    }
+
     public Ingredient getIngredient(JsonObject serializedRecipe, String name) {
         return Ingredient.fromJson(GsonHelper.getAsJsonObject(serializedRecipe, name));
     }

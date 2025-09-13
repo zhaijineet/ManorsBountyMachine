@@ -98,7 +98,7 @@ public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEnti
         public SaucepanAndWhiskRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             return new SaucepanAndWhiskRecipe(
                     pRecipeId,
-                    this.getString(pSerializedRecipe, "heatState"),
+                    this.getNullableString(pSerializedRecipe, "heatState"),
                     this.getContainer(pSerializedRecipe),
                     this.getMainInput(pSerializedRecipe, MAIN_INPUT_SLOTS.length),
                     this.getSecondaryInput(pSerializedRecipe, SECONDARY_INPUT_SLOTS.length),

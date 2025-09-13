@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
@@ -44,15 +43,14 @@ public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
             Optional<CuttingBoardSingleRecipe> recipe = this.getSingleRecipe(container);
             if (recipe.isPresent()) {
                 CuttingBoardSingleRecipe cuttingBoardSingleRecipe = recipe.get();
-                tool.hurtAndBreak(1, player, onBreak -> {
-                    onBreak.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                });
+                this.toolHurt(player, tool);
                 this.setItem(this.craftIndex, ItemStack.EMPTY);
                 this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
                 ItemStack outgrowth = cuttingBoardSingleRecipe.rollForOutgrowth(this.level);
                 if (!outgrowth.isEmpty()) {
                     this.dropItemStack(outgrowth);
                 }
+                // TODO
                 if (ManorsBountyCompat.isKnife(tool)) {
                     this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
                 } else if (ManorsBountyCompat.isRollingPin(tool)) {
@@ -72,16 +70,31 @@ public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
         return flag;
     }
 
-    public boolean craftMultipleItem() {
-        CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this);
+    public boolean craftMultipleItem(Player player, ItemStack tool) {
+        CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this, tool);
         Optional<CuttingBoardMultipleRecipe> recipe = this.getMultipleRecipe(container);
         if (recipe.isPresent()) {
             this.clearContent();
             this.dropItemStack(recipe.get().assemble(container, this.level.registryAccess()));
-            this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
+            this.toolHurt(player, tool);
+            if (tool.isEmpty()) {
+                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
+            } else if (ManorsBountyCompat.isKnife(tool)) {
+                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
+            } else if (ManorsBountyCompat.isRollingPin(tool)) {
+                this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);
+            }
             return true;
         }
         return false;
+    }
+
+    public void toolHurt(Player player, ItemStack tool) {
+        if (!tool.isEmpty()) {
+            tool.hurtAndBreak(1, player, onBreak -> {
+                onBreak.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
     }
 
     public void dropItemStack(ItemStack itemStack) {

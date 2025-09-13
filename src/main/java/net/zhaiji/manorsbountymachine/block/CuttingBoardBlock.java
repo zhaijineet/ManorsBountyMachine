@@ -61,27 +61,27 @@ public class CuttingBoardBlock extends BaseMachineBlock {
         return false;
     }
 
-    public InteractionResult handlerSingleItem(CuttingBoardBlockEntity blockEntity, Level level, Player player, ItemStack heldItem, ItemStack otherHeldItem) {
-        if (!otherHeldItem.isEmpty() && !blockEntity.isFull() && !blockEntity.inCraft) {
-            return InteractionResult.PASS;
-        }
-        boolean flag = false;
-        if (blockEntity.craftSingleItem(player, heldItem)) {
-            flag = true;
-        }else if (!blockEntity.isFull()) {
-            flag = this.addItem(blockEntity, heldItem);
+    public InteractionResult tryMultipleCraft(CuttingBoardBlockEntity blockEntity, Level level, Player player, BlockPos blockPos, ItemStack heldItem) {
+        boolean flag = blockEntity.craftMultipleItem(player, heldItem);
+        if (!flag) {
+            flag = dropSingleItem(blockEntity, level, blockPos);
         }
         return flag
                 ? InteractionResult.sidedSuccess(level.isClientSide())
                 : InteractionResult.CONSUME_PARTIAL;
     }
 
-    public InteractionResult handlerMultipleItem(CuttingBoardBlockEntity blockEntity, Level level, BlockPos blockPos) {
-        boolean flag;
-        if (blockEntity.craftMultipleItem()) {
-            flag = true;
-        } else {
-            flag = dropSingleItem(blockEntity, level, blockPos);
+    public InteractionResult tryCraftItem(CuttingBoardBlockEntity blockEntity, Level level, Player player, ItemStack heldItem, ItemStack otherHeldItem) {
+        boolean flag = blockEntity.craftMultipleItem(player, heldItem);
+        if (!flag) {
+            if (!otherHeldItem.isEmpty() && !blockEntity.isFull() && !blockEntity.inCraft) {
+                return InteractionResult.PASS;
+            }
+            if (blockEntity.craftSingleItem(player, heldItem)) {
+                flag = true;
+            } else if (!blockEntity.isFull()) {
+                flag = this.addItem(blockEntity, heldItem);
+            }
         }
         return flag
                 ? InteractionResult.sidedSuccess(level.isClientSide())
@@ -100,13 +100,13 @@ public class CuttingBoardBlock extends BaseMachineBlock {
             }
             if (!heldItem.isEmpty()) {
                 if (pHand == InteractionHand.MAIN_HAND) {
-                    return this.handlerSingleItem(blockEntity, pLevel, pPlayer, heldItem, otherHeldItem);
+                    return this.tryCraftItem(blockEntity, pLevel, pPlayer, heldItem, otherHeldItem);
                 }
                 return this.addItem(blockEntity, heldItem)
                         ? InteractionResult.sidedSuccess(pLevel.isClientSide())
                         : InteractionResult.CONSUME_PARTIAL;
             } else if (otherHeldItem.isEmpty()) {
-                return this.handlerMultipleItem(blockEntity, pLevel, pPos);
+                return this.tryMultipleCraft(blockEntity, pLevel, pPlayer, pPos, heldItem);
             }
         }
         return InteractionResult.PASS;

@@ -18,6 +18,10 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @JeiPlugin
 public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<IceCreamRecipe> ICE_CREAM = RecipeType.create(ManorsBountyMachine.MOD_ID, "ice_cream", IceCreamRecipe.class);
@@ -29,8 +33,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public static final RecipeType<NormalFermentationRecipe> NORMAL_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "normal_fermentation", NormalFermentationRecipe.class);
     public static final RecipeType<BrightFermentationRecipe> BRIGHT_FERMENTATION = RecipeType.create(ManorsBountyMachine.MOD_ID, "bright_fermentation", BrightFermentationRecipe.class);
     public static final RecipeType<BlenderRecipe> BLENDER = RecipeType.create(ManorsBountyMachine.MOD_ID, "blender", BlenderRecipe.class);
-    public static final RecipeType<CuttingBoardSingleRecipe> CUTTING_BOARD_SINGLE = RecipeType.create(ManorsBountyMachine.MOD_ID, "cutting_board_single", CuttingBoardSingleRecipe.class);
-    public static final RecipeType<CuttingBoardMultipleRecipe> CUTTING_BOARD_MULTIPLE = RecipeType.create(ManorsBountyMachine.MOD_ID, "cutting_board_multiple", CuttingBoardMultipleRecipe.class);
+    public static final RecipeType<CuttingBoardRecipeWrapper> CUTTING_BOARD = RecipeType.create(ManorsBountyMachine.MOD_ID, "cutting_board", CuttingBoardRecipeWrapper.class);
     public static final RecipeType<StockPotRecipe> STOCK_POT = RecipeType.create(ManorsBountyMachine.MOD_ID, "stock_pot", StockPotRecipe.class);
     public static final RecipeType<SaucepanAndWhiskRecipe> SAUCEPAN_AND_WHISK = RecipeType.create(ManorsBountyMachine.MOD_ID, "saucepan_and_whisk", SaucepanAndWhiskRecipe.class);
     public static final RecipeType<ShakerRecipe> SHAKER = RecipeType.create(ManorsBountyMachine.MOD_ID, "shaker", ShakerRecipe.class);
@@ -52,6 +55,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new NormalFermentationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BrightFermentationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BlenderRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new CuttingBoardRecipeCategory(guiHelper));
         registration.addRecipeCategories(new StockPotRecipeCategory(guiHelper));
         registration.addRecipeCategories(new SaucepanAndWhiskRecipeCategory(guiHelper));
         registration.addRecipeCategories(new ShakerRecipeCategory(guiHelper));
@@ -68,6 +72,7 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), NORMAL_FERMENTATION);
         registration.addRecipeCatalyst(InitBlock.FERMENTER.get(), BRIGHT_FERMENTATION);
         registration.addRecipeCatalyst(InitBlock.BLENDER.get(), BLENDER);
+        registration.addRecipeCatalyst(InitBlock.CUTTING_BOARD.get(), CUTTING_BOARD);
         registration.addRecipeCatalyst(InitBlock.STOCK_POT.get(), STOCK_POT);
         registration.addRecipeCatalyst(InitBlock.SAUCEPAN_AND_WHISK.get(), SAUCEPAN_AND_WHISK);
         registration.addRecipeCatalyst(InitItem.SHAKER.get(), SHAKER);
@@ -85,6 +90,17 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(NORMAL_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.NORMAL_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(BRIGHT_FERMENTATION, recipeManager.getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(BLENDER, recipeManager.getAllRecipesFor(InitRecipe.BLENDER_RECIPE_TYPE.get()));
+        List<CuttingBoardRecipeWrapper> cuttingBoardRecipes = Stream.concat(
+                recipeManager
+                        .getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get())
+                        .stream()
+                        .map(CuttingBoardRecipeWrapper::new),
+                recipeManager
+                        .getAllRecipesFor(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get())
+                        .stream()
+                        .map(CuttingBoardRecipeWrapper::new)
+        ).collect(Collectors.toList());
+        registration.addRecipes(CUTTING_BOARD, cuttingBoardRecipes);
         registration.addRecipes(STOCK_POT, recipeManager.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()));
         registration.addRecipes(SAUCEPAN_AND_WHISK, recipeManager.getAllRecipesFor(InitRecipe.SAUCEPAN_AND_WHISK_RECIPE_TYPE.get()));
         registration.addRecipes(SHAKER, recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));

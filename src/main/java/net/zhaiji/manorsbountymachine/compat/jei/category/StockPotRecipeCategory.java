@@ -2,12 +2,8 @@ package net.zhaiji.manorsbountymachine.compat.jei.category;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
@@ -21,17 +17,7 @@ public class StockPotRecipeCategory extends BaseRecipeCategory<StockPotRecipe> {
     public static final String TRANSLATABLE = "gui.jei.category.recipe.stock_pot";
 
     public StockPotRecipeCategory(IGuiHelper guiHelper) {
-        super(guiHelper);
-    }
-
-    @Override
-    public RecipeType<StockPotRecipe> getRecipeType() {
-        return ManorsBountyMachineJeiPlugin.STOCK_POT;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable(TRANSLATABLE);
+        super(guiHelper, ManorsBountyMachineJeiPlugin.STOCK_POT, STOCK_POT_RECIPE_BACKGROUND, TRANSLATABLE);
     }
 
     @Override
@@ -79,11 +65,5 @@ public class StockPotRecipeCategory extends BaseRecipeCategory<StockPotRecipe> {
         }
         builder.addOutputSlot(107, 29)
                 .addItemStack(recipe.output);
-    }
-
-    @Override
-    public void draw(StockPotRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        this.guiHelper.createDrawable(STOCK_POT_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
     }
 }

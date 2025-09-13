@@ -8,6 +8,10 @@ public interface HasOutgrowthRecipe {
 
     float getOutgrowthChance();
 
+    default boolean hasOutgrowth() {
+        return !this.getOutgrowth().isEmpty();
+    }
+
     default ItemStack rollForOutgrowth(Level level) {
         return level.random.nextFloat() < this.getOutgrowthChance() ? this.getOutgrowth().copy() : ItemStack.EMPTY;
     }

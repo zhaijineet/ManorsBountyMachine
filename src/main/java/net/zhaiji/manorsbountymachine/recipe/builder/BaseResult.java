@@ -64,7 +64,7 @@ public abstract class BaseResult implements FinishedRecipe {
         if (size > 1) {
             object.addProperty("count", size);
         }
-        json.add("output", object);
+        json.add(name, object);
     }
 
     public void addItem(JsonObject json, String name, Item item) {

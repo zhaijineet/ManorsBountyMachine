@@ -6,7 +6,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -17,43 +16,16 @@ import net.zhaiji.manorsbountymachine.recipe.BaseFermentationRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationRecipe> implements IRecipeCategory<T> {
+public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationRecipe> extends BaseRecipeCategory<T> {
     public static final Rect2i TIME_RECT = new Rect2i(
             80,
             53,
             18,
             18
     );
-    public IGuiHelper guiHelper;
-    public RecipeType<T> recipeType;
-    public ResourceLocation background;
-    public String translatable;
 
     public BaseFermentationRecipeCategory(IGuiHelper guiHelper, RecipeType<T> recipeType, ResourceLocation background, String translatable) {
-        this.guiHelper = guiHelper;
-        this.recipeType = recipeType;
-        this.background = background;
-        this.translatable = translatable;
-    }
-
-    @Override
-    public int getWidth() {
-        return 154;
-    }
-
-    @Override
-    public int getHeight() {
-        return 74;
-    }
-
-    @Override
-    public RecipeType<T> getRecipeType() {
-        return recipeType;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable(translatable);
+        super(guiHelper, recipeType, background, translatable);
     }
 
     @Override
@@ -86,8 +58,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
 
     @Override
     public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        this.guiHelper.createDrawable(background, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int minutes = recipe.maxCookingTime / (20 * 60);
         String texture = "textures/item/light_" + (minutes < 10 ? "0" + minutes : minutes) + ".png";
         guiGraphics.blit(ResourceLocation.withDefaultNamespace(texture), 80, 53, 0, 0, 16, 16, 16, 16);

@@ -39,6 +39,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
         add(TeapotScreen.TRANSLATABLE, "Teapot need heat source (#manors_bounty:teapot_heat_blocks or minecraft:magma_block) to start working");
 
+        add("gui.jei.category.recipe.chance", "%s%% Chance");
+
         add(IceCreamRecipeCategory.TRANSLATABLE, "Ice Cream Craft");
         add(FastFryRecipeCategory.TRANSLATABLE, "Fast Frying");
         add(SlowFryRecipeCategory.TRANSLATABLE, "Slow Frying");
@@ -48,8 +50,12 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(NormalFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Normal Environment");
         add(BrightFermentationRecipeCategory.TRANSLATABLE, "Fermentation: Bright Environment");
         add(BlenderRecipeCategory.TRANSLATABLE, "Blender");
+        add(CuttingBoardRecipeCategory.TRANSLATABLE, "Cutting Board");
         add(StockPotRecipeCategory.TRANSLATABLE, "Stewing");
         add(SaucepanAndWhiskRecipeCategory.TRANSLATABLE, "Stirs");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_0", "Need Heat");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_1", "No Need Heat");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_2", "No Check Heat");
         add(ShakerRecipeCategory.TRANSLATABLE, "Mix a Drink");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "Ice Cream Machine Clank");
@@ -94,6 +100,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");
         add(TeapotScreen.TRANSLATABLE, "茶壶需要热源(#manors_bounty:teapot_heat_blocks 或者 minecraft:magma_block)才能工作");
 
+        add("gui.jei.category.recipe.chance", "%s%%的概率");
+
         add(IceCreamRecipeCategory.TRANSLATABLE, "冰淇淋制作");
         add(FastFryRecipeCategory.TRANSLATABLE, "快炸");
         add(SlowFryRecipeCategory.TRANSLATABLE, "慢炸");
@@ -103,8 +111,12 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(NormalFermentationRecipeCategory.TRANSLATABLE, "发酵：阴凉环境");
         add(BrightFermentationRecipeCategory.TRANSLATABLE, "发酵：明亮环境");
         add(BlenderRecipeCategory.TRANSLATABLE, "破壁机");
+        add(CuttingBoardRecipeCategory.TRANSLATABLE, "砧板");
         add(StockPotRecipeCategory.TRANSLATABLE, "炖煮");
         add(SaucepanAndWhiskRecipeCategory.TRANSLATABLE, "搅拌");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_0", "需要热源");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_1", "不需要热源");
+        add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_2", "不检测热源");
         add(ShakerRecipeCategory.TRANSLATABLE, "调制");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");

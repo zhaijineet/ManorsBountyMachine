@@ -2,7 +2,6 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -18,16 +17,27 @@ import static net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntit
 
 public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftContainer> implements OneInputRecipe {
     public final boolean isShaped;
+    public final Ingredient tool;
     public final NonNullList<Ingredient> input;
 
-    public CuttingBoardMultipleRecipe(ResourceLocation id, boolean isShaped, NonNullList<Ingredient> input, ItemStack output) {
+    public CuttingBoardMultipleRecipe(ResourceLocation id, boolean isShaped, Ingredient tool, NonNullList<Ingredient> input, ItemStack output) {
         super(id, output);
+        this.tool = tool;
         this.isShaped = isShaped;
         this.input = input;
     }
 
+    public boolean hasTool() {
+        return !this.tool.isEmpty();
+    }
+
+    public boolean isToolMatch(ItemStack itemStack) {
+        return this.tool.test(itemStack);
+    }
+
     @Override
     public boolean matches(CuttingBoardCraftContainer pContainer, Level pLevel) {
+        if (this.hasTool() && !this.isToolMatch(pContainer.tool)) return false;
         if (isShaped) {
             for (int i = 0; i < this.input.size(); i++) {
                 if (!this.input.get(i).test(pContainer.getAllItem().get(i))) {
@@ -60,6 +70,7 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
             return new CuttingBoardMultipleRecipe(
                     pRecipeId,
                     this.getBoolean(pSerializedRecipe, "isShaped"),
+                    this.getNullableIngredient(pSerializedRecipe, "tool"),
                     this.getInput(pSerializedRecipe, ITEMS_SIZE),
                     this.getOutput(pSerializedRecipe)
             );
@@ -70,6 +81,7 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
             return new CuttingBoardMultipleRecipe(
                     pRecipeId,
                     this.getBoolean(pBuffer),
+                    this.getIngredient(pBuffer),
                     this.getInput(pBuffer, ITEMS_SIZE),
                     this.getOutput(pBuffer)
             );
@@ -78,6 +90,7 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, CuttingBoardMultipleRecipe pRecipe) {
             this.toBoolean(pBuffer, pRecipe.isShaped);
+            this.toIngredient(pBuffer, pRecipe.tool);
             this.toMainInput(pBuffer, pRecipe.input);
             this.toOutput(pBuffer, pRecipe.output);
         }

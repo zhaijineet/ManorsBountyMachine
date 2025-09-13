@@ -2,11 +2,9 @@ package net.zhaiji.manorsbountymachine.compat.jei.category;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -23,17 +21,7 @@ public class BlenderRecipeCategory extends BaseRecipeCategory<BlenderRecipe> {
     public static final String TRANSLATABLE = "gui.jei.category.recipe.blender";
 
     public BlenderRecipeCategory(IGuiHelper guiHelper) {
-        super(guiHelper);
-    }
-
-    @Override
-    public RecipeType<BlenderRecipe> getRecipeType() {
-        return ManorsBountyMachineJeiPlugin.BLENDER;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable(TRANSLATABLE);
+        super(guiHelper, ManorsBountyMachineJeiPlugin.BLENDER, BLENDER_RECIPE_BACKGROUND, TRANSLATABLE);
     }
 
     @Override
@@ -80,14 +68,14 @@ public class BlenderRecipeCategory extends BaseRecipeCategory<BlenderRecipe> {
         builder.addOutputSlot(116, 29)
                 .addItemStack(recipe.output);
         if (!recipe.outgrowth.isEmpty()) {
-            builder.addOutputSlot(116,6)
-                    .addItemStack(recipe.outgrowth);
+            builder.addOutputSlot(116, 6)
+                    .addItemStack(recipe.outgrowth)
+                    .addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                        tooltip.add(
+                                Component.translatable("gui.jei.category.recipe.chance", (int) (recipe.outgrowthChance * 100))
+                                        .withStyle(ChatFormatting.YELLOW)
+                        );
+                    });
         }
-    }
-
-    @Override
-    public void draw(BlenderRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        this.guiHelper.createDrawable(BLENDER_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
     }
 }

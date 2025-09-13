@@ -5,8 +5,6 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,7 +19,7 @@ import net.zhaiji.manorsbountymachine.recipe.OvenRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
 
-public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
+public class OvenRecipeCategory extends BaseRecipeCategory<OvenRecipe> {
     public static final ResourceLocation OVEN_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/oven_recipe_background.png");
     public static final String TRANSLATABLE = "gui.jei.category.recipe.oven";
 
@@ -48,30 +46,8 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
             18
     );
 
-    public IGuiHelper guiHelper;
-
     public OvenRecipeCategory(IGuiHelper guiHelper) {
-        this.guiHelper = guiHelper;
-    }
-
-    @Override
-    public int getWidth() {
-        return 154;
-    }
-
-    @Override
-    public int getHeight() {
-        return 74;
-    }
-
-    @Override
-    public RecipeType<OvenRecipe> getRecipeType() {
-        return ManorsBountyMachineJeiPlugin.OVEN;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable(TRANSLATABLE);
+        super(guiHelper, ManorsBountyMachineJeiPlugin.OVEN, OVEN_RECIPE_BACKGROUND, TRANSLATABLE);
     }
 
     @Override
@@ -119,8 +95,7 @@ public class OvenRecipeCategory implements IRecipeCategory<OvenRecipe> {
 
     @Override
     public void draw(OvenRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, 0, 0, this.getWidth(), this.getHeight()).draw(guiGraphics);
+        super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         guiGraphics.pose().pushPose();
         float scale = 0.5F;
         guiGraphics.pose().scale(scale, scale, scale);
