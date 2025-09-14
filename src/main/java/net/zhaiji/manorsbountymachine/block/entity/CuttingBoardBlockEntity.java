@@ -22,7 +22,7 @@ import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 import java.util.Optional;
 
-public class CuttingBoardBlockEntity extends BaseContainerBlockEntity {
+public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
     public static final int ITEMS_SIZE = 6;
     public final RecipeManager.CachedCheck<CuttingBoardBlockEntity.CuttingBoardCraftContainer, CuttingBoardSingleRecipe> singleRecipeCheck;
     public final RecipeManager.CachedCheck<CuttingBoardBlockEntity.CuttingBoardCraftContainer, CuttingBoardMultipleRecipe> multipleRecipeCheck;

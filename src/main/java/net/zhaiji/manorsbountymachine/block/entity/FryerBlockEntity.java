@@ -17,7 +17,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -28,9 +27,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
-import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityDataPacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
@@ -134,7 +130,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         this.setCookingTime(0);
         if (this.level instanceof ServerLevel serverLevel && serverLevel.random.nextInt(10000) < count * 625) {
             this.fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
-            ManorsBountyMachinePacket.sendToClientWithChunk((LevelChunk) serverLevel.getChunk(this.getBlockPos()), new SyncBlockEntityFluidTankPacket(this.getBlockPos(), fluidTank.getFluid()));
+            this.syncData();
             this.handlerFluidSlot();
         }
         this.setChanged();
@@ -175,7 +171,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
-        this.syncCraft();
+        this.syncData();
     }
 
     public void slowCraftItem() {
@@ -185,7 +181,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
-        this.syncCraft();
+        this.syncData();
     }
 
     public void failCraftItem() {
@@ -195,13 +191,11 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             this.handlerCraftRemaining(craftContainer, craftRemaining);
         }
         this.popCraftRemaining(craftRemaining);
-        this.syncCraft();
+        this.syncData();
     }
 
-    public void syncCraft() {
-        BlockPos blockPos = this.getBlockPos();
-        LevelChunk chunk = this.level.getChunkAt(blockPos);
-        ManorsBountyMachinePacket.sendToClientWithChunk(chunk, new SyncBlockEntityDataPacket(blockPos, this.getUpdateTag()));
+    public void syncData() {
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void handlerCraftRemaining(FryerCraftContainer container, List<ItemStack> craftRemaining) {

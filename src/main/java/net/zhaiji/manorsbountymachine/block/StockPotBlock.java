@@ -48,6 +48,12 @@ public class StockPotBlock extends BaseMachineBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : createTickerHelper(pBlockEntityType, InitBlockEntityType.STOCK_POT.get(), StockPotBlockEntity::serverTick);
+        return createTickerHelper(
+                pBlockEntityType,
+                InitBlockEntityType.STOCK_POT.get(),
+                pLevel.isClientSide()
+                        ? StockPotBlockEntity::clientTick
+                        : StockPotBlockEntity::serverTick
+        );
     }
 }

@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -20,8 +19,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
-import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 import net.zhaiji.manorsbountymachine.recipe.IceCreamRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
@@ -61,7 +58,7 @@ public class IceCreamMachineBlockEntity extends BaseMachineBlockEntity {
         Optional<IceCreamRecipe> recipe = this.getRecipe();
         recipe.ifPresent(iceCreamRecipe -> {
             this.fluidTank.drain(iceCreamRecipe.fluidStack.getAmount(), IFluidHandler.FluidAction.EXECUTE);
-            ManorsBountyMachinePacket.sendToClientWithChunk((LevelChunk) this.level.getChunk(this.getBlockPos()), new SyncBlockEntityFluidTankPacket(this.getBlockPos(), this.fluidTank.getFluid()));
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
             List<ItemStack> craftRemaining = new ArrayList<>();
             for (int i = 0; i < (this.isTwoFlavor ? 3 : 2); i++) {
                 if (OUTPUT_SLOT == INPUT_SLOTS[i]) continue;

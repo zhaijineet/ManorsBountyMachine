@@ -1,5 +1,6 @@
 package net.zhaiji.manorsbountymachine.block.entity;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -13,11 +14,15 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.StockPotBlock;
+import net.zhaiji.manorsbountymachine.client.sound.StockPotSoundInstance;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.StockPotMenu;
+import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
+import net.zhaiji.manorsbountymachine.network.client.packet.StockPotPlaySoundPacket;
 import net.zhaiji.manorsbountymachine.recipe.StockPotRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
@@ -47,7 +52,6 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static final int[] MAIN_INPUT_SLOTS = {MAIN_TOP_LEFT, MAIN_TOP_CENTER_LEFT, MAIN_TOP_CENTER_RIGHT, MAIN_TOP_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_CENTER_LEFT, MAIN_BOTTOM_CENTER_RIGHT, MAIN_BOTTOM_RIGHT};
     public static final int[] SECONDARY_INPUT_SLOTS = {SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
     public static final int[] INPUT_SLOTS = {OUTPUT, MAIN_TOP_LEFT, MAIN_TOP_CENTER_LEFT, MAIN_TOP_CENTER_RIGHT, MAIN_TOP_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_CENTER_LEFT, MAIN_BOTTOM_CENTER_RIGHT, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
-    public static final int SOUND_TIME = 60;
     public final RecipeManager.CachedCheck<StockPotBlockEntity, StockPotRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
@@ -101,11 +105,24 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
             return 2;
         }
     };
-    public int playSoundCooldown = SOUND_TIME;
+    public boolean isPlaySound = false;
 
     public StockPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.STOCK_POT.get(), pPos, pBlockState);
         this.recipeCheck = RecipeManager.createCheck(InitRecipe.STOCK_POT_RECIPE_TYPE.get());
+    }
+
+    public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
+        if (pBlockEntity.isRunning) {
+            pBlockEntity.cookingTime++;
+            if (!pBlockEntity.isPlaySound) {
+                Minecraft.getInstance().getSoundManager().play(new StockPotSoundInstance(pBlockEntity));
+                pBlockEntity.isPlaySound = true;
+            }
+            if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
+                pBlockEntity.isRunning = false;
+            }
+        }
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
@@ -115,13 +132,18 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }
-            if (pBlockEntity.playSoundCooldown <= 0) {
-                pBlockEntity.level.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.STOCK_POT_RUNNING.get(), SoundSource.BLOCKS);
-                pBlockEntity.playSoundCooldown += SOUND_TIME;
+            if (!pBlockEntity.isPlaySound) {
+                pBlockEntity.sendPlaySound();
+                pBlockEntity.isPlaySound = true;
             }
-            pBlockEntity.playSoundCooldown--;
             pBlockEntity.setChanged();
         }
+    }
+
+    public void sendPlaySound() {
+        BlockPos blockPos = this.getBlockPos();
+        LevelChunk chunk = this.level.getChunkAt(blockPos);
+        ManorsBountyMachinePacket.sendToClientWithChunk(chunk, new StockPotPlaySoundPacket(blockPos));
     }
 
     public void startRunning() {
@@ -130,7 +152,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         Optional<StockPotRecipe> recipe = this.getRecipe();
         if (recipe.isEmpty()) return;
         this.isRunning = true;
-        this.playSoundCooldown = 0;
+        this.isPlaySound = false;
         this.setCookingTime(0);
         this.setMaxCookingTime(recipe.get().maxCookingTime);
     }

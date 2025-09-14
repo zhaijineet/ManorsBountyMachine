@@ -9,20 +9,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.zhaiji.manorsbountymachine.block.entity.BaseHasItemBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
-import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
 
 import java.util.List;
 
 public class MachineUtil {
-    public static void handlerFluidSlot(int slot, Container container, IFluidHandler fluidHandler, Level level, BlockPos blockPos) {
+    public static void handlerFluidSlot(int slot, BaseHasItemBlockEntity container, IFluidHandler fluidHandler, Level level, BlockPos blockPos) {
         ItemStack stack = container.getItem(slot);
         if (stack.isEmpty() || !(FluidUtil.getFluidHandler(stack).isPresent() || ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(stack.getItem())))
             return;
@@ -56,7 +54,7 @@ public class MachineUtil {
         }
         FluidStack fluidStack = fluidHandler.getFluidInTank(0);
         if (!level.isClientSide()) {
-            ManorsBountyMachinePacket.sendToClientWithChunk((LevelChunk) level.getChunk(blockPos), new SyncBlockEntityFluidTankPacket(blockPos, fluidStack));
+            container.getLevel().sendBlockUpdated(container.getBlockPos(), container.getBlockState(), container.getBlockState(), 3);
         }
         SoundEvent soundevent = fluidStack.getFluid().getFluidType().getSound(fluidStack, SoundActions.BUCKET_EMPTY);
         if (soundevent != null) {

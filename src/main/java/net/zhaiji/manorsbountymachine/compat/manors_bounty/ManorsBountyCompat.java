@@ -262,7 +262,8 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isOilFluid(FluidStack fluidStack) {
-        return OIL_FLUIDS.contains(fluidStack.getFluid());
+        return true;
+//        return OIL_FLUIDS.contains(fluidStack.getFluid());
     }
 
     public static boolean isIceCreamFluid(FluidStack fluidStack) {

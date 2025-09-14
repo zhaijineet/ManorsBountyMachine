@@ -8,8 +8,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityDataPacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.SyncBlockEntityFluidTankPacket;
+import net.zhaiji.manorsbountymachine.network.client.packet.StockPotPlaySoundPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 
 public class ManorsBountyMachinePacket {
@@ -102,16 +101,10 @@ public class ManorsBountyMachinePacket {
     }
 
     public static void registerClientPacket() {
-        INSTANCE.messageBuilder(SyncBlockEntityFluidTankPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SyncBlockEntityFluidTankPacket::decode)
-                .encoder(SyncBlockEntityFluidTankPacket::encode)
-                .consumerMainThread(SyncBlockEntityFluidTankPacket::handle)
-                .add();
-
-        INSTANCE.messageBuilder(SyncBlockEntityDataPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SyncBlockEntityDataPacket::decode)
-                .encoder(SyncBlockEntityDataPacket::encode)
-                .consumerMainThread(SyncBlockEntityDataPacket::handle)
+        INSTANCE.messageBuilder(StockPotPlaySoundPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(StockPotPlaySoundPacket::decode)
+                .encoder(StockPotPlaySoundPacket::encode)
+                .consumerMainThread(StockPotPlaySoundPacket::handle)
                 .add();
     }
 
