@@ -29,5 +29,6 @@ public class DataGenHandler {
         generator.addProvider(event.includeServer(), new BlockTagProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), AllLootTableProvider.create(packOutput));
         generator.addProvider(event.includeServer(), new RecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
     }
 }

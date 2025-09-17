@@ -58,7 +58,7 @@ public class InitBlock {
 
     public static final RegistryObject<Block> COOKTOP = BLOCK.register(
             "cooktop",
-            CookTopBlock::new
+            CooktopBlock::new
     );
 
     public static BlockBehaviour.Properties getBlockProperties() {

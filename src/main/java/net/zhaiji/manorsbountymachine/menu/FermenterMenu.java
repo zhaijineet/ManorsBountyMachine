@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.recipe.BrightFermentationRecipe;
 import net.zhaiji.manorsbountymachine.recipe.DimFermentationRecipe;
 import net.zhaiji.manorsbountymachine.recipe.NormalFermentationRecipe;
@@ -65,28 +66,10 @@ public class FermenterMenu extends BaseMachineMenu {
                 }
             });
         }
-        // TODO 之后添加自定义资源读取监听，这里要做调整
         this.addSlot(new Slot(this.blockEntity, CONTAINER, 121, 116) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                boolean canPlace = super.mayPlace(pStack);
-                if (!canPlace) return false;
-                for (DimFermentationRecipe recipe : blockEntity.getAllDimRecipe()) {
-                    if (recipe.container.test(pStack)) {
-                        return true;
-                    }
-                }
-                for (NormalFermentationRecipe recipe : blockEntity.getAllNormalRecipe()) {
-                    if (recipe.container.test(pStack)) {
-                        return true;
-                    }
-                }
-                for (BrightFermentationRecipe recipe : blockEntity.getAllBrightRecipe()) {
-                    if (recipe.container.test(pStack)) {
-                        return true;
-                    }
-                }
-                return false;
+                return super.mayPlace(pStack) && SlotInputLimitManager.FERMENTER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
             }
 
             @Override

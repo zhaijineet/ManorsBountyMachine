@@ -153,9 +153,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
 
     public void craftItem() {
         BaseFermentationRecipe recipe;
-        Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
-        Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
-        Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
+        Optional<DimFermentationRecipe> dimRecipe = this.getIgnoreLightDimRecipe();
+        Optional<NormalFermentationRecipe> normalRecipe = this.getIgnoreLightNormalRecipe();
+        Optional<BrightFermentationRecipe> brightRecipe = this.getIgnoreLightBrightRecipe();
         if (dimRecipe.isPresent()) {
             recipe = dimRecipe.get();
         } else if (normalRecipe.isPresent()) {
@@ -188,7 +188,11 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             } else if (!remaining.isEmpty()) {
                 craftRemaining.add(remaining);
             }
-            this.setItem(OUTPUT, output);
+            if (recipe.lightState != this.getLightState()) {
+                this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(this.outputMultiple));
+            } else {
+                this.setItem(OUTPUT, output);
+            }
             this.insertCraftRemaining(craftRemaining);
             this.popCraftRemaining(craftRemaining);
         }
@@ -280,6 +284,33 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
 
     public List<BrightFermentationRecipe> getAllBrightRecipe() {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get());
+    }
+
+    public Optional<DimFermentationRecipe> getIgnoreLightDimRecipe() {
+        List<DimFermentationRecipe> recipe = this.getAllDimRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
+        if (recipe.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(recipe.get(0));
+        }
+    }
+
+    public Optional<NormalFermentationRecipe> getIgnoreLightNormalRecipe() {
+        List<NormalFermentationRecipe> recipe = this.getAllNormalRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
+        if (recipe.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(recipe.get(0));
+        }
+    }
+
+    public Optional<BrightFermentationRecipe> getIgnoreLightBrightRecipe() {
+        List<BrightFermentationRecipe> recipe = this.getAllBrightRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
+        if (recipe.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(recipe.get(0));
+        }
     }
 
     public void playBarrelOpenSound() {

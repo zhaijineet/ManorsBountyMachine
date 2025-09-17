@@ -6,7 +6,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 public class OvenMenu extends BaseMachineMenu {
@@ -63,6 +65,11 @@ public class OvenMenu extends BaseMachineMenu {
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
+                @Override
+                public boolean mayPlace(ItemStack pStack) {
+                    return super.mayPlace(pStack) && SlotInputLimitManager.OVEN_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                }
+
                 @Override
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;

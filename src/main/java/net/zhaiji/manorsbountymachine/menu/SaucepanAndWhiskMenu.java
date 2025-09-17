@@ -5,7 +5,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 import static net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity.*;
@@ -33,8 +35,18 @@ public class SaucepanAndWhiskMenu extends BaseMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
+        this.addSlot(new Slot(this.blockEntity, OUTPUT, 80, 47) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && SlotInputLimitManager.SAUCEPAN_AND_WHISK_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+            }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
         int[][] slots = {
-                {OUTPUT, 80, 47},
                 {MAIN_TOP_LEFT, 61, 67},
                 {MAIN_TOP_CENTER, 80, 67},
                 {MAIN_TOP_RIGHT, 99, 67},

@@ -1,9 +1,9 @@
 {
   "type": "manors_bounty_machine:teapot",
+  "container": {
+    "item": "minecraft:gold_ingot"
+  },
   "input": [
-    {
-      "item": "minecraft:gold_ingot"
-    },
     {
       "item": "minecraft:milk_bucket"
     },

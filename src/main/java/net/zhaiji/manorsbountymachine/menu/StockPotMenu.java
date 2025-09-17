@@ -6,9 +6,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
+import static net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity.OUTPUT;
 import static net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity.*;
 
 public class StockPotMenu extends BaseMachineMenu {
@@ -44,8 +47,28 @@ public class StockPotMenu extends BaseMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
+        this.addSlot(new Slot(this.blockEntity, OUTPUT, 80, 81) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && SlotInputLimitManager.STOCK_POT_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+            }
+
+            @Override
+            public boolean mayPickup(Player pPlayer) {
+                return super.mayPickup(pPlayer) && getCookingTime() == 0;
+            }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+
+            @Override
+            public boolean isActive() {
+                return super.isActive() && getCookingTime() == 0;
+            }
+        });
         int[][] slots = {
-                {OUTPUT, 80, 81},
                 {MAIN_TOP_LEFT, 51, 102},
                 {MAIN_TOP_CENTER_LEFT, 70, 102},
                 {MAIN_TOP_CENTER_RIGHT, 90, 102},

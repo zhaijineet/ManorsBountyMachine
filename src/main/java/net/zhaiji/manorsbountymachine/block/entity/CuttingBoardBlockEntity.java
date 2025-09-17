@@ -50,7 +50,6 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
                 if (!outgrowth.isEmpty()) {
                     this.dropItemStack(outgrowth);
                 }
-                // TODO
                 if (ManorsBountyCompat.isKnife(tool)) {
                     this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
                 } else if (ManorsBountyCompat.isRollingPin(tool)) {

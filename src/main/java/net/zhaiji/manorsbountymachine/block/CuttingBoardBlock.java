@@ -1,6 +1,7 @@
 package net.zhaiji.manorsbountymachine.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -8,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,6 +29,14 @@ public class CuttingBoardBlock extends BaseMachineBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new CuttingBoardBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        BlockPos blockPos = pPos.below();
+        return super.canSurvive(pState, pLevel, pPos)
+                && canSupportRigidBlock(pLevel, blockPos)
+                && canSupportCenter(pLevel, blockPos, Direction.UP);
     }
 
     @Override

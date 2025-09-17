@@ -1,14 +1,14 @@
 package net.zhaiji.manorsbountymachine.datagen;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.client.screen.IceCreamMachineScreen;
 import net.zhaiji.manorsbountymachine.client.screen.TeapotScreen;
 import net.zhaiji.manorsbountymachine.compat.jei.category.*;
-import net.zhaiji.manorsbountymachine.register.InitBlock;
-import net.zhaiji.manorsbountymachine.register.InitCreativeModeTab;
-import net.zhaiji.manorsbountymachine.register.InitItem;
-import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
+import net.zhaiji.manorsbountymachine.register.*;
+
+import java.util.function.Supplier;
 
 public class LanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
     public static final String EN_US = "en_us";
@@ -19,6 +19,10 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
     public LanguageProvider(PackOutput output, String locale) {
         super(output, ManorsBountyMachine.MOD_ID, locale);
         this.locale = locale;
+    }
+
+    public void add(Supplier<VillagerProfession> villagerProfession, String value) {
+        this.add("entity.minecraft.villager." + ManorsBountyMachine.MOD_ID + "." + villagerProfession.get().name(), value);
     }
 
     public void English_US() {
@@ -80,6 +84,10 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "Whisk Stirs");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
+
+        add(InitVillager.CHEF, "Chef");
+        add(InitVillager.BARTENDER, "Bartender");
+        add(InitVillager.ORCHARDIST, "Orchardist");
     }
 
     public void Chinese_CN() {
@@ -93,7 +101,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitBlock.BLENDER.get(), "破壁机");
         add(InitBlock.CUTTING_BOARD.get(), "砧板");
         add(InitBlock.STOCK_POT.get(), "煮锅");
-        add(InitBlock.SAUCEPAN_AND_WHISK.get(), "平底锅与搅拌器");
+        add(InitBlock.SAUCEPAN_AND_WHISK.get(), "小奶锅套组");
         add(InitBlock.COOKTOP.get(), "炉灶");
         add(InitItem.SHAKER.get(), "雪克壶");
 
@@ -137,10 +145,14 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.CUTTING_BOARD_CRAFTING_TRANSLATABLE, "砧板：制作");
         add(InitSoundEvent.STOCK_POT_COVER_MOVING_TRANSLATABLE, "锅盖：挪动");
         add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "煮锅：烹饪");
-        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "搅拌器：搅拌");
-        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "搅拌器：搅拌");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "小奶锅套组：搅拌");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "小奶锅套组：搅拌");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
+
+        add(InitVillager.CHEF, "厨师");
+        add(InitVillager.BARTENDER, "调酒师");
+        add(InitVillager.ORCHARDIST, "果农");
     }
 
     @Override

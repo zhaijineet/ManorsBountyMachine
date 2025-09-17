@@ -40,7 +40,6 @@ public class BlenderBlock extends BaseMachineBlock {
         return new BlenderBlockEntity(pPos, pState);
     }
 
-    // TODO
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return super.getShape(pState, pLevel, pPos, pContext);

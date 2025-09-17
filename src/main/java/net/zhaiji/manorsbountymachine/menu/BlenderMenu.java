@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 public class BlenderMenu extends BaseMachineMenu {
@@ -41,10 +42,9 @@ public class BlenderMenu extends BaseMachineMenu {
     @Override
     public void initMachineInventorySlot() {
         this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {
-            // TODO
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && ManorsBountyCompat.isDeformedGlassBottle(pStack);
+                return super.mayPlace(pStack) && SlotInputLimitManager.BLENDER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
             }
 
             @Override

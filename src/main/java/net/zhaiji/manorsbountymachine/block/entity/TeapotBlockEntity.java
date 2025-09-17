@@ -150,6 +150,14 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
         this.stopRunning();
     }
 
+    public NonNullList<ItemStack> getInput() {
+        NonNullList<ItemStack> input = NonNullList.withSize(INPUT_SLOTS.length, ItemStack.EMPTY);
+        for (int i = 0; i < input.size(); i++) {
+            input.set(i, this.getItem(INPUT_SLOTS[i]));
+        }
+        return input;
+    }
+
     public void setCookingTime(int value) {
         this.cookingTime = value;
         this.setChanged();

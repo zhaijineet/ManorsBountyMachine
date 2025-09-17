@@ -27,8 +27,9 @@ public class TeapotRecipeCategory extends BaseRecipeCategory<TeapotRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, TeapotRecipe recipe, IFocusGroup focuses) {
+        builder.addInputSlot(110, 6)
+                .addIngredients(recipe.container);
         int[][] slots = {
-                {110, 6},
                 {77, 52},
                 {110, 52},
                 {25, 19},

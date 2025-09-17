@@ -10,12 +10,10 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.item.ShakerItem;
-import net.zhaiji.manorsbountymachine.recipe.ShakerRecipe;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
-
-import java.util.List;
 
 public class ShakerMenu extends AbstractContainerMenu {
     public final Player player;
@@ -52,15 +50,9 @@ public class ShakerMenu extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(this.itemHandler, ShakerCapabilityProvider.OUTPUT, 80, 91) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                boolean canPlace = super.mayPlace(pStack) && !pStack.is(InitItem.SHAKER.get());
-                if (!canPlace) return false;
-                List<ShakerRecipe> recipeList = ShakerItem.getAllRecipe(player.level());
-                for (ShakerRecipe recipe : recipeList) {
-                    if (recipe.input.get(0).test(pStack)) {
-                        return true;
-                    }
-                }
-                return false;
+                return super.mayPlace(pStack)
+                        && !pStack.is(InitItem.SHAKER.get())
+                        && SlotInputLimitManager.SHAKER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
             }
         });
         int[][] slots = {
@@ -108,13 +100,7 @@ public class ShakerMenu extends AbstractContainerMenu {
 
     @Override
     public void removed(Player pPlayer) {
-        boolean flag = false;
-        for (ShakerRecipe recipe : ShakerItem.getAllRecipe(pPlayer.level())) {
-            if (recipe.matches(new RecipeWrapper((ItemStackHandler) this.itemHandler))) {
-                flag = true;
-                break;
-            }
-        }
+        boolean flag = ShakerItem.getRecipe(pPlayer.level(), new RecipeWrapper((ItemStackHandler) this.itemHandler)).isPresent();
         ShakerItem.setCanStartUsing(this.getShaker(), flag);
         super.removed(pPlayer);
     }

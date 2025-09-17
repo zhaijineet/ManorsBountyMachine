@@ -13,31 +13,27 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.ITEMS_SIZE;
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.INPUT_SLOTS;
 import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.OUTPUT;
 
-public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements OneInputRecipe {
+public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements HasContainerItem, OneInputRecipe {
+    public final Ingredient container;
     public final NonNullList<Ingredient> input;
 
-    public ShakerRecipe(ResourceLocation id, NonNullList<Ingredient> input, ItemStack output) {
+    public ShakerRecipe(ResourceLocation id, Ingredient container, NonNullList<Ingredient> input, ItemStack output) {
         super(id, output);
+        this.container = container;
         this.input = input;
-    }
-
-    public boolean matches(RecipeWrapper container) {
-        if (container.getItem(OUTPUT).isEmpty()) return false;
-        int size = container.getContainerSize();
-        NonNullList<ItemStack> input = NonNullList.withSize(size, ItemStack.EMPTY);
-        for (int i = 0; i < size; i++) {
-            input.set(i, container.getItem(i));
-        }
-        return this.isInputMatch(input);
     }
 
     @Override
     public boolean matches(RecipeWrapper pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
-        return this.matches(pContainer);
+        if (this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
+        NonNullList<ItemStack> input = NonNullList.withSize(INPUT_SLOTS.length, ItemStack.EMPTY);
+        for (int i = 0; i < input.size(); i++) {
+            input.set(i, pContainer.getItem(INPUT_SLOTS[i]));
+        }
+        return this.isInputMatch(input);
     }
 
     @Override
@@ -51,6 +47,11 @@ public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements OneInputR
     }
 
     @Override
+    public Ingredient getContainer() {
+        return this.container;
+    }
+
+    @Override
     public NonNullList<Ingredient> getInput() {
         return this.input;
     }
@@ -60,7 +61,8 @@ public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements OneInputR
         public ShakerRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             return new ShakerRecipe(
                     pRecipeId,
-                    this.getInput(pSerializedRecipe, ITEMS_SIZE),
+                    this.getContainer(pSerializedRecipe),
+                    this.getInput(pSerializedRecipe, INPUT_SLOTS.length),
                     this.getOutput(pSerializedRecipe)
             );
         }
@@ -69,13 +71,15 @@ public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements OneInputR
         public @Nullable ShakerRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             return new ShakerRecipe(
                     pRecipeId,
-                    this.getInput(pBuffer, ITEMS_SIZE),
+                    this.getContainer(pBuffer),
+                    this.getInput(pBuffer, INPUT_SLOTS.length),
                     this.getOutput(pBuffer)
             );
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, ShakerRecipe pRecipe) {
+            this.toContainer(pBuffer, pRecipe.container);
             this.toInput(pBuffer, pRecipe.input);
             this.toOutput(pBuffer, pRecipe.output);
         }

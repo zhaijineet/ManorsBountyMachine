@@ -8,8 +8,10 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
-import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
+
+import static net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity.*;
 
 public class TeapotMenu extends BaseMachineMenu {
     public final TeapotBlockEntity blockEntity;
@@ -39,39 +41,49 @@ public class TeapotMenu extends BaseMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
+        this.addSlot(new Slot(this.blockEntity, OUTPUT, 33, 90) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_CUP_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+            }
+
+            @Override
+            public boolean mayPickup(Player pPlayer) {
+                return super.mayPickup(pPlayer) && getCookingTime() == 0;
+            }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
+        this.addSlot(new Slot(this.blockEntity, DRINK, 121, 41) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_DRINK_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+            }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
+        this.addSlot(new Slot(this.blockEntity, MATERIAL, 96, 118) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_MATERIAL_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+            }
+
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+        });
         int[][] slots = {
-                {TeapotBlockEntity.OUTPUT, 33, 90, 0},
-                {TeapotBlockEntity.DRINK, 121, 41, 1},
-                {TeapotBlockEntity.MATERIAL, 96, 118, 2}
-        };
-        for (int[] slot : slots) {
-            this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
-                @Override
-                public boolean mayPlace(ItemStack pStack) {
-                    return super.mayPlace(pStack) && ManorsBountyCompat.isTeapotOutputItem(pStack);
-                }
-
-                @Override
-                public boolean mayPickup(Player pPlayer) {
-                    boolean canPickup = super.mayPickup(pPlayer);
-                    if (!canPickup) return false;
-                    if (slot[0] == TeapotBlockEntity.OUTPUT) {
-                        return getCookingTime() == 0;
-                    }
-                    return true;
-                }
-
-                @Override
-                public int getMaxStackSize() {
-                    return 1;
-                }
-            });
-        }
-        slots = new int[][]{
-                {TeapotBlockEntity.TOP_LEFT, 30, 9},
-                {TeapotBlockEntity.TOP_RIGHT, 54, 9},
-                {TeapotBlockEntity.BOTTOM_LEFT, 30, 32},
-                {TeapotBlockEntity.BOTTOM_RIGHT, 54, 32}
+                {TOP_LEFT, 30, 9},
+                {TOP_RIGHT, 54, 9},
+                {BOTTOM_LEFT, 30, 32},
+                {BOTTOM_RIGHT, 54, 32}
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {

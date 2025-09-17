@@ -16,7 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.block.CookTopBlock;
+import net.zhaiji.manorsbountymachine.block.CooktopBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +28,14 @@ public class ManorsBountyCompat {
 
     public static final TagKey<Item> ICE_CREAM_AND_CONE = ItemTags.create(getManorsBountyResourceLocation("ice_cream_and_cone"));
     public static final TagKey<Item> DAMAGEABLE_MATERIAL = ItemTags.create(getManorsBountyResourceLocation("damageable_material"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug"));
+    //    public static final TagKey<Item> TEAPOT_GUI_MUG = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_APRICOT_KERNEL = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_apricotkernel"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_BLACK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_blacktea"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_COCOA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_cocoa"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_COFFEE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_coffee"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_GREEN_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_greentea"));
     public static final TagKey<Item> TEAPOT_GUI_MUG_MATCHA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_matcha"));
-    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle"));
+    //    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle"));
     public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE_MILK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle_milktea"));
     public static final TagKey<Item> CATALYSTS = ItemTags.create(getManorsBountyResourceLocation("catalysts"));
     public static final TagKey<Item> CATALYSTS_A = ItemTags.create(getManorsBountyResourceLocation("catalysts_a"));
@@ -61,8 +61,6 @@ public class ManorsBountyCompat {
 
     public static final List<Fluid> OIL_FLUIDS = new ArrayList<>();
 
-    public static final List<Fluid> ICE_CREAM_FLUIDS = new ArrayList<>();
-
     public static final Map<Item, Fluid> BUCKET_FLUID_MAP = new HashMap<>();
 
     static {
@@ -72,8 +70,6 @@ public class ManorsBountyCompat {
             if (item != Items.AIR && fluid != Fluids.EMPTY) {
                 if (fluidName.equals("olive_oil")) {
                     OIL_FLUIDS.add(fluid);
-                } else {
-                    ICE_CREAM_FLUIDS.add(fluid);
                 }
                 BUCKET_FLUID_MAP.put(item, fluid);
             }
@@ -88,7 +84,6 @@ public class ManorsBountyCompat {
         return ResourceLocation.fromNamespaceAndPath("forge", name);
     }
 
-
     public static Item getManorsBountyItem(String name) {
         return ForgeRegistries.ITEMS.getValue(getManorsBountyResourceLocation(name));
     }
@@ -98,7 +93,7 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isIceCreamAndCone(ItemStack itemStack) {
-        return itemStack.is(ICE_CREAM_AND_CONE);
+        return itemStack.is(ICE_CREAM_AND_CONE) || SlotInputLimitManager.ICE_CREAM_MACHINE_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(itemStack));
     }
 
     public static boolean isDamageableMaterial(ItemStack itemStack) {
@@ -106,11 +101,21 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isTeapotGuiGlassBottle(ItemStack itemStack) {
-        return itemStack.is(TEAPOT_GUI_GLASS_BOTTLE);
+        Item item = getManorsBountyItem("deformed_glass_bottle");
+        if (item == Items.AIR) {
+            return false;
+        }
+        return itemStack.is(item) || itemStack.getCraftingRemainingItem().is(item);
+//        return itemStack.is(TEAPOT_GUI_GLASS_BOTTLE);
     }
 
     public static boolean isTeapotGuiMug(ItemStack itemStack) {
-        return itemStack.is(TEAPOT_GUI_MUG);
+        Item item = getManorsBountyItem("reactive_glaze_mug");
+        if (item == Items.AIR) {
+            return false;
+        }
+        return itemStack.is(item) || itemStack.getCraftingRemainingItem().is(item);
+//        return itemStack.is(TEAPOT_GUI_MUG);
     }
 
     public static boolean isTeapotGuiGlassBottleMilkTea(ItemStack itemStack) {
@@ -221,32 +226,16 @@ public class ManorsBountyCompat {
         return itemStack.is(item);
     }
 
-    public static boolean isTeapotOutputItem(ItemStack itemStack) {
-        return isTeapotGuiGlassBottle(itemStack) || isTeapotGuiMug(itemStack) || isTeapotGuiGlassBottleMilkTea(itemStack)
-                || isTeapotGuiMugApricotKernel(itemStack) || isTeapotGuiMugBlackTea(itemStack) || isTeapotGuiMugCocoa(itemStack)
-                || isTeapotGuiMugCoffee(itemStack) || isTeapotGuiMugGreenTea(itemStack) || isTeapotGuiMugMatcha(itemStack);
-    }
-
-    public static boolean isDeformedGlassBottle(ItemStack itemStack) {
-        Item item = getManorsBountyItem("deformed_glass_bottle");
-        if (item == Items.AIR) {
-            return false;
-        }
-        return itemStack.is(item);
-    }
-
-    // TODO
     public static boolean isKnife(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.is(KNIVES);
+        return itemStack.is(KNIVES);
     }
 
-    // TODO
     public static boolean isRollingPin(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.is(ROLLING_PINS);
+        return itemStack.is(ROLLING_PINS);
     }
 
     public static boolean isCookTopRunningOrTrue(BlockState blockState) {
-        return blockState.hasProperty(CookTopBlock.RUNNING) ? blockState.getValue(CookTopBlock.RUNNING) : true;
+        return blockState.hasProperty(CooktopBlock.RUNNING) ? blockState.getValue(CooktopBlock.RUNNING) : true;
     }
 
     public static boolean isTeapotHeatBlock(BlockState blockState) {
@@ -262,12 +251,11 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isOilFluid(FluidStack fluidStack) {
-        return true;
-//        return OIL_FLUIDS.contains(fluidStack.getFluid());
+        return OIL_FLUIDS.contains(fluidStack.getFluid());
     }
 
     public static boolean isIceCreamFluid(FluidStack fluidStack) {
-        return ICE_CREAM_FLUIDS.contains(fluidStack.getFluid());
+        return SlotInputLimitManager.ICE_CREAM_MACHINE_FLUID_LIMIT.stream().anyMatch(fluid -> fluid.isSame(fluidStack.getFluid()));
     }
 
     public static void damageItem(ItemStack stack, Level level) {

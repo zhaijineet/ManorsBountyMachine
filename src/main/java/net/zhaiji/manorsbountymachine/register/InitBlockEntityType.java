@@ -54,4 +54,9 @@ public class InitBlockEntityType {
             "saucepan_and_whisk",
             () -> BlockEntityType.Builder.of(SaucepanAndWhiskBlockEntity::new, InitBlock.SAUCEPAN_AND_WHISK.get()).build(null)
     );
+
+    public static final RegistryObject<BlockEntityType<CooktopBlockEntity>> COOKTOP = BLOCK_ENTITY_TYPE.register(
+            "cooktop",
+            () -> BlockEntityType.Builder.of(CooktopBlockEntity::new, InitBlock.COOKTOP.get()).build(null)
+    );
 }

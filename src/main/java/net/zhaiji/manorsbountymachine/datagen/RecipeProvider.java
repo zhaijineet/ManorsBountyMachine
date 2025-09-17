@@ -50,8 +50,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new OvenRecipeBuilder(temperature.temperature, maxCookingTime.cookingTime, toIngredientList(input), output, count).save(pFinishedRecipeConsumer, output);
     }
 
-    public static void teapotRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] input, Item output) {
-        new TeapotRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
+    public static void teapotRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] input, Item output) {
+        new TeapotRecipeBuilder(Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     public static void dimFermentationRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, int cookingTime, Item[] input, Item output) {
@@ -142,8 +142,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new SaucepanAndWhiskRecipeBuilder(heatState, Ingredient.of(container), toIngredientList(mainInput), toIngredientList(secondaryInput), output).save(pFinishedRecipeConsumer, output);
     }
 
-    public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item[] input, Item output) {
-        new ShakerRecipeBuilder(toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
+    public static void shakerRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, Item container, Item[] input, Item output) {
+        new ShakerRecipeBuilder(Ingredient.of(container), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
     }
 
     @Override
@@ -165,8 +165,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE}, Items.IRON_INGOT, 4);
         ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE}, Items.GOLD_INGOT, 4);
 
-        teapotRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.MILK_BUCKET, Items.DIAMOND}, Items.APPLE);
-        teapotRecipe(pWriter, new Item[]{Items.GOLD_INGOT, Items.MILK_BUCKET, Items.DIAMOND}, Items.STICK);
+        teapotRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.APPLE);
+        teapotRecipe(pWriter, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.STICK);
 
         dimFermentationRecipe(pWriter, 1200, new Item[]{Items.IRON_INGOT}, Items.APPLE);
         normalFermentationRecipe(pWriter, 1200, new Item[]{Items.GOLD_INGOT}, Items.STONE);
@@ -186,7 +186,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
         saucepanAndWhiskRecipe(pWriter, SaucepanAndWhiskRecipe.HeatState.NEED, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
 
-        shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT}, Items.APPLE);
-        shakerRecipe(pWriter, new Item[]{Items.IRON_INGOT, Items.MILK_BUCKET}, Items.DIAMOND);
+        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.GOLD_INGOT}, Items.APPLE);
+        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET}, Items.DIAMOND);
     }
 }

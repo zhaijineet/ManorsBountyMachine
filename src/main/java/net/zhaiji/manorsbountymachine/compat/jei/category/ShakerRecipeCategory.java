@@ -26,8 +26,9 @@ public class ShakerRecipeCategory extends BaseRecipeCategory<ShakerRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ShakerRecipe recipe, IFocusGroup focuses) {
+        builder.addInputSlot(110, 51)
+                .addIngredients(recipe.container);
         int[][] slots = {
-                {110, 51},
                 {17, 19},
                 {35, 19},
                 {53, 19},

@@ -9,8 +9,11 @@ import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
+
+import static net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager.*;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
@@ -39,5 +42,6 @@ public class ClientEventHandler {
 
     public static void handlerRecipesUpdatedEvent(RecipesUpdatedEvent event) {
         RecipeManager recipeManager = event.getRecipeManager();
+        SlotInputLimitManager.init(recipeManager);
     }
 }

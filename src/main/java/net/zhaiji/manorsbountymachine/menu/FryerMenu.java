@@ -11,8 +11,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
-import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
-import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 public class FryerMenu extends BaseMachineMenu {
@@ -55,19 +54,9 @@ public class FryerMenu extends BaseMachineMenu {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
                 @Override
                 public boolean mayPlace(ItemStack pStack) {
-                    boolean canPlace = super.mayPlace(pStack) && getCookingTime() == 0;
-                    if (!canPlace) return false;
-                    for (FastFryRecipe recipe : blockEntity.getAllFastRecipe()) {
-                        if (recipe.input.test(pStack)) {
-                            return true;
-                        }
-                    }
-                    for (SlowFryRecipe recipe : blockEntity.getAllSlowRecipe()) {
-                        if (recipe.input.test(pStack)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return super.mayPlace(pStack)
+                            && getCookingTime() == 0
+                            && SlotInputLimitManager.FERMENTER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
                 }
 
                 @Override
