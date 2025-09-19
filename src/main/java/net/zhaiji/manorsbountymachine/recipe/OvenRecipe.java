@@ -43,21 +43,6 @@ public class OvenRecipe extends BaseRecipe<OvenBlockEntity> implements CookingTi
     }
 
     @Override
-    public ItemStack assemble(OvenBlockEntity pContainer, RegistryAccess pRegistryAccess) {
-        ItemStack output = this.output.copy();
-        int count = output.getCount();
-        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
-        for (int slot : OvenBlockEntity.INPUT_SLOTS) {
-            ItemStack input = pContainer.getItem(slot);
-            if (input.isEmpty()) continue;
-            multiple = Math.min(multiple, input.getCount());
-        }
-        pContainer.outputMultiple = multiple;
-        output.setCount(count * multiple);
-        return output;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return InitRecipe.OVEN_RECIPE_SERIALIZER.get();
     }

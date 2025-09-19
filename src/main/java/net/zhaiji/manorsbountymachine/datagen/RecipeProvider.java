@@ -15,6 +15,8 @@ import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.recipe.SaucepanAndWhiskRecipe;
 import net.zhaiji.manorsbountymachine.recipe.builder.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider implements IConditionBuilder {
@@ -114,20 +116,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output).save(pFinishedRecipeConsumer, output);
     }
 
-    public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, Item outgrowth, float outgrowthChance) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
-    }
-
     public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, int outputCount) {
         new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount).save(pFinishedRecipeConsumer, output);
     }
 
-    public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
-        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount, outgrowth, outgrowthChance).save(pFinishedRecipeConsumer, output);
+    public static void cuttingBoardSingleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, TagKey<Item> tool, Item input, Item output, int outputCount, Map<Item, Float> outgrowths) {
+        new CuttingBoardSingleRecipeBuilder(Ingredient.of(tool), Ingredient.of(input), output, outputCount, outgrowths).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, TagKey<Item> tool, Item[] input, Item output) {
         new CuttingBoardMultipleRecipeBuilder(isShaped, Ingredient.of(tool), toIngredientList(input), output).save(pFinishedRecipeConsumer, output);
+    }
+
+    public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, TagKey<Item> tool, Item[] input, Item output, Map<Item, Float> outgrowths) {
+        new CuttingBoardMultipleRecipeBuilder(isShaped, Ingredient.of(tool), toIngredientList(input), output, outgrowths).save(pFinishedRecipeConsumer, output);
     }
 
     public static void cuttingBoardMultipleRecipe(Consumer<FinishedRecipe> pFinishedRecipeConsumer, boolean isShaped, Item[] input, Item output) {
@@ -176,11 +178,16 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         blenderRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.STONE, 4);
 
         cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.APPLE, Items.DIAMOND);
-        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, Items.STICK, 0.5F);
+        Map<Item, Float> singleTestMap = new HashMap<>();
+        singleTestMap.put(Items.STICK, 0.5F);
+        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, 1, singleTestMap);
 
         cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
         cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
         cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.STICK, Items.DIAMOND, Items.STICK}, Items.DIAMOND);
+        Map<Item, Float> multipleTestMap = new HashMap<>();
+        multipleTestMap.put(Items.STONE, 0.5F);
+        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND}, Items.APPLE, multipleTestMap);
 
         stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
 

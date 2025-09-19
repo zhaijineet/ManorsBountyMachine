@@ -14,7 +14,6 @@ public class StockPotSoundInstance extends AbstractTickableSoundInstance {
         super(InitSoundEvent.STOCK_POT_RUNNING.get(), SoundSource.BLOCKS, SoundInstance.createUnseededRandom());
         this.blockEntity = blockEntity;
         this.looping = true;
-        this.volume = 1;
     }
 
     @Override
@@ -26,6 +25,11 @@ public class StockPotSoundInstance extends AbstractTickableSoundInstance {
             this.x = blockPos.getX();
             this.y = blockPos.getY();
             this.z = blockPos.getZ();
+        }
+        if (this.blockEntity.isStockPotHeatBlock()) {
+            this.volume = 1;
+        } else {
+            this.volume = 0;
         }
     }
 }

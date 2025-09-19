@@ -102,7 +102,6 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             return 2;
         }
     };
-    public int outputMultiple = 0;
 
     public FermenterBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.FERMENTER.get(), pPos, pBlockState);
@@ -166,36 +165,44 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             this.stopRunning();
             return;
         }
-        ItemStack output = recipe.assemble(this, this.level.registryAccess());
         if (recipe.hasContainer()) {
-            this.getItem(CONTAINER).shrink(this.outputMultiple);
+            this.getItem(CONTAINER).shrink(1);
         }
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
             if (input.isEmpty()) continue;
-            ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(this.outputMultiple);
+                input.shrink(1);
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(slot, remaining);
             } else if (!remaining.isEmpty()) {
                 craftRemaining.add(remaining);
             }
-            if (recipe.lightState != this.getLightState()) {
-                this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(this.outputMultiple));
-            } else {
-                this.setItem(OUTPUT, output);
-            }
-            this.insertCraftRemaining(craftRemaining);
-            this.popCraftRemaining(craftRemaining);
         }
+        if (recipe.lightState != this.getLightState()) {
+            int count = 1;
+            int maxCookingTime = recipe.maxCookingTime;
+            if (maxCookingTime >= 90) {
+                count = 9;
+            } else if (maxCookingTime >= 60) {
+                count = 6;
+            } else if (maxCookingTime >= 30) {
+                count = 3;
+            }
+            this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(count));
+        } else {
+            this.setItem(OUTPUT, recipe.assemble(this, this.level.registryAccess()));
+        }
+        this.insertCraftRemaining(craftRemaining);
+        this.popCraftRemaining(craftRemaining);
         this.stopRunning();
     }
 

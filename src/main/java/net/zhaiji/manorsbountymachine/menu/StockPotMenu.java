@@ -50,7 +50,9 @@ public class StockPotMenu extends BaseMachineMenu {
         this.addSlot(new Slot(this.blockEntity, OUTPUT, 80, 81) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && SlotInputLimitManager.STOCK_POT_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                return super.mayPlace(pStack)
+                        && SlotInputLimitManager.STOCK_POT_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack))
+                        && getCookingTime() == 0;
             }
 
             @Override
@@ -84,6 +86,11 @@ public class StockPotMenu extends BaseMachineMenu {
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
+                @Override
+                public boolean mayPlace(ItemStack pStack) {
+                    return super.mayPlace(pStack) && getCookingTime() == 0;
+                }
+
                 @Override
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;

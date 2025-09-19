@@ -23,7 +23,23 @@ public class SlotInputLimitManager {
     public static final List<Ingredient> SAUCEPAN_AND_WHISK_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> SHAKER_INPUT_LIMIT = new ArrayList<>();
 
+    public static void reset() {
+        ICE_CREAM_MACHINE_FLUID_LIMIT.clear();
+        ICE_CREAM_MACHINE_INPUT_LIMIT.clear();
+        FRYER_INPUT_LIMIT.clear();
+        OVEN_INPUT_LIMIT.clear();
+        TEAPOT_CUP_LIMIT.clear();
+        TEAPOT_DRINK_LIMIT.clear();
+        TEAPOT_MATERIAL_LIMIT.clear();
+        FERMENTER_INPUT_LIMIT.clear();
+        BLENDER_INPUT_LIMIT.clear();
+        STOCK_POT_INPUT_LIMIT.clear();
+        SAUCEPAN_AND_WHISK_INPUT_LIMIT.clear();
+        SHAKER_INPUT_LIMIT.clear();
+    }
+
     public static void init(RecipeManager recipeManager) {
+        reset();
         initIceCreamMachineSlotLimit(recipeManager);
         initFryerSlotLimit(recipeManager);
         initOvenSlotLimit(recipeManager);
@@ -36,7 +52,6 @@ public class SlotInputLimitManager {
     }
 
     public static void initIceCreamMachineSlotLimit(RecipeManager recipeManager) {
-        ICE_CREAM_MACHINE_INPUT_LIMIT.clear();
         recipeManager.getAllRecipesFor(InitRecipe.ICE_CREAM_RECIPE_TYPE.get()).forEach(recipe -> {
             Fluid fluid = recipe.fluidStack.getFluid();
             if (!ICE_CREAM_MACHINE_FLUID_LIMIT.contains(fluid)) {
@@ -56,6 +71,12 @@ public class SlotInputLimitManager {
                 FRYER_INPUT_LIMIT.add(input);
             }
         });
+        SmokingRecipeManager.fastFryRecipes.forEach(recipe -> {
+            Ingredient input = recipe.input;
+            if (!FRYER_INPUT_LIMIT.contains(input)) {
+                FRYER_INPUT_LIMIT.add(input);
+            }
+        });
         recipeManager.getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient input = recipe.input;
             if (!FRYER_INPUT_LIMIT.contains(input)) {
@@ -66,6 +87,13 @@ public class SlotInputLimitManager {
 
     public static void initOvenSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get()).forEach(recipe -> {
+            recipe.input.forEach(ingredient -> {
+                if (!OVEN_INPUT_LIMIT.contains(ingredient)) {
+                    OVEN_INPUT_LIMIT.add(ingredient);
+                }
+            });
+        });
+        SmokingRecipeManager.ovenRecipes.forEach(recipe -> {
             recipe.input.forEach(ingredient -> {
                 if (!OVEN_INPUT_LIMIT.contains(ingredient)) {
                     OVEN_INPUT_LIMIT.add(ingredient);

@@ -45,7 +45,8 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
     @Override
     public ItemStack assemble(BlenderBlockEntity pContainer, RegistryAccess pRegistryAccess) {
         ItemStack output = this.output.copy();
-        int count = output.getCount();
+        ItemStack outgrowth = this.outgrowth.copy();
+        int count = Math.max(output.getCount(), outgrowth.getCount());
         int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
         for (int slot : BlenderBlockEntity.INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);

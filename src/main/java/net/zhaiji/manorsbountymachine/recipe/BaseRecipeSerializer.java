@@ -12,6 +12,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements RecipeSerializer<T> {
     public int getInt(JsonObject serializedRecipe, String name) {
         return GsonHelper.getAsInt(serializedRecipe, name);
@@ -66,10 +69,10 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
     }
 
     public NonNullList<Ingredient> getIngredients(JsonObject serializedRecipe, String name, int size) {
-        JsonArray ingredientsArray = GsonHelper.getAsJsonArray(serializedRecipe, name);
+        JsonArray array = GsonHelper.getAsJsonArray(serializedRecipe, name);
         NonNullList<Ingredient> ingredients = NonNullList.withSize(size, Ingredient.EMPTY);
-        for (int i = 0; i < ingredientsArray.size(); i++) {
-            ingredients.set(i, Ingredient.fromJson(ingredientsArray.get(i)));
+        for (int i = 0; i < array.size(); i++) {
+            ingredients.set(i, Ingredient.fromJson(array.get(i)));
         }
         return ingredients;
     }
@@ -185,6 +188,29 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
         return this.getFloat(buffer);
     }
 
+    public Map<ItemStack, Float> getOutgrowths(JsonObject serializedRecipe) {
+        Map<ItemStack, Float> outgrowths = new HashMap<>();
+        if (serializedRecipe.has("outgrowths")) {
+            JsonArray array = GsonHelper.getAsJsonArray(serializedRecipe, "outgrowths");
+            for (int i = 0; i < array.size(); i++) {
+                JsonObject object = array.get(i).getAsJsonObject();
+                ItemStack itemStack = ShapedRecipe.itemStackFromJson(array.get(i).getAsJsonObject());
+                float chance = object.has("chance") ? GsonHelper.getAsFloat(object, "chance") : 1;
+                outgrowths.put(itemStack, chance);
+            }
+        }
+        return outgrowths;
+    }
+
+    public Map<ItemStack, Float> getOutgrowths(FriendlyByteBuf buffer) {
+        Map<ItemStack, Float> outgrowths = new HashMap<>();
+        int size = buffer.readInt();
+        for (int i = 0; i < size; i++) {
+            outgrowths.put(buffer.readItem(), buffer.readFloat());
+        }
+        return outgrowths;
+    }
+
     public void toInt(FriendlyByteBuf buffer, int value) {
         buffer.writeInt(value);
     }
@@ -253,5 +279,13 @@ public abstract class BaseRecipeSerializer<T extends BaseRecipe<?>> implements R
 
     public void toOutgrowthChance(FriendlyByteBuf buffer, float outgrowthChance) {
         this.toFloat(buffer, outgrowthChance);
+    }
+
+    public void toOutgrowths(FriendlyByteBuf buffer, Map<ItemStack, Float> outgrowths) {
+        buffer.writeInt(outgrowths.size());
+        outgrowths.forEach((itemStack, chance) -> {
+            buffer.writeItem(itemStack);
+            buffer.writeFloat(chance);
+        });
     }
 }

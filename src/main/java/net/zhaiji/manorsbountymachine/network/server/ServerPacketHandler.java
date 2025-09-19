@@ -92,7 +92,7 @@ public class ServerPacketHandler {
             blockEntity.triggerAnim("saucepan_and_whisk", "animation.saucepan_and_whisk.working");
             if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT) {
                 blockEntity.craftItem();
-                blockEntity.setStirsCount(3);
+                blockEntity.setStirsCount(SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT);
             }
         }
     }

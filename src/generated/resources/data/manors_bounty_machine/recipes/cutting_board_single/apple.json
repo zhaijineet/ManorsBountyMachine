@@ -3,10 +3,12 @@
   "input": {
     "item": "minecraft:diamond"
   },
-  "outgrowth": {
-    "item": "minecraft:stick"
-  },
-  "outgrowthChance": 0.5,
+  "outgrowths": [
+    {
+      "chance": 0.5,
+      "item": "minecraft:stick"
+    }
+  ],
   "output": {
     "item": "minecraft:apple"
   },

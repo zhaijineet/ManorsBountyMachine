@@ -67,7 +67,9 @@ public class OvenMenu extends BaseMachineMenu {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
                 @Override
                 public boolean mayPlace(ItemStack pStack) {
-                    return super.mayPlace(pStack) && SlotInputLimitManager.OVEN_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                    return super.mayPlace(pStack)
+                            && SlotInputLimitManager.OVEN_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack))
+                            && getCookingTime() == 0;
                 }
 
                 @Override
@@ -82,6 +84,16 @@ public class OvenMenu extends BaseMachineMenu {
             });
         }
         this.addSlot(new Slot(this.blockEntity, OvenBlockEntity.OUTPUT, 80, 65) {
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return super.mayPlace(pStack) && getCookingTime() == 0;
+            }
+
+            @Override
+            public boolean mayPickup(Player pPlayer) {
+                return super.mayPickup(pPlayer) && getCookingTime() == 0;
+            }
+
             @Override
             public boolean isActive() {
                 return super.isActive() && this.hasItem();

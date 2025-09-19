@@ -12,19 +12,23 @@ import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 import static net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity.CuttingBoardCraftContainer;
 import static net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity.ITEMS_SIZE;
 
-public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftContainer> implements OneInputRecipe {
+public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftContainer> implements OneInputRecipe, HasListOutgrowthRecipe {
     public final boolean isShaped;
     public final Ingredient tool;
     public final NonNullList<Ingredient> input;
+    public final Map<ItemStack, Float> outgrowths;
 
-    public CuttingBoardMultipleRecipe(ResourceLocation id, boolean isShaped, Ingredient tool, NonNullList<Ingredient> input, ItemStack output) {
+    public CuttingBoardMultipleRecipe(ResourceLocation id, boolean isShaped, Ingredient tool, NonNullList<Ingredient> input, ItemStack output, Map<ItemStack, Float> outgrowths) {
         super(id, output);
         this.tool = tool;
         this.isShaped = isShaped;
         this.input = input;
+        this.outgrowths = outgrowths;
     }
 
     public boolean hasTool() {
@@ -64,6 +68,11 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
         return this.input;
     }
 
+    @Override
+    public Map<ItemStack, Float> getOutgrowths() {
+        return this.outgrowths;
+    }
+
     public static class Serializer extends BaseRecipeSerializer<CuttingBoardMultipleRecipe> {
         @Override
         public CuttingBoardMultipleRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
@@ -72,7 +81,8 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
                     this.getBoolean(pSerializedRecipe, "isShaped"),
                     this.getNullableIngredient(pSerializedRecipe, "tool"),
                     this.getInput(pSerializedRecipe, ITEMS_SIZE),
-                    this.getOutput(pSerializedRecipe)
+                    this.getOutput(pSerializedRecipe),
+                    this.getOutgrowths(pSerializedRecipe)
             );
         }
 
@@ -83,7 +93,8 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
                     this.getBoolean(pBuffer),
                     this.getIngredient(pBuffer),
                     this.getInput(pBuffer, ITEMS_SIZE),
-                    this.getOutput(pBuffer)
+                    this.getOutput(pBuffer),
+                    this.getOutgrowths(pBuffer)
             );
         }
 
@@ -93,6 +104,7 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
             this.toIngredient(pBuffer, pRecipe.tool);
             this.toMainInput(pBuffer, pRecipe.input);
             this.toOutput(pBuffer, pRecipe.output);
+            this.toOutgrowths(pBuffer, pRecipe.outgrowths);
         }
     }
 }

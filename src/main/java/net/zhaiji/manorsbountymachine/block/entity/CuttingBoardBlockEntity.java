@@ -20,6 +20,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
@@ -46,9 +47,9 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
                 this.toolHurt(player, tool);
                 this.setItem(this.craftIndex, ItemStack.EMPTY);
                 this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
-                ItemStack outgrowth = cuttingBoardSingleRecipe.rollForOutgrowth(this.level);
+                List<ItemStack> outgrowth = cuttingBoardSingleRecipe.rollForOutgrowths(this.level);
                 if (!outgrowth.isEmpty()) {
-                    this.dropItemStack(outgrowth);
+                    outgrowth.forEach(this::dropItemStack);
                 }
                 if (ManorsBountyCompat.isKnife(tool)) {
                     this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
@@ -75,6 +76,10 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
         if (recipe.isPresent()) {
             this.clearContent();
             this.dropItemStack(recipe.get().assemble(container, this.level.registryAccess()));
+            List<ItemStack> outgrowth = recipe.get().rollForOutgrowths(this.level);
+            if (!outgrowth.isEmpty()) {
+                outgrowth.forEach(this::dropItemStack);
+            }
             this.toolHurt(player, tool);
             if (tool.isEmpty()) {
                 this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);

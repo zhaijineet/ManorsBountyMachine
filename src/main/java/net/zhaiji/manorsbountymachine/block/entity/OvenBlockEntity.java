@@ -11,12 +11,14 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
 import net.zhaiji.manorsbountymachine.recipe.OvenRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
@@ -71,7 +73,6 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
             return 3;
         }
     };
-    public int outputMultiple = 0;
     public int playSoundCooldown = 0;
 
     public OvenBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -100,7 +101,7 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         if (this.temperature == Temperature.ZERO) return;
         if (this.maxCookingTime == MaxCookingTime.ZERO) return;
         if (!this.getItem(OUTPUT).isEmpty()) return;
-        if (this.getRecipe().isEmpty()) return;
+        if (this.getRecipe().isEmpty() && this.getSmokingRecipe().isEmpty()) return;
         this.isRunning = true;
         this.playSoundCooldown = 0;
         this.setRunningState(true);
@@ -116,24 +117,17 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
 
     public void craftItem() {
         Optional<OvenRecipe> recipe = this.getRecipe();
+        if (recipe.isEmpty()) {
+            recipe = this.getSmokingRecipe();
+        }
         List<ItemStack> craftRemaining = new ArrayList<>();
         ItemStack output;
         if (recipe.isPresent() && recipe.get().isStateMatch(this)) {
             output = recipe.get().assemble(this, this.level.registryAccess());
-            this.handlerCraft(true, craftRemaining);
+            this.handlerCraft(craftRemaining);
         } else {
-            int count = 0;
-            if (recipe.isPresent()) {
-                count = recipe.get().output.getCount();
-            } else {
-                for (int slot : INPUT_SLOTS) {
-                    ItemStack input = this.getItem(slot);
-                    if (input.isEmpty()) continue;
-                    count++;
-                }
-            }
-            output = this.getFailItemStack().copyWithCount(count);
-            this.handlerCraft(false, craftRemaining);
+            output = this.getFailItemStack();
+            this.handlerCraft(craftRemaining);
         }
         this.setItem(OUTPUT, output);
         this.insertCraftRemaining(craftRemaining);
@@ -141,19 +135,18 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         this.stopRunning();
     }
 
-    public void handlerCraft(boolean hasRecipe, List<ItemStack> craftRemaining) {
-        int consumeCount = hasRecipe ? this.outputMultiple : 1;
+    public void handlerCraft(List<ItemStack> craftRemaining) {
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
             if (input.isEmpty()) continue;
-            ItemStack remaining = MachineUtil.getCraftRemaining(input, consumeCount);
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(consumeCount);
+                input.shrink(1);
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(slot, remaining);
@@ -180,7 +173,7 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
     }
 
     public ItemStack getFailItemStack() {
-        return Items.CHARCOAL.getDefaultInstance();
+        return Items.CHARCOAL.getDefaultInstance().copyWithCount(1);
     }
 
     public void setRunningState(boolean isRunning) {
@@ -214,6 +207,15 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
 
     public Optional<OvenRecipe> getRecipe() {
         return this.recipeCheck.getRecipeFor(this, this.level);
+    }
+
+    public Optional<OvenRecipe> getSmokingRecipe() {
+        for (OvenRecipe ovenRecipe : SmokingRecipeManager.ovenRecipes) {
+            if (ovenRecipe.matches(this, this.level)) {
+                return Optional.of(ovenRecipe);
+            }
+        }
+        return Optional.empty();
     }
 
     public List<OvenRecipe> getAllRecipe() {

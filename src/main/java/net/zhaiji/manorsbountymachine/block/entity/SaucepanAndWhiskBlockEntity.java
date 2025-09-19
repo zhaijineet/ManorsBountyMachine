@@ -45,7 +45,7 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
     public static final int[] MAIN_INPUT_SLOTS = {MAIN_TOP_LEFT, MAIN_TOP_CENTER, MAIN_TOP_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_CENTER, MAIN_BOTTOM_RIGHT};
     public static final int[] SECONDARY_INPUT_SLOTS = {SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
     public static final int[] INPUT_SLOTS = {OUTPUT, MAIN_TOP_LEFT, MAIN_TOP_CENTER, MAIN_TOP_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_CENTER, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
-    public static final int MAX_STIRS_COUNT = 3;
+    public static final int MAX_STIRS_COUNT = 6;
     public static final RawAnimation DEPLOY_ANIM = RawAnimation.begin().then("animation.saucepan_and_whisk.working", Animation.LoopType.PLAY_ONCE);
     public final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public final RecipeManager.CachedCheck<SaucepanAndWhiskBlockEntity, SaucepanAndWhiskRecipe> recipeCheck;

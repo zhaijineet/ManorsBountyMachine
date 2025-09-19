@@ -11,20 +11,20 @@ import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 import static net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity.CuttingBoardCraftContainer;
 
-public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContainer> implements SingleInputRecipe, HasOutgrowthRecipe {
+public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContainer> implements SingleInputRecipe, HasListOutgrowthRecipe {
     public final Ingredient tool;
     public final Ingredient input;
-    public final ItemStack outgrowth;
-    public final float outgrowthChance;
+    public final Map<ItemStack, Float> outgrowths;
 
-    public CuttingBoardSingleRecipe(ResourceLocation id, Ingredient tool, Ingredient input, ItemStack output, ItemStack outgrowth, float outgrowthChance) {
+    public CuttingBoardSingleRecipe(ResourceLocation id, Ingredient tool, Ingredient input, ItemStack output, Map<ItemStack, Float> outgrowths) {
         super(id, output);
         this.tool = tool;
         this.input = input;
-        this.outgrowth = outgrowth;
-        this.outgrowthChance = outgrowthChance;
+        this.outgrowths = outgrowths;
     }
 
     @Override
@@ -44,18 +44,13 @@ public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContai
     }
 
     @Override
-    public ItemStack getOutgrowth() {
-        return this.outgrowth;
-    }
-
-    @Override
-    public float getOutgrowthChance() {
-        return this.outgrowthChance;
-    }
-
-    @Override
     public Ingredient getInput() {
         return this.input;
+    }
+
+    @Override
+    public Map<ItemStack, Float> getOutgrowths() {
+        return this.outgrowths;
     }
 
     public static class Serializer extends BaseRecipeSerializer<CuttingBoardSingleRecipe> {
@@ -66,8 +61,7 @@ public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContai
                     this.getIngredient(pSerializedRecipe, "tool"),
                     this.getInput(pSerializedRecipe),
                     this.getOutput(pSerializedRecipe),
-                    this.getOutgrowth(pSerializedRecipe),
-                    this.getOutgrowthChance(pSerializedRecipe)
+                    this.getOutgrowths(pSerializedRecipe)
             );
         }
 
@@ -78,8 +72,7 @@ public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContai
                     this.getIngredient(pBuffer),
                     this.getInput(pBuffer),
                     this.getOutput(pBuffer),
-                    this.getOutgrowth(pBuffer),
-                    this.getOutgrowthChance(pBuffer)
+                    this.getOutgrowths(pBuffer)
             );
         }
 
@@ -88,8 +81,7 @@ public class CuttingBoardSingleRecipe extends BaseRecipe<CuttingBoardCraftContai
             this.toIngredient(pBuffer, pRecipe.tool);
             this.toInput(pBuffer, pRecipe.input);
             this.toOutput(pBuffer, pRecipe.output);
-            this.toOutgrowth(pBuffer, pRecipe.outgrowth);
-            this.toOutgrowthChance(pBuffer, pRecipe.outgrowthChance);
+            this.toOutgrowths(pBuffer, pRecipe.outgrowths);
         }
     }
 }

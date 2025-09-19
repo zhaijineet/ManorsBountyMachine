@@ -216,7 +216,7 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
 
     public void renderStirsCount(GuiGraphics pGuiGraphics) {
         pGuiGraphics.blit(SAUCEPAN_AND_WHISK_GUI_WIDGET, this.leftPos + 158, this.topPos + 64, STIRS_X_OFFSET, STIRS_Y_OFFSET, STIRS_WIDTH, STIRS_HEIGHT);
-        int stirsCount = this.menu.getStirsCount();
+        int stirsCount = this.menu.getStirsCount() / 2;
         int[][] stirsLevel = {
                 {160, 116, STIRS_0_X_OFFSET, STIRS_0_Y_OFFSET, STIRS_0_WIDTH, STIRS_0_HEIGHT},
                 {160, 95, STIRS_1_X_OFFSET, STIRS_1_Y_OFFSET, STIRS_1_WIDTH, STIRS_1_HEIGHT},

@@ -9,11 +9,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.compat.jei.ManorsBountyMachineJeiPlugin;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardMultipleRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardRecipeWrapper> {
     public static final ResourceLocation CUTTING_BOARD_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/cutting_board_recipe_background.png");
@@ -60,17 +63,37 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     .addIngredients(singleRecipe.input);
             builder.addInputSlot(71, 33)
                     .addIngredients(singleRecipe.tool);
-            builder.addOutputSlot(109, 32)
+            int size = singleRecipe.outgrowths.size();
+            int[][][] pos = {
+                    {
+                            {118, 33}
+                    },
+                    {
+                            {105, 33},
+                            {131, 33},
+                    },
+                    {
+                            {105, 19},
+                            {131, 19},
+                            {105, 45},
+                            {131, 45},
+                    }
+            };
+            builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
                     .addItemStack(singleRecipe.output);
-            if (singleRecipe.hasOutgrowth()) {
-                builder.addInputSlot(133, 32)
-                        .addItemStack(singleRecipe.outgrowth)
+            int i = 1;
+            for (Map.Entry<ItemStack, Float> entry : singleRecipe.outgrowths.entrySet()) {
+                builder.addOutputSlot(pos[size][i][0], pos[size][i][1])
+                        .addItemStack(entry.getKey())
                         .addRichTooltipCallback((recipeSlotView, tooltip) -> {
-                            tooltip.add(
-                                    Component.translatable("gui.jei.category.recipe.chance", (int) (singleRecipe.outgrowthChance * 100))
-                                            .withStyle(ChatFormatting.YELLOW)
-                            );
+                            if (entry.getValue() < 1) {
+                                tooltip.add(
+                                        Component.translatable("gui.jei.category.recipe.chance", (int) (entry.getValue() * 100))
+                                                .withStyle(ChatFormatting.YELLOW)
+                                );
+                            }
                         });
+                i++;
             }
         });
     }
@@ -87,8 +110,38 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                 builder.addInputSlot(71, 33)
                         .addIngredients(multipleRecipe.tool);
             }
-            builder.addOutputSlot(109, 32)
+            int size = multipleRecipe.outgrowths.size();
+            int[][][] pos = {
+                    {
+                            {118, 33}
+                    },
+                    {
+                            {105, 33},
+                            {131, 33},
+                    },
+                    {
+                            {105, 19},
+                            {131, 19},
+                            {105, 45},
+                            {131, 45},
+                    }
+            };
+            builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
                     .addItemStack(multipleRecipe.output);
+            int i = 1;
+            for (Map.Entry<ItemStack, Float> entry : multipleRecipe.outgrowths.entrySet()) {
+                builder.addOutputSlot(pos[size][i][0], pos[size][i][1])
+                        .addItemStack(entry.getKey())
+                        .addRichTooltipCallback((recipeSlotView, tooltip) -> {
+                            if (entry.getValue() < 1) {
+                                tooltip.add(
+                                        Component.translatable("gui.jei.category.recipe.chance", (int) (entry.getValue() * 100))
+                                                .withStyle(ChatFormatting.YELLOW)
+                                );
+                            }
+                        });
+                i++;
+            }
         });
     }
 
@@ -102,9 +155,24 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
         recipe.getSingleRecipe().ifPresent(singleRecipe -> {
             this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, 22, 32);
             this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, 70, 32);
-            this.guiHelper.createDrawable(this.background, OUTPUT_X_OFFSET, OUTPUT_Y_OFFSET, OUTPUT_WIDTH, OUTPUT_HEIGHT).draw(guiGraphics, 104, 27);
-            if (singleRecipe.hasOutgrowth()) {
-                this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, 132, 31);
+            int size = singleRecipe.outgrowths.size();
+            int[][][] pos = {
+                    {
+                            {117, 32}
+                    },
+                    {
+                            {104, 32},
+                            {130, 32},
+                    },
+                    {
+                            {104, 18},
+                            {130, 18},
+                            {104, 44},
+                            {130, 44},
+                    }
+            };
+            for (int i = 0; i < size + 1; i++) {
+                this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
             }
         });
     }
@@ -137,7 +205,25 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
             if (multipleRecipe.hasTool()) {
                 this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, 70, 32);
             }
-            this.guiHelper.createDrawable(this.background, OUTPUT_X_OFFSET, OUTPUT_Y_OFFSET, OUTPUT_WIDTH, OUTPUT_HEIGHT).draw(guiGraphics, 104, 27);
+            int size = multipleRecipe.outgrowths.size();
+            int[][][] pos = {
+                    {
+                            {117, 32}
+                    },
+                    {
+                            {104, 32},
+                            {130, 32},
+                    },
+                    {
+                            {104, 18},
+                            {130, 18},
+                            {104, 44},
+                            {130, 44},
+                    }
+            };
+            for (int i = 0; i < size + 1; i++) {
+                this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+            }
         });
     }
 

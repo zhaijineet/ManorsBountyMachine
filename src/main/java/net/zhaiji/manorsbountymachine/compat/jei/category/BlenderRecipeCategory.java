@@ -71,10 +71,12 @@ public class BlenderRecipeCategory extends BaseRecipeCategory<BlenderRecipe> {
             builder.addOutputSlot(116, 6)
                     .addItemStack(recipe.outgrowth)
                     .addRichTooltipCallback((recipeSlotView, tooltip) -> {
-                        tooltip.add(
-                                Component.translatable("gui.jei.category.recipe.chance", (int) (recipe.outgrowthChance * 100))
-                                        .withStyle(ChatFormatting.YELLOW)
-                        );
+                        if (recipe.outgrowthChance < 1) {
+                            tooltip.add(
+                                    Component.translatable("gui.jei.category.recipe.chance", (int) (recipe.outgrowthChance * 100))
+                                            .withStyle(ChatFormatting.YELLOW)
+                            );
+                        }
                     });
         }
     }

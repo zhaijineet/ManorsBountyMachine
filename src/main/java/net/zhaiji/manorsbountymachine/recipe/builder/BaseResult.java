@@ -13,6 +13,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 public abstract class BaseResult implements FinishedRecipe {
     public final ResourceLocation id;
     public final RecipeSerializer<?> recipeSerializer;
@@ -122,6 +124,21 @@ public abstract class BaseResult implements FinishedRecipe {
 
     public void addOutgrowthChance(JsonObject json, float value) {
         this.addNumber(json, "outgrowthChance", value);
+    }
+
+    public void addOutgrowths(JsonObject json, Map<Item, Float> outgrowths) {
+        JsonArray array = new JsonArray();
+        outgrowths.forEach((item, chance) -> {
+            JsonObject object = new JsonObject();
+            object.addProperty("item", ForgeRegistries.ITEMS.getKey(item).toString());
+            if (chance < 1) {
+                object.addProperty("chance", chance);
+            }
+            array.add(object);
+        });
+        if (!array.isEmpty()) {
+            json.add("outgrowths", array);
+        }
     }
 
     @Override

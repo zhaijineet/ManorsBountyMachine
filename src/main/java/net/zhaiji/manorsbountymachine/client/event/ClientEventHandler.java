@@ -1,19 +1,23 @@
 package net.zhaiji.manorsbountymachine.client.event;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
+import net.zhaiji.manorsbountymachine.compat.jei.ManorsBountyMachineJeiPlugin;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
-
-import static net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager.*;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
@@ -42,6 +46,25 @@ public class ClientEventHandler {
 
     public static void handlerRecipesUpdatedEvent(RecipesUpdatedEvent event) {
         RecipeManager recipeManager = event.getRecipeManager();
+        SmokingRecipeManager.init(recipeManager);
         SlotInputLimitManager.init(recipeManager);
+    }
+
+    public static void handlerBuildCreativeModeTabContentsEvent(BuildCreativeModeTabContentsEvent event) {
+        ResourceKey<CreativeModeTab> tabKey = event.getTabKey();
+        if (!ManorsBountyMachineJeiPlugin.TAB_KEY.contains(tabKey)) {
+            ManorsBountyMachineJeiPlugin.TAB_KEY.add(tabKey);
+        } else {
+            ManorsBountyMachineJeiPlugin.INITIALIZE = true;
+        }
+        if (!ManorsBountyMachineJeiPlugin.INITIALIZE) {
+            event.getEntries().forEach(entry -> {
+                ItemStack itemStack = entry.getKey();
+                if (!ManorsBountyMachineJeiPlugin.ITEM_ORDER.containsKey(itemStack.getItem())) {
+                    ManorsBountyMachineJeiPlugin.ITEM_ORDER.put(itemStack.getItem(), ManorsBountyMachineJeiPlugin.INDEX);
+                    ManorsBountyMachineJeiPlugin.INDEX++;
+                }
+            });
+        }
     }
 }

@@ -17,7 +17,7 @@ public class CooktopBlockEntity extends BlockEntity {
 
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, CooktopBlockEntity pBlockEntity) {
         pBlockEntity.time++;
-        if (pState.getValue(CooktopBlock.RUNNING) && pLevel.getBlockState(pPos.above()).isAir() && pBlockEntity.time % 5 == 0) {
+        if (pState.getValue(CooktopBlock.RUNNING) && pBlockEntity.time % 5 == 0) {
             pBlockEntity.time = 0;
             double x = pPos.getX() + 0.5;
             double y = pPos.getY() + 1.15;

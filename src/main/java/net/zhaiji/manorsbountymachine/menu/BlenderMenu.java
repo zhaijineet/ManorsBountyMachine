@@ -8,7 +8,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
-import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
@@ -44,7 +43,9 @@ public class BlenderMenu extends BaseMachineMenu {
         this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && SlotInputLimitManager.BLENDER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                return super.mayPlace(pStack)
+                        && SlotInputLimitManager.BLENDER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack))
+                        && getCookingTime() == 0;
             }
 
             @Override
@@ -81,6 +82,11 @@ public class BlenderMenu extends BaseMachineMenu {
                 @Override
                 public boolean mayPlace(ItemStack pStack) {
                     return false;
+                }
+
+                @Override
+                public boolean mayPickup(Player pPlayer) {
+                    return super.mayPickup(pPlayer) && getCookingTime() == 0;
                 }
 
                 @Override

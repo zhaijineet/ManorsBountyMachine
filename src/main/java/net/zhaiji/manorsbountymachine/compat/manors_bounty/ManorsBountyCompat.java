@@ -38,10 +38,10 @@ public class ManorsBountyCompat {
     //    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle"));
     public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE_MILK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle_milktea"));
     public static final TagKey<Item> CATALYSTS = ItemTags.create(getManorsBountyResourceLocation("catalysts"));
-    public static final TagKey<Item> CATALYSTS_A = ItemTags.create(getManorsBountyResourceLocation("catalysts_a"));
-    public static final TagKey<Item> CATALYSTS_B = ItemTags.create(getManorsBountyResourceLocation("catalysts_b"));
-    public static final TagKey<Item> CATALYSTS_C = ItemTags.create(getManorsBountyResourceLocation("catalysts_c"));
-    public static final TagKey<Item> CATALYSTS_X = ItemTags.create(getManorsBountyResourceLocation("catalysts_x"));
+    public static final TagKey<Item> CATALYSTS_A = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_a"));
+    public static final TagKey<Item> CATALYSTS_B = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_b"));
+    public static final TagKey<Item> CATALYSTS_C = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_c"));
+    public static final TagKey<Item> CATALYSTS_X = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_x"));
     public static final TagKey<Item> KNIVES = ItemTags.create(getForgeResourceLocation("tools/knives"));
     public static final TagKey<Item> ROLLING_PINS = ItemTags.create(getForgeResourceLocation("tools/rolling_pins"));
 

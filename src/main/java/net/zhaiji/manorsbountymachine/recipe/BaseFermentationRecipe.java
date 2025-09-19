@@ -43,21 +43,6 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
     }
 
     @Override
-    public ItemStack assemble(FermenterBlockEntity pContainer, RegistryAccess pRegistryAccess) {
-        ItemStack output = this.output.copy();
-        int count = output.getCount();
-        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
-        for (int slot : INPUT_SLOTS) {
-            ItemStack input = pContainer.getItem(slot);
-            if (input.isEmpty()) continue;
-            multiple = Math.min(multiple, input.getCount());
-        }
-        pContainer.outputMultiple = multiple;
-        output.setCount(count * multiple);
-        return output;
-    }
-
-    @Override
     public int getMaxCookingTime() {
         return this.maxCookingTime;
     }

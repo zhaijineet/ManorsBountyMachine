@@ -56,7 +56,7 @@ public class FryerMenu extends BaseMachineMenu {
                 public boolean mayPlace(ItemStack pStack) {
                     return super.mayPlace(pStack)
                             && getCookingTime() == 0
-                            && SlotInputLimitManager.FERMENTER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                            && SlotInputLimitManager.FRYER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
                 }
 
                 @Override

@@ -39,12 +39,12 @@ public class SaucepanAndWhiskRecipeCategory extends BaseRecipeCategory<SaucepanA
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, SaucepanAndWhiskRecipe recipe, IFocusGroup focuses) {
         int[][] slots = {
-                {40, 12},
-                {59, 12},
-                {78, 12},
-                {40, 32},
-                {59, 32},
-                {78, 32}
+                {48, 12},
+                {67, 12},
+                {86, 12},
+                {48, 32},
+                {67, 32},
+                {86, 32}
         };
         for (int i = 0; i < slots.length; i++) {
             Ingredient ingredient = recipe.mainInput.get(i);
@@ -69,10 +69,10 @@ public class SaucepanAndWhiskRecipeCategory extends BaseRecipeCategory<SaucepanA
                     .addIngredients(ingredient);
         }
         if (recipe.hasContainer()) {
-            builder.addInputSlot(109, 52)
+            builder.addInputSlot(117, 52)
                     .addIngredients(recipe.container);
         }
-        builder.addOutputSlot(109, 29)
+        builder.addOutputSlot(117, 29)
                 .addItemStack(recipe.output);
     }
 

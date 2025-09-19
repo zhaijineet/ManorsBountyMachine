@@ -26,6 +26,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.FryerBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
@@ -121,7 +122,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             if (input.isEmpty()) continue;
             count += input.getCount();
             if (flag) continue;
-            flag = this.findFastRecipe(input).isPresent() || this.findSlowRecipe(input).isPresent();
+            flag = this.findFastRecipe(input).isPresent() || this.findSmokingRecipe(input).isPresent() || this.findSlowRecipe(input).isPresent();
         }
         if (count == 0) return;
         if (!flag) return;
@@ -212,6 +213,15 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
 
     public Optional<FastFryRecipe> findFastRecipe(ItemStack input) {
         for (FastFryRecipe fastFryRecipe : this.getAllFastRecipe()) {
+            if (fastFryRecipe.input.test(input)) {
+                return Optional.of(fastFryRecipe);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<FastFryRecipe> findSmokingRecipe(ItemStack input) {
+        for (FastFryRecipe fastFryRecipe : SmokingRecipeManager.fastFryRecipes) {
             if (fastFryRecipe.input.test(input)) {
                 return Optional.of(fastFryRecipe);
             }
@@ -336,6 +346,9 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             if (input.isEmpty()) return;
             this.originalItem = input.copy();
             Optional<FastFryRecipe> recipe = this.blockEntity.findFastRecipe(this.originalItem);
+            if (recipe.isEmpty()) {
+                recipe = this.blockEntity.findSmokingRecipe(this.originalItem);
+            }
             if (recipe.isPresent()) {
                 recipe.ifPresent(this::fastCraftItem);
             } else {

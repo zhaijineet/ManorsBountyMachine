@@ -4,38 +4,34 @@ import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CuttingBoardSingleRecipeBuilder extends BaseRecipeBuilder {
     public final Ingredient tool;
     public final Ingredient input;
     public final Item output;
     public final int outputCount;
-    public final Item outgrowth;
-    public final float outgrowthChance;
+    public final Map<Item, Float> outgrowths;
 
     public CuttingBoardSingleRecipeBuilder(Ingredient tool, Ingredient input, Item output) {
-        this(tool, input, output, 1, Items.AIR, 0);
-    }
-
-    public CuttingBoardSingleRecipeBuilder(Ingredient tool, Ingredient input, Item output, Item outgrowth, float outgrowthChance) {
-        this(tool, input, output, 1, outgrowth, outgrowthChance);
+        this(tool, input, output, 1, new HashMap<>());
     }
 
     public CuttingBoardSingleRecipeBuilder(Ingredient tool, Ingredient input, Item output, int outputCount) {
-        this(tool, input, output, outputCount, Items.AIR, 0);
+        this(tool, input, output, outputCount, new HashMap<>());
     }
 
-    public CuttingBoardSingleRecipeBuilder(Ingredient tool, Ingredient input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+    public CuttingBoardSingleRecipeBuilder(Ingredient tool, Ingredient input, Item output, int outputCount, Map<Item, Float> outgrowths) {
         this.tool = tool;
         this.input = input;
         this.output = output;
         this.outputCount = outputCount;
-        this.outgrowth = outgrowth;
-        this.outgrowthChance = outgrowthChance;
+        this.outgrowths = outgrowths;
     }
 
     @Override
@@ -57,8 +53,7 @@ public class CuttingBoardSingleRecipeBuilder extends BaseRecipeBuilder {
                 this.input,
                 this.output,
                 this.outputCount,
-                this.outgrowth,
-                this.outgrowthChance
+                this.outgrowths
         );
     }
 
@@ -67,17 +62,15 @@ public class CuttingBoardSingleRecipeBuilder extends BaseRecipeBuilder {
         public final Ingredient input;
         public final Item output;
         public final int outputCount;
-        public final Item outgrowth;
-        public final float outgrowthChance;
+        public final Map<Item, Float> outgrowths;
 
-        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, Ingredient tool, Ingredient input, Item output, int outputCount, Item outgrowth, float outgrowthChance) {
+        public Result(ResourceLocation id, RecipeSerializer<?> recipeSerializer, Ingredient tool, Ingredient input, Item output, int outputCount, Map<Item, Float> outgrowths) {
             super(id, recipeSerializer);
             this.tool = tool;
             this.input = input;
             this.output = output;
             this.outputCount = outputCount;
-            this.outgrowth = outgrowth;
-            this.outgrowthChance = outgrowthChance;
+            this.outgrowths = outgrowths;
         }
 
         @Override
@@ -85,10 +78,7 @@ public class CuttingBoardSingleRecipeBuilder extends BaseRecipeBuilder {
             this.addIngredient(pJson, "tool", this.tool);
             this.addInput(pJson, this.input);
             this.addOutput(pJson, this.output, this.outputCount);
-            if (this.outgrowth != Items.AIR) {
-                this.addOutgrowth(pJson, this.outgrowth);
-                this.addOutgrowthChance(pJson, this.outgrowthChance);
-            }
+            this.addOutgrowths(pJson, this.outgrowths);
         }
     }
 }

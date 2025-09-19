@@ -10,9 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
-import net.zhaiji.manorsbountymachine.recipe.BrightFermentationRecipe;
-import net.zhaiji.manorsbountymachine.recipe.DimFermentationRecipe;
-import net.zhaiji.manorsbountymachine.recipe.NormalFermentationRecipe;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
 import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.*;
@@ -57,19 +54,30 @@ public class FermenterMenu extends BaseMachineMenu {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
                 @Override
                 public boolean mayPlace(ItemStack pStack) {
-                    return super.mayPlace(pStack) && ManorsBountyCompat.isCatalysts(pStack);
+                    return super.mayPlace(pStack)
+                            && ManorsBountyCompat.isCatalysts(pStack)
+                            && getCookingTime() == 0;
+                }
+
+                @Override
+                public boolean mayPickup(Player pPlayer) {
+                    return super.mayPickup(pPlayer) && getCookingTime() == 0;
                 }
 
                 @Override
                 public boolean isActive() {
-                    return super.isActive() && getCookingTime() == 0 && blockEntity.getItem(OUTPUT).isEmpty();
+                    return super.isActive()
+                            && getCookingTime() == 0
+                            && blockEntity.getItem(OUTPUT).isEmpty();
                 }
             });
         }
         this.addSlot(new Slot(this.blockEntity, CONTAINER, 121, 116) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && SlotInputLimitManager.FERMENTER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                return super.mayPlace(pStack)
+                        && SlotInputLimitManager.FERMENTER_INPUT_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack))
+                        && getCookingTime() == 0;
             }
 
             @Override
@@ -100,6 +108,11 @@ public class FermenterMenu extends BaseMachineMenu {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return false;
+            }
+
+            @Override
+            public boolean mayPickup(Player pPlayer) {
+                return super.mayPickup(pPlayer) && getCookingTime() == 0;
             }
 
             @Override

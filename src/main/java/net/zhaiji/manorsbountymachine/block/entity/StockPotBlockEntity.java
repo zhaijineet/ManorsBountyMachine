@@ -114,7 +114,9 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
 
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
-            pBlockEntity.cookingTime++;
+            if (pBlockEntity.isStockPotHeatBlock()) {
+                pBlockEntity.cookingTime++;
+            }
             if (!pBlockEntity.isPlaySound) {
                 Minecraft.getInstance().getSoundManager().play(new StockPotSoundInstance(pBlockEntity));
                 pBlockEntity.isPlaySound = true;
@@ -128,7 +130,9 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
         pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
-            pBlockEntity.cookingTime++;
+            if (pBlockEntity.isStockPotHeatBlock()) {
+                pBlockEntity.cookingTime++;
+            }
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }
@@ -196,6 +200,10 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
 
     public void popCraftRemaining(List<ItemStack> craftRemaining) {
         MachineUtil.popCraftRemaining(this.level, this.getBlockPos(), craftRemaining);
+    }
+
+    public boolean isStockPotHeatBlock() {
+        return ManorsBountyCompat.isStockPotHeatBlock(this.level.getBlockState(this.getBlockPos().below()));
     }
 
     public void setCookingTime(int value) {
