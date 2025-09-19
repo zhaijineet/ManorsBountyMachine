@@ -2,10 +2,13 @@ package net.zhaiji.manorsbountymachine.client.model;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
 import software.bernie.geckolib.model.GeoModel;
 
+@OnlyIn(Dist.CLIENT)
 public class SaucepanAndWhiskBlockEntityModel extends GeoModel<SaucepanAndWhiskBlockEntity> {
     @Override
     public ResourceLocation getModelResource(SaucepanAndWhiskBlockEntity animatable) {

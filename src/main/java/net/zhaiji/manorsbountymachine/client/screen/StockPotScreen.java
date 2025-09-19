@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
@@ -18,6 +19,7 @@ import net.zhaiji.manorsbountymachine.network.server.packet.StockPotStartPacket;
 public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
     public static final ResourceLocation STOCK_POT_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/stock_pot_gui.png");
     public static final ResourceLocation STOCK_POT_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/stock_pot_gui_widget.png");
+    public static final String TRANSLATABLE = "block.manors_bounty_machine.stock_pot.tooltip";
 
     public static final int BUTTON_X_OFFSET = 129;
     public static final int BUTTON_Y_OFFSET = 0;
@@ -50,10 +52,12 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
     public static final int RUNNING_BAR_HEIGHT = 38;
 
     public StockPotBlockEntity blockEntity;
+    public Player player;
 
     public StockPotScreen(StockPotMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle, STOCK_POT_GUI);
         this.blockEntity = pMenu.blockEntity;
+        this.player = pPlayerInventory.player;
         this.imageHeight = 232;
     }
 
@@ -70,7 +74,11 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
                         BUTTON_Y_OFFSET,
                         STOCK_POT_GUI_WIDGET,
                         pButton -> {
-                            ManorsBountyMachinePacket.sendToServer(new StockPotStartPacket(this.blockEntity.getBlockPos()));
+                            if (this.blockEntity.isOnStockPotHeatBlock()) {
+                                ManorsBountyMachinePacket.sendToServer(new StockPotStartPacket(this.blockEntity.getBlockPos()));
+                            } else {
+                                this.player.sendSystemMessage(Component.translatable(TRANSLATABLE));
+                            }
                         }
                 ) {
                     @Override

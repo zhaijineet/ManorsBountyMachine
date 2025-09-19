@@ -37,6 +37,6 @@ public class SmokingRecipeManager {
     public static OvenRecipe toOvenRecipe(SmokingRecipe recipe) {
         NonNullList<Ingredient> input = NonNullList.withSize(INPUT_SLOTS.length, Ingredient.EMPTY);
         input.set(0, recipe.getIngredients().get(0));
-        return new OvenRecipe(recipe.getId(), 200, 10 * 20, input, recipe.getResultItem(null));
+        return new OvenRecipe(recipe.getId(), 200, 5 * 20, input, recipe.getResultItem(null));
     }
 }

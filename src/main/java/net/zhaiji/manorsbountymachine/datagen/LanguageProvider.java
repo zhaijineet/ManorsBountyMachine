@@ -4,6 +4,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.client.screen.IceCreamMachineScreen;
+import net.zhaiji.manorsbountymachine.client.screen.StockPotScreen;
 import net.zhaiji.manorsbountymachine.client.screen.TeapotScreen;
 import net.zhaiji.manorsbountymachine.compat.jei.category.*;
 import net.zhaiji.manorsbountymachine.register.*;
@@ -42,6 +43,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "Two Flavor Switch");
         add(TeapotScreen.TRANSLATABLE, "Teapot need heat source (#manors_bounty:teapot_heat_blocks or minecraft:magma_block) to start working");
+        add(StockPotScreen.TRANSLATABLE, "Stock Pot need heat source (#manors_bounty:stock_pot_heat_blocks or minecraft:magma_block) to start working");
 
         add("gui.jei.category.recipe.chance", "%s%% Chance");
 
@@ -61,6 +63,9 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_1", "No Need Heat");
         add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_2", "No Check Heat");
         add(ShakerRecipeCategory.TRANSLATABLE, "Mix a Drink");
+
+        add(FryerSmokingRecipeCategory.TRANSLATABLE, "Convenient Frying");
+        add(OvenSmokingRecipeCategory.TRANSLATABLE, "Convenient Bake");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "Ice Cream Machine Clank");
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "Fryer Frying");
@@ -107,6 +112,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
 
         add(IceCreamMachineScreen.TWO_FLAVOR_SWITCH_TRANSLATABLE, "双拼开关");
         add(TeapotScreen.TRANSLATABLE, "茶壶需要热源(#manors_bounty:teapot_heat_blocks 或者 minecraft:magma_block)才能工作");
+        add(StockPotScreen.TRANSLATABLE, "煮锅需要热源(#manors_bounty:stock_pot_heat_blocks or minecraft:magma_block)才能工作");
 
         add("gui.jei.category.recipe.chance", "%s%%的概率");
 
@@ -126,6 +132,9 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_1", "不需要热源");
         add("gui.jei.category.recipe.saucepan_and_whisk.heat_check_2", "不检测热源");
         add(ShakerRecipeCategory.TRANSLATABLE, "调制");
+
+        add(FryerSmokingRecipeCategory.TRANSLATABLE, "快捷烹炸");
+        add(OvenSmokingRecipeCategory.TRANSLATABLE, "快捷烘焙");
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "炸锅：油炸");

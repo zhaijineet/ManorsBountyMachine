@@ -2,11 +2,14 @@ package net.zhaiji.manorsbountymachine.client.model;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.BlenderBlock;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import software.bernie.geckolib.model.GeoModel;
 
+@OnlyIn(Dist.CLIENT)
 public class BlenderBlockEntityModel extends GeoModel<BlenderBlockEntity> {
     @Override
     public ResourceLocation getModelResource(BlenderBlockEntity animatable) {

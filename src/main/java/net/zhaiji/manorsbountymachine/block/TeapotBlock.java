@@ -48,6 +48,12 @@ public class TeapotBlock extends BaseMachineBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : createTickerHelper(pBlockEntityType, InitBlockEntityType.TEAPOT.get(), TeapotBlockEntity::serverTick);
+        return createTickerHelper(
+                pBlockEntityType,
+                InitBlockEntityType.TEAPOT.get(),
+                pLevel.isClientSide()
+                        ? TeapotBlockEntity::clientTick
+                        : TeapotBlockEntity::serverTick
+        );
     }
 }

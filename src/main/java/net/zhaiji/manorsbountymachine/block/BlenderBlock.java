@@ -18,6 +18,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
+import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
 
 public class BlenderBlock extends BaseMachineBlock {
@@ -42,7 +43,7 @@ public class BlenderBlock extends BaseMachineBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return super.getShape(pState, pLevel, pPos, pContext);
+        return BlockShapeManager.BLENDER_SHAPE;
     }
 
     @Override

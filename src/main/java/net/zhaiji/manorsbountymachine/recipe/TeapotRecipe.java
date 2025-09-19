@@ -27,7 +27,6 @@ public class TeapotRecipe extends BaseRecipe<TeapotBlockEntity> implements HasCo
 
     @Override
     public boolean matches(TeapotBlockEntity pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
         if (!this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
         if (!this.input.get(0).test(pContainer.getItem(DRINK))) return false;
         if (!this.input.get(1).test(pContainer.getItem(MATERIAL))) return false;

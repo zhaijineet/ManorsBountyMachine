@@ -32,6 +32,7 @@ public class ManorsBountyMachine {
         InitSoundEvent.SOUND_EVENT.register(modEventBus);
         InitVillager.POT_TYPE.register(modEventBus);
         InitVillager.VILLAGER_PROFESSION.register(modEventBus);
+        InitParticleType.PARTICLE_TYPE.register(modEventBus);
 
         ManorsBountyMachinePacket.register();
     }

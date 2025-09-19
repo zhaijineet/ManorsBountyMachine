@@ -238,7 +238,7 @@ public class ManorsBountyCompat {
         return blockState.hasProperty(CooktopBlock.RUNNING) ? blockState.getValue(CooktopBlock.RUNNING) : true;
     }
 
-    public static boolean isTeapotHeatBlock(BlockState blockState) {
+    public static boolean isOnTeapotHeatBlock(BlockState blockState) {
         return blockState.is(TEAPOT_HEAT_BLOCKS) && isCookTopRunningOrTrue(blockState) || blockState.is(Blocks.MAGMA_BLOCK);
     }
 

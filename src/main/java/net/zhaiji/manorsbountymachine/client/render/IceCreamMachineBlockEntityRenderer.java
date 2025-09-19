@@ -6,10 +6,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.block.IceCreamMachineBlock;
 import net.zhaiji.manorsbountymachine.block.entity.IceCreamMachineBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 
+@OnlyIn(Dist.CLIENT)
 public class IceCreamMachineBlockEntityRenderer extends BaseBlockEntityRenderer<IceCreamMachineBlockEntity> {
     public IceCreamMachineBlockEntityRenderer(BlockEntityRendererProvider.Context pContext) {
         super(pContext);

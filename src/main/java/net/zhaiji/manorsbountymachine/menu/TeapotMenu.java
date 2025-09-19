@@ -44,7 +44,9 @@ public class TeapotMenu extends BaseMachineMenu {
         this.addSlot(new Slot(this.blockEntity, OUTPUT, 33, 90) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_CUP_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
+                return super.mayPlace(pStack)
+                        && SlotInputLimitManager.TEAPOT_CUP_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack))
+                        && getCookingTime() == 0;
             }
 
             @Override

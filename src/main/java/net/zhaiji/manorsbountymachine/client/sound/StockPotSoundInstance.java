@@ -26,7 +26,7 @@ public class StockPotSoundInstance extends AbstractTickableSoundInstance {
             this.y = blockPos.getY();
             this.z = blockPos.getZ();
         }
-        if (this.blockEntity.isStockPotHeatBlock()) {
+        if (this.blockEntity.isOnStockPotHeatBlock()) {
             this.volume = 1;
         } else {
             this.volume = 0;

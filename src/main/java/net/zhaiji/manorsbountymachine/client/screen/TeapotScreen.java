@@ -103,7 +103,7 @@ public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
                         pButton -> {
                             Level level = this.blockEntity.getLevel();
                             BlockPos blockPos = this.blockEntity.getBlockPos().below();
-                            if (ManorsBountyCompat.isTeapotHeatBlock(level.getBlockState(blockPos))) {
+                            if (ManorsBountyCompat.isOnTeapotHeatBlock(level.getBlockState(blockPos))) {
                                 ManorsBountyMachinePacket.sendToServer(new BrewingStartPacket(this.blockEntity.getBlockPos()));
                             } else {
                                 this.player.sendSystemMessage(Component.translatable(TRANSLATABLE));

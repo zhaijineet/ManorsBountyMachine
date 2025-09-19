@@ -177,15 +177,15 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                         RenderSystem.enableDepthTest();
                         RenderSystem.enableBlend();
                         if (whiskStir) {
-                            pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 81, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, WHISK_Y_OFFSET, WHISK_WIDTH, WHISK_HEIGHT);
-                            this.setColor(pGuiGraphics);
-                            pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 81, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, WHISK_Y_OFFSET, WHISK_WIDTH, WHISK_HEIGHT);
-                            this.resetColor(pGuiGraphics);
-                        } else {
                             int yOffset = WHISK_Y_OFFSET + WHISK_HEIGHT;
                             pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 17, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, yOffset, WHISK_WIDTH, WHISK_HEIGHT);
                             this.setColor(pGuiGraphics);
                             pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 17, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, yOffset, WHISK_WIDTH, WHISK_HEIGHT);
+                            this.resetColor(pGuiGraphics);
+                        } else {
+                            pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 81, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, WHISK_Y_OFFSET, WHISK_WIDTH, WHISK_HEIGHT);
+                            this.setColor(pGuiGraphics);
+                            pGuiGraphics.blit(pTexture, SaucepanAndWhiskScreen.this.leftPos + 81, SaucepanAndWhiskScreen.this.topPos, WHISK_X_OFFSET, WHISK_Y_OFFSET, WHISK_WIDTH, WHISK_HEIGHT);
                             this.resetColor(pGuiGraphics);
                         }
                     }
@@ -207,7 +207,7 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
     }
 
     public void renderHeat(GuiGraphics pGuiGraphics) {
-        if (this.blockEntity.onHeatBlock()) {
+        if (this.blockEntity.isOnHeatBlock()) {
             pGuiGraphics.blit(SAUCEPAN_AND_WHISK_GUI_WIDGET, this.leftPos + 26, this.topPos + 13, HAS_HEAT_X_OFFSET, HAS_HEAT_Y_OFFSET, HAS_HEAT_WIDTH, HAS_HEAT_HEIGHT);
         } else {
             pGuiGraphics.blit(SAUCEPAN_AND_WHISK_GUI_WIDGET, this.leftPos + 27, this.topPos + 13, NO_HEAT_X_OFFSET, NO_HEAT_Y_OFFSET, NO_HEAT_WIDTH, NO_HEAT_HEIGHT);

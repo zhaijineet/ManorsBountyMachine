@@ -79,6 +79,24 @@ public class BlockShapeManager {
             4.5, 0, 4.5, 11.5, 8, 11.5
     );
 
+    public static final VoxelShape FERMENTER_NORTH_SOUTH_SHAPE = Shapes.or(
+            Block.box(1, 2, 0, 15, 16, 16),
+            Block.box(0, 0, 2, 3, 3, 14),
+            Block.box(13, 0, 2, 16, 3, 14),
+            Block.box(3, 0, 7, 13, 2, 9)
+    );
+
+    public static final VoxelShape FERMENTER_WEST_EAST_SHAPE = Shapes.or(
+            Block.box(0, 2, 1, 16, 16, 15),
+            Block.box(2, 0, 0, 14, 3, 3),
+            Block.box(2, 0, 13, 14, 3, 16),
+            Block.box(7, 0, 3, 9, 2, 13)
+    );
+
+    public static final VoxelShape BLENDER_SHAPE = Block.box(
+            4, 0, 4, 12, 14.6, 12
+    );
+
     public static final VoxelShape NORTH_CUTTING_BOARD_SHAPE = Block.box(
             1.0, 0.0, 1.0, 15.0, 1.0, 15.0
     );
@@ -96,11 +114,10 @@ public class BlockShapeManager {
     );
 
     public static final VoxelShape STOCK_POT_SHAPE = Shapes.or(
-            Block.box(3.0, 10.0, 3.0, 13.0, 11.0, 13.0),
-            Block.box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0)
+            Block.box(3.0, 0.0, 3.0, 13.0, 11.0, 13.0)
     );
 
-    public static final VoxelShape STOCK_POT_OPEN_SHAPE = Shapes.or(
-            Block.box(3.0, 0.0, 3.0, 13.0, 10.0, 13.0)
+    public static final VoxelShape SAUCEPAN_AND_WHISK_SHAPE = Block.box(
+            4, 0, 4, 12, 5, 12
     );
 }

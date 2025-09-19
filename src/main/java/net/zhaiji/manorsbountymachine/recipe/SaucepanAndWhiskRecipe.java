@@ -43,7 +43,7 @@ public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEnti
         if (this.heatState == HeatState.NO_CHECK) {
             return true;
         } else {
-            boolean onHeat = blockEntity.onHeatBlock();
+            boolean onHeat = blockEntity.isOnHeatBlock();
             return onHeat && this.heatState == HeatState.NEED
                     || !onHeat && this.heatState == HeatState.NO_NEED;
         }

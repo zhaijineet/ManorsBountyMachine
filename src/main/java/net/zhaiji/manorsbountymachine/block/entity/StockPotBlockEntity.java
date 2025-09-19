@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -12,19 +13,19 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.entity.CampfireBlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.StockPotBlock;
 import net.zhaiji.manorsbountymachine.client.sound.StockPotSoundInstance;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.StockPotMenu;
-import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
-import net.zhaiji.manorsbountymachine.network.client.packet.StockPotPlaySoundPacket;
 import net.zhaiji.manorsbountymachine.recipe.StockPotRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
+import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
@@ -112,10 +113,19 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         this.recipeCheck = RecipeManager.createCheck(InitRecipe.STOCK_POT_RECIPE_TYPE.get());
     }
 
+    /**
+     * Use Particle look this{@link CampfireBlock#makeParticles} & {@link CampfireBlockEntity#particleTick}
+     */
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
-            if (pBlockEntity.isStockPotHeatBlock()) {
+            if (pBlockEntity.isOnStockPotHeatBlock()) {
                 pBlockEntity.cookingTime++;
+                RandomSource random = pLevel.random;
+                if (random.nextFloat() < 0.11F) {
+                    for (int i = 0; i < random.nextInt(2) + 2; ++i) {
+                        pLevel.addAlwaysVisibleParticle(InitParticleType.COSY_STEAM.get(), true, (double) pPos.getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pPos.getY() + random.nextDouble() + random.nextDouble(), (double) pPos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
+                    }
+                }
             }
             if (!pBlockEntity.isPlaySound) {
                 Minecraft.getInstance().getSoundManager().play(new StockPotSoundInstance(pBlockEntity));
@@ -123,6 +133,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
             }
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.isRunning = false;
+                pBlockEntity.isPlaySound = false;
             }
         }
     }
@@ -130,24 +141,14 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
         pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
-            if (pBlockEntity.isStockPotHeatBlock()) {
+            if (pBlockEntity.isOnStockPotHeatBlock()) {
                 pBlockEntity.cookingTime++;
             }
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }
-            if (!pBlockEntity.isPlaySound) {
-                pBlockEntity.sendPlaySound();
-                pBlockEntity.isPlaySound = true;
-            }
             pBlockEntity.setChanged();
         }
-    }
-
-    public void sendPlaySound() {
-        BlockPos blockPos = this.getBlockPos();
-        LevelChunk chunk = this.level.getChunkAt(blockPos);
-        ManorsBountyMachinePacket.sendToClientWithChunk(chunk, new StockPotPlaySoundPacket(blockPos));
     }
 
     public void startRunning() {
@@ -156,14 +157,15 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         Optional<StockPotRecipe> recipe = this.getRecipe();
         if (recipe.isEmpty()) return;
         this.isRunning = true;
-        this.isPlaySound = false;
         this.setCookingTime(0);
         this.setMaxCookingTime(recipe.get().maxCookingTime);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void stopRunning() {
         this.isRunning = false;
         this.setCookingTime(0);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void craftItem() {
@@ -202,7 +204,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         MachineUtil.popCraftRemaining(this.level, this.getBlockPos(), craftRemaining);
     }
 
-    public boolean isStockPotHeatBlock() {
+    public boolean isOnStockPotHeatBlock() {
         return ManorsBountyCompat.isStockPotHeatBlock(this.level.getBlockState(this.getBlockPos().below()));
     }
 

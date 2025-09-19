@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,6 +12,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.entity.CampfireBlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
@@ -20,6 +23,7 @@ import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.TeapotMenu;
 import net.zhaiji.manorsbountymachine.recipe.TeapotRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
+import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
@@ -98,6 +102,18 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
         this.recipeCheck = RecipeManager.createCheck(InitRecipe.TEAPOT_RECIPE_TYPE.get());
     }
 
+    /**
+     * Use Particle look this{@link CampfireBlock#makeParticles} & {@link CampfireBlockEntity#particleTick}
+     */
+    public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, TeapotBlockEntity pBlockEntity) {
+        RandomSource random = pLevel.random;
+        if (pBlockEntity.isRunning && random.nextFloat() < 0.11F) {
+            for (int i = 0; i < random.nextInt(2) + 2; ++i) {
+                pLevel.addAlwaysVisibleParticle(InitParticleType.COSY_STEAM.get(), true, (double) pPos.getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pPos.getY() + random.nextDouble() + random.nextDouble(), (double) pPos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
+            }
+        }
+    }
+
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, TeapotBlockEntity pBlockEntity) {
         pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
@@ -122,12 +138,14 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
             this.playSoundCooldown = 0;
             this.setCookingTime(0);
             this.handlerRecipe(teapotRecipe);
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
         });
     }
 
     public void stopRunning() {
         this.isRunning = false;
         this.setCookingTime(0);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void handlerRecipe(TeapotRecipe recipe) {

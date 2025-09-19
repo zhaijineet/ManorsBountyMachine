@@ -114,7 +114,7 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
         MachineUtil.popCraftRemaining(this.level, this.getBlockPos(), craftRemaining);
     }
 
-    public boolean onHeatBlock() {
+    public boolean isOnHeatBlock() {
         return ManorsBountyCompat.isSaucepanAndWhiskHeatBlock(this.level.getBlockState(this.getBlockPos().below()));
     }
 

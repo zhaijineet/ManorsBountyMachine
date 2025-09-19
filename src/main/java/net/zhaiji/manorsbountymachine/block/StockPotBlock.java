@@ -42,7 +42,7 @@ public class StockPotBlock extends BaseMachineBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return pState.getValue(OPEN) ? BlockShapeManager.STOCK_POT_OPEN_SHAPE : BlockShapeManager.STOCK_POT_SHAPE;
+        return BlockShapeManager.STOCK_POT_SHAPE;
     }
 
     @Nullable

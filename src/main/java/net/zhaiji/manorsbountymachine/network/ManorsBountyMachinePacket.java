@@ -8,7 +8,6 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
-import net.zhaiji.manorsbountymachine.network.client.packet.StockPotPlaySoundPacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 
 public class ManorsBountyMachinePacket {
@@ -101,11 +100,6 @@ public class ManorsBountyMachinePacket {
     }
 
     public static void registerClientPacket() {
-        INSTANCE.messageBuilder(StockPotPlaySoundPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(StockPotPlaySoundPacket::decode)
-                .encoder(StockPotPlaySoundPacket::encode)
-                .consumerMainThread(StockPotPlaySoundPacket::handle)
-                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

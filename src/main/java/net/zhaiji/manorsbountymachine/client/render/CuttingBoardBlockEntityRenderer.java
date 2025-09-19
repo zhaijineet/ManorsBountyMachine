@@ -5,9 +5,12 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.block.CuttingBoardBlock;
 import net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity;
 
+@OnlyIn(Dist.CLIENT)
 public class CuttingBoardBlockEntityRenderer extends BaseBlockEntityRenderer<CuttingBoardBlockEntity> {
     public CuttingBoardBlockEntityRenderer(BlockEntityRendererProvider.Context pContext) {
         super(pContext);

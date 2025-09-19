@@ -2,6 +2,8 @@ package net.zhaiji.manorsbountymachine.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,11 +51,20 @@ public class CuttingBoardBlock extends BaseMachineBlock {
         };
     }
 
+    public void playAddItemSound(CuttingBoardBlockEntity blockEntity) {
+        blockEntity.getLevel().playSound(null, blockEntity.getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS);
+    }
+
+    public void playDropItemSound(CuttingBoardBlockEntity blockEntity) {
+        blockEntity.getLevel().playSound(null, blockEntity.getBlockPos(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS);
+    }
+
     public boolean addItem(CuttingBoardBlockEntity blockEntity, ItemStack itemStack) {
         for (int i = 0; i < CuttingBoardBlockEntity.ITEMS_SIZE; i++) {
             if (blockEntity.getItem(i).isEmpty()) {
                 blockEntity.setItem(i, itemStack.copyWithCount(1));
                 itemStack.shrink(1);
+                this.playAddItemSound(blockEntity);
                 return true;
             }
         }
@@ -65,6 +76,7 @@ public class CuttingBoardBlock extends BaseMachineBlock {
             ItemStack itemStack = blockEntity.getItem(i);
             if (!itemStack.isEmpty()) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                this.playDropItemSound(blockEntity);
                 return true;
             }
         }
@@ -106,6 +118,7 @@ public class CuttingBoardBlock extends BaseMachineBlock {
             ItemStack otherHeldItem = pPlayer.getItemInHand(pHand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
             if (pPlayer.isShiftKeyDown() && !blockEntity.isEmpty()) {
                 Containers.dropContents(pLevel, pPos, blockEntity);
+                this.playDropItemSound(blockEntity);
                 return InteractionResult.sidedSuccess(pLevel.isClientSide());
             }
             if (!heldItem.isEmpty()) {
