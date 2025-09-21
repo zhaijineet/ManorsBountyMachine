@@ -1,9 +1,0 @@
-{
-  "type": "manors_bounty_machine:fast_fry",
-  "input": {
-    "item": "minecraft:milk_bucket"
-  },
-  "output": {
-    "item": "minecraft:iron_ingot"
-  }
-}

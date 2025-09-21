@@ -69,7 +69,7 @@ public class TeapotRecipe extends BaseRecipe<TeapotBlockEntity> implements HasCo
             return new TeapotRecipe(
                     pRecipeId,
                     this.getContainer(pBuffer),
-                    this.getInput(pBuffer, ITEMS_SIZE),
+                    this.getInput(pBuffer, INPUT_SLOTS.length),
                     this.getOutput(pBuffer)
             );
         }

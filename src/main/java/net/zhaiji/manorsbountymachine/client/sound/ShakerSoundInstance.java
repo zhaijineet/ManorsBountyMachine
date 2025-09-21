@@ -4,9 +4,12 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
+@OnlyIn(Dist.CLIENT)
 public class ShakerSoundInstance extends AbstractTickableSoundInstance {
     public final Player player;
     public int time = 0;

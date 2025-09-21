@@ -8,6 +8,7 @@
   "block.manors_bounty_machine.oven": "烤箱",
   "block.manors_bounty_machine.saucepan_and_whisk": "小奶锅套组",
   "block.manors_bounty_machine.stock_pot": "煮锅",
+  "block.manors_bounty_machine.stock_pot.tooltip": "煮锅需要热源(#manors_bounty:stock_pot_heat_blocks or minecraft:magma_block)才能工作",
   "block.manors_bounty_machine.teapot": "茶壶",
   "block.manors_bounty_machine.teapot.tooltip": "茶壶需要热源(#manors_bounty:teapot_heat_blocks 或者 minecraft:magma_block)才能工作",
   "entity.minecraft.villager.manors_bounty_machine.bartender": "调酒师",

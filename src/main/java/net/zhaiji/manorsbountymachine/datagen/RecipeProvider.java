@@ -150,50 +150,50 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.DIAMOND, new Item[]{});
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STICK, new Item[]{Items.APPLE});
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STONE, new Item[]{Items.APPLE, Items.APPLE});
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.IRON_INGOT, new Item[]{Items.AIR, Items.APPLE});
-        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.APPLE});
-
-        fastFryRecipe(pWriter, Items.APPLE, Items.STICK);
-        slowFryRecipe(pWriter, Items.APPLE, Items.DIAMOND);
-        fastFryRecipe(pWriter, Items.MILK_BUCKET, Items.IRON_INGOT);
-        slowFryRecipe(pWriter, Items.MILK_BUCKET, Items.GOLD_INGOT);
-
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIVE, new Item[]{Items.APPLE}, Items.STICK, 4);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.TEN, new Item[]{Items.APPLE, Items.APPLE}, Items.STONE, 4);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.APPLE, Items.APPLE, Items.APPLE}, Items.DIAMOND, 4);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE}, Items.IRON_INGOT, 4);
-        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE}, Items.GOLD_INGOT, 4);
-
-        teapotRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.APPLE);
-        teapotRecipe(pWriter, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.STICK);
-
-        dimFermentationRecipe(pWriter, 1200, new Item[]{Items.IRON_INGOT}, Items.APPLE);
-        normalFermentationRecipe(pWriter, 1200, new Item[]{Items.GOLD_INGOT}, Items.STONE);
-        brightFermentationRecipe(pWriter, 1200, Items.IRON_INGOT, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
-
-        blenderRecipe(pWriter, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.APPLE, 4);
-        blenderRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.STONE, 4);
-
-        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.APPLE, Items.DIAMOND);
-        Map<Item, Float> singleTestMap = new HashMap<>();
-        singleTestMap.put(Items.STICK, 0.5F);
-        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, 1, singleTestMap);
-
-        cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
-        cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
-        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.STICK, Items.DIAMOND, Items.STICK}, Items.DIAMOND);
-        Map<Item, Float> multipleTestMap = new HashMap<>();
-        multipleTestMap.put(Items.STONE, 0.5F);
-        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND}, Items.APPLE, multipleTestMap);
-
-        stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
-
-        saucepanAndWhiskRecipe(pWriter, SaucepanAndWhiskRecipe.HeatState.NEED, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
-
-        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.GOLD_INGOT}, Items.APPLE);
-        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET}, Items.DIAMOND);
+//        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.DIAMOND, new Item[]{});
+//        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STICK, new Item[]{Items.APPLE});
+//        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.STONE, new Item[]{Items.APPLE, Items.APPLE});
+//        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.IRON_INGOT, new Item[]{Items.AIR, Items.APPLE});
+//        iceCreamRecipe(pWriter, new FluidStack(Fluids.WATER, 250), Items.APPLE, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.APPLE});
+//
+//        fastFryRecipe(pWriter, Items.APPLE, Items.STICK);
+//        slowFryRecipe(pWriter, Items.APPLE, Items.DIAMOND);
+//        fastFryRecipe(pWriter, Items.MILK_BUCKET, Items.IRON_INGOT);
+//        slowFryRecipe(pWriter, Items.MILK_BUCKET, Items.GOLD_INGOT);
+//
+//        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIVE, new Item[]{Items.APPLE}, Items.STICK, 4);
+//        ovenRecipe(pWriter, OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.TEN, new Item[]{Items.APPLE, Items.APPLE}, Items.STONE, 4);
+//        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.APPLE, Items.APPLE, Items.APPLE}, Items.DIAMOND, 4);
+//        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.APPLE, Items.APPLE, Items.APPLE, Items.APPLE}, Items.IRON_INGOT, 4);
+//        ovenRecipe(pWriter, OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY, OvenBlockEntity.MaxCookingTime.FIFTEEN, new Item[]{Items.MILK_BUCKET, Items.MILK_BUCKET, Items.APPLE, Items.APPLE}, Items.GOLD_INGOT, 4);
+//
+//        teapotRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.APPLE);
+//        teapotRecipe(pWriter, Items.GOLD_INGOT, new Item[]{Items.MILK_BUCKET, Items.DIAMOND}, Items.STICK);
+//
+//        dimFermentationRecipe(pWriter, 1200, new Item[]{Items.IRON_INGOT}, Items.APPLE);
+//        normalFermentationRecipe(pWriter, 1200, new Item[]{Items.GOLD_INGOT}, Items.STONE);
+//        brightFermentationRecipe(pWriter, 1200, Items.IRON_INGOT, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
+//
+//        blenderRecipe(pWriter, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.APPLE, 4);
+//        blenderRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.IRON_INGOT}, new Item[]{}, Items.STONE, 4);
+//
+//        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.APPLE, Items.DIAMOND);
+//        Map<Item, Float> singleTestMap = new HashMap<>();
+//        singleTestMap.put(Items.STICK, 0.5F);
+//        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, 1, singleTestMap);
+//
+//        cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
+//        cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
+//        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.STICK, Items.DIAMOND, Items.STICK}, Items.DIAMOND);
+//        Map<Item, Float> multipleTestMap = new HashMap<>();
+//        multipleTestMap.put(Items.STONE, 0.5F);
+//        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND}, Items.APPLE, multipleTestMap);
+//
+//        stockPotRecipe(pWriter, 200, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
+//
+//        saucepanAndWhiskRecipe(pWriter, SaucepanAndWhiskRecipe.HeatState.NEED, Items.APPLE, new Item[]{Items.IRON_INGOT}, new Item[]{Items.GOLD_INGOT}, Items.DIAMOND);
+//
+//        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.GOLD_INGOT}, Items.APPLE);
+//        shakerRecipe(pWriter, Items.IRON_INGOT, new Item[]{Items.MILK_BUCKET}, Items.DIAMOND);
     }
 }

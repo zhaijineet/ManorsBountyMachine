@@ -23,6 +23,8 @@ public class SlotInputLimitManager {
     public static final List<Ingredient> SAUCEPAN_AND_WHISK_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> SHAKER_INPUT_LIMIT = new ArrayList<>();
 
+    public static boolean needInit = false;
+
     public static void reset() {
         ICE_CREAM_MACHINE_FLUID_LIMIT.clear();
         ICE_CREAM_MACHINE_INPUT_LIMIT.clear();

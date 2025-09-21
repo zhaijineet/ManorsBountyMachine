@@ -28,6 +28,7 @@ import net.zhaiji.manorsbountymachine.recipe.ShakerRecipe;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
+import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -127,7 +128,7 @@ public class ShakerItem extends Item {
             } else if (canStartUsing(itemStack)) {
                 pPlayer.startUsingItem(pUsedHand);
                 if (pLevel.isClientSide()) {
-                    Minecraft.getInstance().getSoundManager().play(new ShakerSoundInstance(pPlayer));
+                    SoundUtil.playShakerSoundInstance(pPlayer);
                 }
                 return InteractionResultHolder.success(itemStack);
             }

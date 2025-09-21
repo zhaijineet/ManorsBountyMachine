@@ -29,6 +29,7 @@ import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
+import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -128,7 +129,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
                 }
             }
             if (!pBlockEntity.isPlaySound) {
-                Minecraft.getInstance().getSoundManager().play(new StockPotSoundInstance(pBlockEntity));
+                SoundUtil.playStockPotSoundInstance(pBlockEntity);
                 pBlockEntity.isPlaySound = true;
             }
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
