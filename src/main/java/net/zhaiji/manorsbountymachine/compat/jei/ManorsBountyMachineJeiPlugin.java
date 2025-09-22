@@ -9,11 +9,8 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.compat.jei.category.*;
@@ -24,9 +21,7 @@ import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,11 +43,6 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
 
     public static final RecipeType<FastFryRecipe> FRYER_SMOKING = RecipeType.create(ManorsBountyMachine.MOD_ID, "fryer_smoking", FastFryRecipe.class);
     public static final RecipeType<OvenRecipe> OVEN_SMOKING = RecipeType.create(ManorsBountyMachine.MOD_ID, "oven_smoking", OvenRecipe.class);
-
-    public static int INDEX = 0;
-    public static List<ResourceKey<CreativeModeTab>> TAB_KEY = new ArrayList<>();
-    public static boolean INITIALIZE = false;
-    public static Map<Item, Integer> ITEM_ORDER = new HashMap<>();
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -141,10 +131,10 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
     public <T extends BaseRecipe<?>> List<T> sort(List<T> recipes) {
         List<T> newRecipes = new ArrayList<>(recipes);
         newRecipes.sort((a, b) -> {
-            boolean x = ITEM_ORDER.containsKey(a.output.getItem());
-            boolean y = ITEM_ORDER.containsKey(b.output.getItem());
+            boolean x = RecipeOrderManager.ITEM_ORDER.containsKey(a.output.getItem());
+            boolean y = RecipeOrderManager.ITEM_ORDER.containsKey(b.output.getItem());
             if (x && y) {
-                return Integer.compare(ITEM_ORDER.get(a.output.getItem()), ITEM_ORDER.get(b.output.getItem()));
+                return Integer.compare(RecipeOrderManager.ITEM_ORDER.get(a.output.getItem()), RecipeOrderManager.ITEM_ORDER.get(b.output.getItem()));
             } else if (x) {
                 return -1;
             } else if (y) {

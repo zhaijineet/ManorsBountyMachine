@@ -32,7 +32,8 @@ public class IceCreamMachineBlockEntityRenderer extends BaseBlockEntityRenderer<
         if (ManorsBountyCompat.isIceCreamCone(output)) {
             pPoseStack.translate(0, -0.035, 0);
         }
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(-40));
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(180));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(40));
         float scale = 0.4F;
         pPoseStack.scale(scale, scale, scale);
         this.renderItem(output, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);

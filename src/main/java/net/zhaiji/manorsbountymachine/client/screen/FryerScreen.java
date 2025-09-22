@@ -17,6 +17,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.FryerBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.FryingStartPacket;
@@ -199,7 +200,11 @@ public class FryerScreen extends BaseMachineScreen<FryerMenu> {
         FluidTank fluidTank = this.blockEntity.fluidTank;
         if (!fluidTankRect.contains(pMouseX, pMouseY) || fluidTank.isEmpty() || !this.menu.getCarried().isEmpty())
             return;
-        List<Component> fluidTooltips = List.of(fluidTank.getFluid().getDisplayName(), Component.literal(fluidTank.getFluidAmount() + "mb"));
+        Component fluidName = fluidTank.getFluid().getDisplayName();
+        if (ManorsBountyCompat.isOilFluid(fluidTank.getFluid())) {
+            fluidName = Component.translatable("fluid.manors_bounty.olive_oil");
+        }
+        List<Component> fluidTooltips = List.of(fluidName, Component.literal(fluidTank.getFluidAmount() + "mB"));
         pGuiGraphics.renderComponentTooltip(this.font, fluidTooltips, pMouseX, pMouseY);
     }
 }

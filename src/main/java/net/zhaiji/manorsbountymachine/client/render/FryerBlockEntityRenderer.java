@@ -25,15 +25,16 @@ public class FryerBlockEntityRenderer extends BaseBlockEntityRenderer<FryerBlock
         // 呃呃，为什么会转个向，我不明白
         if (face.getAxis() == Direction.Axis.X) angle = 360 - angle;
         pPoseStack.mulPose(Axis.YP.rotationDegrees(angle));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(180));
         pPoseStack.mulPose(Axis.XP.rotationDegrees(-90));
         float scale = 0.23F;
         pPoseStack.scale(scale, scale, scale);
         // 太呃呃了，一点点手动调的
         double[][] renderPos = {
-                {-0.55, 0.7, 0},
-                {1.1, 0, 0},
-                {-1.1, -1, 0},
-                {1.1, 0, 0}
+                {0.55, 0.7, 0},
+                {-1.1, 0, 0},
+                {1.1, -1, 0},
+                {-1.1, 0, 0}
         };
         for (int i = 0; i < renderPos.length; i++) {
             pPoseStack.translate(renderPos[i][0], renderPos[i][1], renderPos[i][2]);

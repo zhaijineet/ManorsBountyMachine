@@ -25,6 +25,7 @@ public class CuttingBoardBlockEntityRenderer extends BaseBlockEntityRenderer<Cut
         // 呃呃，为什么会转个向，我不明白
         if (face.getAxis() == Direction.Axis.X) angle = 360 - angle;
         pPoseStack.mulPose(Axis.YP.rotationDegrees(angle));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(180));
         pPoseStack.mulPose(Axis.XP.rotationDegrees(-90));
         pPoseStack.translate(0, -0.08, 0);
         float scale = 0.5F;
@@ -38,7 +39,7 @@ public class CuttingBoardBlockEntityRenderer extends BaseBlockEntityRenderer<Cut
                 17
         };
         for (int i = 0; i < CuttingBoardBlockEntity.ITEMS_SIZE; i++) {
-            pPoseStack.translate(0, 0, (double) 1 / 16);
+            pPoseStack.translate(0, 0, -(double) 1 / 16);
             pPoseStack.pushPose();
             pPoseStack.mulPose(Axis.ZP.rotationDegrees(rotation[i]));
             this.renderItem(pBlockEntity.getItem(i), pPoseStack, pBuffer, pPackedLight, pPackedOverlay);

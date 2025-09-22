@@ -16,6 +16,8 @@ import net.zhaiji.manorsbountymachine.recipe.CuttingBoardMultipleRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardRecipeWrapper> {
@@ -34,15 +36,15 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
     public static final int SLOT_WIDTH = 18;
     public static final int SLOT_HEIGHT = 18;
 
+    public static final int CHANCE_SLOT_X_OFFSET = 220;
+    public static final int CHANCE_SLOT_Y_OFFSET = 27;
+    public static final int CHANCE_SLOT_WIDTH = 18;
+    public static final int CHANCE_SLOT_HEIGHT = 18;
+
     public static final int NUMBER_SLOT_X_OFFSET = 167;
     public static final int NUMBER_SLOT_Y_OFFSET = 0;
     public static final int NUMBER_SLOT_WIDTH = 26;
     public static final int NUMBER_SLOT_HEIGHT = 18;
-
-    public static final int OUTPUT_X_OFFSET = 220;
-    public static final int OUTPUT_Y_OFFSET = 0;
-    public static final int OUTPUT_WIDTH = 26;
-    public static final int OUTPUT_HEIGHT = 26;
 
     public CuttingBoardRecipeCategory(IGuiHelper guiHelper) {
         super(guiHelper, ManorsBountyMachineJeiPlugin.CUTTING_BOARD, CUTTING_BOARD_RECIPE_BACKGROUND, TRANSLATABLE);
@@ -186,8 +188,16 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {130, 44}
                     }
             };
-            for (int i = 0; i < size + 1; i++) {
-                this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+            int i = 0;
+            this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+            i++;
+            for (Map.Entry<ItemStack, Float> entry : singleRecipe.outgrowths.entrySet()) {
+                if (entry.getValue() < 1) {
+                    this.guiHelper.createDrawable(this.background, CHANCE_SLOT_X_OFFSET, CHANCE_SLOT_Y_OFFSET, CHANCE_SLOT_WIDTH, CHANCE_SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+                } else {
+                    this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+                }
+                i++;
             }
         });
     }
@@ -241,8 +251,16 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {130, 44}
                     }
             };
-            for (int i = 0; i < size + 1; i++) {
-                this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+            int i = 0;
+            this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+            i++;
+            for (Map.Entry<ItemStack, Float> entry : multipleRecipe.outgrowths.entrySet()) {
+                if (entry.getValue() < 1) {
+                    this.guiHelper.createDrawable(this.background, CHANCE_SLOT_X_OFFSET, CHANCE_SLOT_Y_OFFSET, CHANCE_SLOT_WIDTH, CHANCE_SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+                } else {
+                    this.guiHelper.createDrawable(this.background, SLOT_X_OFFSET, SLOT_Y_OFFSET, SLOT_WIDTH, SLOT_HEIGHT).draw(guiGraphics, pos[size][i][0], pos[size][i][1]);
+                }
+                i++;
             }
         });
     }

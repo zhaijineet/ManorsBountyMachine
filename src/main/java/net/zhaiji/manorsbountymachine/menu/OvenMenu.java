@@ -11,6 +11,8 @@ import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
+import static net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity.*;
+
 public class OvenMenu extends BaseMachineMenu {
     public OvenBlockEntity blockEntity;
     public ContainerData data;
@@ -27,12 +29,12 @@ public class OvenMenu extends BaseMachineMenu {
         this.addDataSlots(data);
     }
 
-    public OvenBlockEntity.Temperature getTemperature() {
+    public Temperature getTemperature() {
         return switch (this.data.get(0)) {
-            case 1, 200 -> OvenBlockEntity.Temperature.TWO_HUNDRED;
-            case 2, 150 -> OvenBlockEntity.Temperature.ONE_HUNDRED_FIFTY;
-            case 3, 250 -> OvenBlockEntity.Temperature.TWO_HUNDRED_FIFTY;
-            default -> OvenBlockEntity.Temperature.ZERO;
+            case 1, 200 -> Temperature.TWO_HUNDRED;
+            case 2, 150 -> Temperature.ONE_HUNDRED_FIFTY;
+            case 3, 250 -> Temperature.TWO_HUNDRED_FIFTY;
+            default -> Temperature.ZERO;
         };
     }
 
@@ -40,12 +42,12 @@ public class OvenMenu extends BaseMachineMenu {
         return this.data.get(1);
     }
 
-    public OvenBlockEntity.MaxCookingTime getMaxCookingTime() {
+    public MaxCookingTime getMaxCookingTime() {
         return switch (this.data.get(2)) {
-            case 1, 5, 100 -> OvenBlockEntity.MaxCookingTime.FIVE;
-            case 2, 10, 200 -> OvenBlockEntity.MaxCookingTime.TEN;
-            case 3, 15, 300 -> OvenBlockEntity.MaxCookingTime.FIFTEEN;
-            default -> OvenBlockEntity.MaxCookingTime.ZERO;
+            case 1, 5, 100 -> MaxCookingTime.FIVE;
+            case 2, 10, 200 -> MaxCookingTime.TEN;
+            case 3, 15, 300 -> MaxCookingTime.FIFTEEN;
+            default -> MaxCookingTime.ZERO;
         };
     }
 
@@ -56,12 +58,12 @@ public class OvenMenu extends BaseMachineMenu {
     @Override
     public void initMachineInventorySlot() {
         int[][] slots = {
-                {OvenBlockEntity.TOP_LEFT, 52, 52},
-                {OvenBlockEntity.TOP_CENTER, 80, 52},
-                {OvenBlockEntity.TOP_RIGHT, 108, 52},
-                {OvenBlockEntity.BOTTOM_LEFT, 52, 78},
-                {OvenBlockEntity.BOTTOM_CENTER, 80, 78},
-                {OvenBlockEntity.BOTTOM_RIGHT, 108, 78}
+                {TOP_LEFT, 52, 52},
+                {TOP_CENTER, 80, 52},
+                {TOP_RIGHT, 108, 52},
+                {BOTTOM_LEFT, 52, 78},
+                {BOTTOM_CENTER, 80, 78},
+                {BOTTOM_RIGHT, 108, 78}
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
@@ -83,10 +85,10 @@ public class OvenMenu extends BaseMachineMenu {
                 }
             });
         }
-        this.addSlot(new Slot(this.blockEntity, OvenBlockEntity.OUTPUT, 80, 65) {
+        this.addSlot(new Slot(this.blockEntity, OUTPUT, 80, 65) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return super.mayPlace(pStack) && getCookingTime() == 0;
+                return false;
             }
 
             @Override

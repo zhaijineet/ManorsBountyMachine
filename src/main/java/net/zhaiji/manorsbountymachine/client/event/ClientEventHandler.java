@@ -16,6 +16,7 @@ import net.zhaiji.manorsbountymachine.client.particle.SteamParticle;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
 import net.zhaiji.manorsbountymachine.compat.jei.ManorsBountyMachineJeiPlugin;
+import net.zhaiji.manorsbountymachine.compat.jei.RecipeOrderManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
@@ -55,17 +56,17 @@ public class ClientEventHandler {
 
     public static void handlerBuildCreativeModeTabContentsEvent(BuildCreativeModeTabContentsEvent event) {
         ResourceKey<CreativeModeTab> tabKey = event.getTabKey();
-        if (!ManorsBountyMachineJeiPlugin.TAB_KEY.contains(tabKey)) {
-            ManorsBountyMachineJeiPlugin.TAB_KEY.add(tabKey);
+        if (!RecipeOrderManager.TAB_KEY.contains(tabKey)) {
+            RecipeOrderManager.TAB_KEY.add(tabKey);
         } else {
-            ManorsBountyMachineJeiPlugin.INITIALIZE = true;
+            RecipeOrderManager.INITIALIZE = true;
         }
-        if (!ManorsBountyMachineJeiPlugin.INITIALIZE) {
+        if (!RecipeOrderManager.INITIALIZE) {
             event.getEntries().forEach(entry -> {
                 ItemStack itemStack = entry.getKey();
-                if (!ManorsBountyMachineJeiPlugin.ITEM_ORDER.containsKey(itemStack.getItem())) {
-                    ManorsBountyMachineJeiPlugin.ITEM_ORDER.put(itemStack.getItem(), ManorsBountyMachineJeiPlugin.INDEX);
-                    ManorsBountyMachineJeiPlugin.INDEX++;
+                if (!RecipeOrderManager.ITEM_ORDER.containsKey(itemStack.getItem())) {
+                    RecipeOrderManager.ITEM_ORDER.put(itemStack.getItem(), RecipeOrderManager.INDEX);
+                    RecipeOrderManager.INDEX++;
                 }
             });
         }
