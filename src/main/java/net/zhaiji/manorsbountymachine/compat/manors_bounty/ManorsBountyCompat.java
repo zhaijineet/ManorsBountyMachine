@@ -255,7 +255,8 @@ public class ManorsBountyCompat {
     }
 
     public static boolean isIceCreamFluid(FluidStack fluidStack) {
-        return SlotInputLimitManager.ICE_CREAM_MACHINE_FLUID_LIMIT.stream().anyMatch(fluid -> fluid.isSame(fluidStack.getFluid()));
+//        return SlotInputLimitManager.ICE_CREAM_MACHINE_FLUID_LIMIT.stream().anyMatch(fluid -> fluid.isSame(fluidStack.getFluid()));
+        return true;
     }
 
     public static void damageItem(ItemStack stack, Level level) {

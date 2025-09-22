@@ -155,7 +155,7 @@ public class FryerScreen extends BaseMachineScreen<FryerMenu> {
     }
 
     // 嘎巴一下死在电脑前了
-    // mcr不知道干了啥，把blit的渲染搞坏了
+    // geckolib不知道干了啥，把blit的渲染搞坏了
     public void renderFluid(GuiGraphics pGuiGraphics, FluidTank fluidTank) {
         if (fluidTank.isEmpty()) return;
         IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidTank.getFluid().getFluid());
@@ -185,11 +185,11 @@ public class FryerScreen extends BaseMachineScreen<FryerMenu> {
         float r = (float) (color >> 16 & 255) / 255.0F;
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
-        pGuiGraphics.setColor(r, g, b, alpha);
+//        pGuiGraphics.setColor(r, g, b, alpha);
         pGuiGraphics.enableScissor(x, scissorY, x + width, y + renderHeight);
         for (int i = 0; i < 4; i++) {
-//            pGuiGraphics.blit(x, y + (height + 2) * i, 0, width, height, textureAtlasSprite);
-            pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y + (height + 2) * i, 0, 0, renderWidth, height, width, height * count);
+            pGuiGraphics.blit(x, y + (height + 2) * i, 0, width, height, textureAtlasSprite, r, g, b, alpha);
+//            pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y + (height + 2) * i, 0, 0, renderWidth, height, width, height * count);
         }
         pGuiGraphics.disableScissor();
         pGuiGraphics.setColor(1F, 1F, 1F, 1F);

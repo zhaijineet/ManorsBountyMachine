@@ -180,6 +180,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 //        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.APPLE, Items.DIAMOND);
 //        Map<Item, Float> singleTestMap = new HashMap<>();
 //        singleTestMap.put(Items.STICK, 0.5F);
+//        singleTestMap.put(Items.IRON_INGOT, 0.5F);
+//        singleTestMap.put(Items.GOLD_INGOT, 0.5F);
 //        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, 1, singleTestMap);
 //
 //        cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);

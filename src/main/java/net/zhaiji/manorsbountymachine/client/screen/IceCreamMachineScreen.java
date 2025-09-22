@@ -146,7 +146,7 @@ public class IceCreamMachineScreen extends BaseMachineScreen<IceCreamMachineMenu
     }
 
     // 嘎巴一下死在电脑前了
-    // mcr不知道干了啥，把blit的渲染搞坏了
+    // geckolib不知道干了啥，把blit的渲染搞坏了
     public void renderFluid(GuiGraphics pGuiGraphics) {
         FluidTank fluidTank = this.blockEntity.fluidTank;
         if (fluidTank.isEmpty()) return;
@@ -168,10 +168,10 @@ public class IceCreamMachineScreen extends BaseMachineScreen<IceCreamMachineMenu
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
         pGuiGraphics.pose().pushPose();
-        pGuiGraphics.setColor(r, g, b, alpha);
+//        pGuiGraphics.setColor(r, g, b, alpha);
         pGuiGraphics.enableScissor(x, y + renderHeight - (renderHeight * fluidTank.getFluidAmount() / fluidTank.getCapacity()), x + renderWidth, y + renderHeight);
-        pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y, 0, 0, renderWidth, renderHeight, width * scale, height * count * scale);
-//        pGuiGraphics.blit(x, y, 0, renderWidth, renderHeight, textureAtlasSprite);
+//        pGuiGraphics.blit(textureId.withPrefix("textures/").withSuffix(".png"), x, y, 0, 0, renderWidth, renderHeight, width * scale, height * count * scale);
+        pGuiGraphics.blit(x, y, 0, renderWidth, renderHeight, textureAtlasSprite, r, g, b, alpha);
         pGuiGraphics.disableScissor();
         pGuiGraphics.setColor(1F, 1F, 1F, 1F);
         pGuiGraphics.pose().popPose();

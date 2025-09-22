@@ -70,13 +70,18 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     },
                     {
                             {105, 33},
-                            {131, 33},
+                            {131, 33}
+                    },
+                    {
+                            {105, 19},
+                            {131, 19},
+                            {105, 45}
                     },
                     {
                             {105, 19},
                             {131, 19},
                             {105, 45},
-                            {131, 45},
+                            {131, 45}
                     }
             };
             builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
@@ -122,8 +127,13 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     {
                             {105, 19},
                             {131, 19},
+                            {105, 45}
+                    },
+                    {
+                            {105, 19},
+                            {131, 19},
                             {105, 45},
-                            {131, 45},
+                            {131, 45}
                     }
             };
             builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
@@ -167,8 +177,13 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     {
                             {104, 18},
                             {130, 18},
+                            {104, 44}
+                    },
+                    {
+                            {104, 18},
+                            {130, 18},
                             {104, 44},
-                            {130, 44},
+                            {130, 44}
                     }
             };
             for (int i = 0; i < size + 1; i++) {
@@ -217,8 +232,13 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     {
                             {104, 18},
                             {130, 18},
+                            {104, 44}
+                    },
+                    {
+                            {104, 18},
+                            {130, 18},
                             {104, 44},
-                            {130, 44},
+                            {130, 44}
                     }
             };
             for (int i = 0; i < size + 1; i++) {
