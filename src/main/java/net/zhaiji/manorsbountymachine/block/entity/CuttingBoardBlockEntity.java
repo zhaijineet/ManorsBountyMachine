@@ -19,7 +19,9 @@ import net.zhaiji.manorsbountymachine.recipe.CuttingBoardSingleRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
+import net.zhaiji.manorsbountymachine.util.MachineUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +47,18 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
             if (recipe.isPresent()) {
                 CuttingBoardSingleRecipe cuttingBoardSingleRecipe = recipe.get();
                 this.toolHurt(player, tool);
+                ItemStack remaining = MachineUtil.getCraftRemaining(this.getItem(this.craftIndex), 1);
+                ItemStack output = cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess());
                 this.setItem(this.craftIndex, ItemStack.EMPTY);
-                this.dropItemStack(cuttingBoardSingleRecipe.assemble(container, this.level.registryAccess()));
+                if (!remaining.isEmpty()) {
+                    this.dropItemStack(remaining);
+                }
+                this.dropItemStack(output);
                 List<ItemStack> outgrowth = cuttingBoardSingleRecipe.rollForOutgrowths(this.level);
                 if (!outgrowth.isEmpty()) {
                     outgrowth.forEach(this::dropItemStack);
                 }
-                if (ManorsBountyCompat.isKnife(tool)) {
+                if (ManorsBountyCompat.isKnife(tool) || ManorsBountyCompat.isAxe(tool)) {
                     this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
                 } else if (ManorsBountyCompat.isRollingPin(tool)) {
                     this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);
@@ -74,7 +81,23 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
         CuttingBoardCraftContainer container = new CuttingBoardCraftContainer(this, tool);
         Optional<CuttingBoardMultipleRecipe> recipe = this.getMultipleRecipe(container);
         if (recipe.isPresent()) {
+            List<ItemStack> craftRemaining = new ArrayList<>();
+            for (int i = 0; i < ITEMS_SIZE; i++) {
+                ItemStack input = this.getItem(i);
+                if(input.isEmpty()) continue;
+                ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
+                if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                    ManorsBountyCompat.damageItem(input, this.level);
+                    if (!input.isEmpty()) {
+                        remaining = input.copy();
+                    }
+                }
+                if (!remaining.isEmpty()) {
+                    craftRemaining.add(remaining);
+                }
+            }
             this.clearContent();
+            craftRemaining.forEach(this::dropItemStack);
             this.dropItemStack(recipe.get().assemble(container, this.level.registryAccess()));
             List<ItemStack> outgrowth = recipe.get().rollForOutgrowths(this.level);
             if (!outgrowth.isEmpty()) {
@@ -83,7 +106,7 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
             this.toolHurt(player, tool);
             if (tool.isEmpty()) {
                 this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CRAFTING.get(), SoundSource.BLOCKS);
-            } else if (ManorsBountyCompat.isKnife(tool)) {
+            } else if (ManorsBountyCompat.isKnife(tool) || ManorsBountyCompat.isAxe(tool)) {
                 this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_CUTTING.get(), SoundSource.BLOCKS);
             } else if (ManorsBountyCompat.isRollingPin(tool)) {
                 this.level.playSound(null, this.getBlockPos(), InitSoundEvent.CUTTING_BOARD_ROLL_OUT.get(), SoundSource.BLOCKS);

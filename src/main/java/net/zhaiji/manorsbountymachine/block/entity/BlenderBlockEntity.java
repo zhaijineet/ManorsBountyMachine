@@ -131,6 +131,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
         this.level.playSound(null, this.getBlockPos(), InitSoundEvent.BLENDER_RUNNING.get(), SoundSource.BLOCKS);
         this.isRunning = true;
         this.setCookingTime(0);
+        this.setOpen(false);
         this.triggerAnim("blender", "animation.blender.working");
     }
 
@@ -222,7 +223,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
     }
 
     public void setOpen(boolean open) {
-        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(BlenderBlock.OPEN, open));
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(BlenderBlock.OPEN, !this.isRunning && open));
     }
 
     @Override

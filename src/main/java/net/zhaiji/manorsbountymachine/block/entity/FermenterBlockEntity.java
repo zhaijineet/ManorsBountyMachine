@@ -138,6 +138,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             return;
         }
         this.playBarrelCloseSound();
+        this.setOpen(false);
         this.isRunning = true;
         this.setCookingTime(0);
         this.setMaxCookingTime(this.handleMaxCookingTime(maxCookingTime));
@@ -329,7 +330,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void setOpen(boolean open) {
-        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(FermenterBlock.OPEN, open));
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(FermenterBlock.OPEN, !this.isRunning && open));
     }
 
     @Override

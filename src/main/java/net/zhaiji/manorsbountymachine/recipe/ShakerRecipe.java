@@ -28,7 +28,7 @@ public class ShakerRecipe extends BaseRecipe<RecipeWrapper> implements HasContai
 
     @Override
     public boolean matches(RecipeWrapper pContainer, Level pLevel) {
-        if (this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
+        if (!this.isContainerMatch(pContainer.getItem(OUTPUT))) return false;
         NonNullList<ItemStack> input = NonNullList.withSize(INPUT_SLOTS.length, ItemStack.EMPTY);
         for (int i = 0; i < input.size(); i++) {
             input.set(i, pContainer.getItem(INPUT_SLOTS[i]));

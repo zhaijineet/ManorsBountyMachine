@@ -73,6 +73,12 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.TEAPOT_DONE_NAME)))
         );
         add(
+                InitSoundEvent.BLENDER_CUP_PLACE,
+                definition()
+                        .subtitle(InitSoundEvent.BLENDER_CUP_PLACE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.BLENDER_CUP_PLACE_NAME)))
+        );
+        add(
                 InitSoundEvent.BLENDER_OPEN,
                 definition()
                         .subtitle(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE)
@@ -139,6 +145,12 @@ public class SoundProvider extends SoundDefinitionsProvider {
                 definition()
                         .subtitle(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE)
                         .with(sound(soundName(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_NAME)))
+        );
+        add(
+                InitSoundEvent.SAUCEPAN_AND_WHISK_DONE,
+                definition()
+                        .subtitle(InitSoundEvent.SAUCEPAN_AND_WHISK_DONE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.SAUCEPAN_AND_WHISK_DONE_NAME)))
         );
         add(
                 InitSoundEvent.SHAKER_OPEN,

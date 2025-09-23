@@ -61,7 +61,8 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int minutes = recipe.maxCookingTime / (20 * 60);
         String texture = "textures/item/light_" + (minutes < 10 ? "0" + minutes : minutes) + ".png";
-        guiGraphics.blit(ResourceLocation.withDefaultNamespace(texture), 80, 53, 0, 0, 16, 16, 16, 16);
+        // 不知道玩家是哪个版本，连withDefaultNamespace都不能用，先改了再说
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath("minecraft", texture), 80, 53, 0, 0, 16, 16, 16, 16);
         if (TIME_RECT.contains((int) mouseX, (int) mouseY)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(minutes + "minutes"), (int) mouseX, (int) mouseY);
         }

@@ -138,6 +138,7 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
             this.playSoundCooldown = 0;
             this.setCookingTime(0);
             this.handlerRecipe(teapotRecipe);
+            this.setOpen(false);
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
         });
     }
@@ -203,7 +204,7 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void setOpen(boolean open) {
-        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(TeapotBlock.OPEN, open));
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(TeapotBlock.OPEN, !this.isRunning && open));
     }
 
     @Override

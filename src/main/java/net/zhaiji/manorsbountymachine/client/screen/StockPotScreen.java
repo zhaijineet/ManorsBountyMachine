@@ -77,7 +77,7 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
                             if (this.blockEntity.isOnStockPotHeatBlock()) {
                                 ManorsBountyMachinePacket.sendToServer(new StockPotStartPacket(this.blockEntity.getBlockPos()));
                             } else {
-                                this.player.sendSystemMessage(Component.translatable(TRANSLATABLE));
+                                this.player.displayClientMessage(Component.translatable(TRANSLATABLE), true);
                             }
                         }
                 ) {

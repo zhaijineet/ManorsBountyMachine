@@ -39,15 +39,15 @@ public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
     public static final int OUTPUT_WIDTH = 44;
     public static final int OUTPUT_HEIGHT = 44;
 
-    public static final int MUG_X_OFFSET = 111;
-    public static final int MUG_Y_OFFSET = 45;
+    public static final int MUG_X_OFFSET = 45;
+    public static final int MUG_Y_OFFSET = 111;
     public static final int MUG_WIDTH = 78;
     public static final int MUG_HEIGHT = 78;
 
-    public static final int CONTAINER_X_OFFSET = 111;
-    public static final int CONTAINER_Y_OFFSET = 123;
-    public static final int CONTAINER_WIDTH = 78;
-    public static final int CONTAINER_HEIGHT = 78;
+    public static final int GLASS_X_OFFSET = 123;
+    public static final int GLASS_Y_OFFSET = 111;
+    public static final int GLASS_WIDTH = 78;
+    public static final int GLASS_HEIGHT = 78;
 
     public static final int OUTPUT_DRINK_X_OFFSET = 0;
     public static final int OUTPUT_DRINK_Y_OFFSET = 0;
@@ -106,7 +106,7 @@ public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
                             if (ManorsBountyCompat.isOnTeapotHeatBlock(level.getBlockState(blockPos))) {
                                 ManorsBountyMachinePacket.sendToServer(new BrewingStartPacket(this.blockEntity.getBlockPos()));
                             } else {
-                                this.player.sendSystemMessage(Component.translatable(TRANSLATABLE));
+                                this.player.displayClientMessage(Component.translatable(TRANSLATABLE), true);
                             }
                         }
                 ) {
@@ -135,7 +135,7 @@ public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
         if (pSlot.index != TeapotBlockEntity.OUTPUT) return;
         Level level = this.blockEntity.getLevel();
         BlockPos blockPos = this.blockEntity.getBlockPos();
-        level.playLocalSound(blockPos, InitSoundEvent.TEAPOT_CUP_PLACE.get(), SoundSource.BLOCKS, 0.15F, 1F, false);
+        level.playLocalSound(blockPos, InitSoundEvent.TEAPOT_CUP_PLACE.get(), SoundSource.BLOCKS, 0.15F, 1F, true);
     }
 
     public void renderOutput(GuiGraphics guiGraphics) {
@@ -147,7 +147,7 @@ public class TeapotScreen extends BaseMachineScreen<TeapotMenu> {
     // 畏惧了
     public void renderOutputDrink(GuiGraphics guiGraphics, ItemStack output) {
         if (ManorsBountyCompat.isTeapotGuiGlassBottle(output)) {
-            guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, CONTAINER_X_OFFSET, CONTAINER_Y_OFFSET, CONTAINER_WIDTH, CONTAINER_HEIGHT);
+            guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, GLASS_X_OFFSET, GLASS_Y_OFFSET, GLASS_WIDTH, GLASS_HEIGHT);
         } else if (ManorsBountyCompat.isTeapotGuiMug(output)) {
             guiGraphics.blit(TEAPOT_GUI_WIDGET, this.leftPos + 2, this.topPos + 59, MUG_X_OFFSET, MUG_Y_OFFSET, MUG_WIDTH, MUG_HEIGHT);
         }

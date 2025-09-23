@@ -160,6 +160,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         this.isRunning = true;
         this.setCookingTime(0);
         this.setMaxCookingTime(recipe.get().maxCookingTime);
+        this.setOpen(false);
         this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
@@ -248,7 +249,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void setOpen(boolean open) {
-        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(StockPotBlock.OPEN, open));
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(StockPotBlock.OPEN, !this.isRunning && open));
     }
 
     @Override

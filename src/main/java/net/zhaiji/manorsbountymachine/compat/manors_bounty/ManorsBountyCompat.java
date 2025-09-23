@@ -230,6 +230,10 @@ public class ManorsBountyCompat {
         return itemStack.is(KNIVES);
     }
 
+    public static boolean isAxe(ItemStack itemStack) {
+        return itemStack.is(ItemTags.AXES);
+    }
+
     public static boolean isRollingPin(ItemStack itemStack) {
         return itemStack.is(ROLLING_PINS);
     }

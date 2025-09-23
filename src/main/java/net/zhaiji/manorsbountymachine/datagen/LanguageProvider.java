@@ -76,6 +76,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "Teapot Close");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "Teapot Running");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "Teapot Done");
+        add(InitSoundEvent.BLENDER_CUP_PLACE_TRANSLATABLE, "Blender Cup Place");
         add(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE, "Blender Open");
         add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "Blender：Running");
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "Blender：Done");
@@ -87,6 +88,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "Stock Pot Running");
         add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "Whisk Stirs");
         add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "Whisk Stirs");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_DONE_TRANSLATABLE, "Whisk Stirs Done");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "Shaker Open");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "Shaker Shake");
 
@@ -145,6 +147,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.TEAPOT_CLOSE_TRANSLATABLE, "茶壶：盖上");
         add(InitSoundEvent.TEAPOT_RUNNING_TRANSLATABLE, "茶壶：冲泡中");
         add(InitSoundEvent.TEAPOT_DONE_TRANSLATABLE, "茶壶：倒出");
+        add(InitSoundEvent.BLENDER_CUP_PLACE_TRANSLATABLE, "破壁机：杯子放置");
         add(InitSoundEvent.BLENDER_OPEN_TRANSLATABLE, "破壁机：打开");
         add(InitSoundEvent.BLENDER_RUNNING_TRANSLATABLE, "破壁机：运行");
         add(InitSoundEvent.BLENDER_WATER_DONE_TRANSLATABLE, "破壁机：倒出");
@@ -156,6 +159,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(InitSoundEvent.STOCK_POT_RUNNING_TRANSLATABLE, "煮锅：烹饪");
         add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE, "小奶锅套组：搅拌");
         add(InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE, "小奶锅套组：搅拌");
+        add(InitSoundEvent.SAUCEPAN_AND_WHISK_DONE_TRANSLATABLE, "小奶锅套组：完成");
         add(InitSoundEvent.SHAKER_OPEN_TRANSLATABLE, "雪克壶：打开");
         add(InitSoundEvent.SHAKER_SHAKE_TRANSLATABLE, "雪克壶：摇晃");
 

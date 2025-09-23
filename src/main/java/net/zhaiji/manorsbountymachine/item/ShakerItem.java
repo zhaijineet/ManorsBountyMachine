@@ -1,6 +1,5 @@
 package net.zhaiji.manorsbountymachine.item;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -21,7 +20,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
-import net.zhaiji.manorsbountymachine.client.sound.ShakerSoundInstance;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.ShakerMenu;
 import net.zhaiji.manorsbountymachine.recipe.ShakerRecipe;

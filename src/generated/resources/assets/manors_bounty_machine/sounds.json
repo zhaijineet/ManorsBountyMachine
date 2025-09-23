@@ -1,4 +1,10 @@
 {
+  "blender_cup_place": {
+    "sounds": [
+      "manors_bounty_machine:blender_cup_place"
+    ],
+    "subtitle": "sound.manors_bounty_machine.blender_cup_place"
+  },
   "blender_open": {
     "sounds": [
       "manors_bounty_machine:blender_open"
@@ -64,6 +70,12 @@
       "manors_bounty_machine:oven_running"
     ],
     "subtitle": "sound.manors_bounty_machine.oven_running"
+  },
+  "saucepan_and_whisk_done": {
+    "sounds": [
+      "manors_bounty_machine:saucepan_and_whisk_done"
+    ],
+    "subtitle": "sound.manors_bounty_machine.saucepan_and_whisk_done"
   },
   "saucepan_and_whisk_stirs_1": {
     "sounds": [

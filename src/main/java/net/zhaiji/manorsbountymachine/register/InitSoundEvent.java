@@ -19,6 +19,7 @@ public class InitSoundEvent {
     public static final String TEAPOT_CLOSE_NAME = "teapot_close";
     public static final String TEAPOT_RUNNING_NAME = "teapot_running";
     public static final String TEAPOT_DONE_NAME = "teapot_done";
+    public static final String BLENDER_CUP_PLACE_NAME = "blender_cup_place";
     public static final String BLENDER_OPEN_NAME = "blender_open";
     public static final String BLENDER_RUNNING_NAME = "blender_running";
     public static final String BLENDER_WATER_DONE_NAME = "blender_water_done";
@@ -30,6 +31,7 @@ public class InitSoundEvent {
     public static final String STOCK_POT_RUNNING_NAME = "stock_pot_running";
     public static final String SAUCEPAN_AND_WHISK_STIRS_1_NAME = "saucepan_and_whisk_stirs_1";
     public static final String SAUCEPAN_AND_WHISK_STIRS_2_NAME = "saucepan_and_whisk_stirs_2";
+    public static final String SAUCEPAN_AND_WHISK_DONE_NAME = "saucepan_and_whisk_done";
     public static final String SHAKER_OPEN_NAME = "shaker_open";
     public static final String SHAKER_SHAKE_NAME = "shaker_shake";
 
@@ -42,6 +44,7 @@ public class InitSoundEvent {
     public static final String TEAPOT_CLOSE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_close";
     public static final String TEAPOT_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.teapot_running";
     public static final String TEAPOT_DONE_TRANSLATABLE = "sound.manors_bounty_machine.teapot_done";
+    public static final String BLENDER_CUP_PLACE_TRANSLATABLE = "sound.manors_bounty_machine.blender_cup_place";
     public static final String BLENDER_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.blender_open";
     public static final String BLENDER_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.blender_running";
     public static final String BLENDER_WATER_DONE_TRANSLATABLE = "sound.manors_bounty_machine.blender_water_done";
@@ -53,6 +56,7 @@ public class InitSoundEvent {
     public static final String STOCK_POT_RUNNING_TRANSLATABLE = "sound.manors_bounty_machine.stock_pot_running";
     public static final String SAUCEPAN_AND_WHISK_STIRS_1_TRANSLATABLE = "sound.manors_bounty_machine.saucepan_and_whisk_stirs_1";
     public static final String SAUCEPAN_AND_WHISK_STIRS_2_TRANSLATABLE = "sound.manors_bounty_machine.saucepan_and_whisk_stirs_2";
+    public static final String SAUCEPAN_AND_WHISK_DONE_TRANSLATABLE = "sound.manors_bounty_machine.saucepan_and_whisk_done";
     public static final String SHAKER_OPEN_TRANSLATABLE = "sound.manors_bounty_machine.shaker_open";
     public static final String SHAKER_SHAKE_TRANSLATABLE = "sound.manors_bounty_machine.shaker_shake";
 
@@ -65,6 +69,7 @@ public class InitSoundEvent {
     public static final RegistryObject<SoundEvent> TEAPOT_CLOSE = register(TEAPOT_CLOSE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_DONE = register(TEAPOT_DONE_NAME);
     public static final RegistryObject<SoundEvent> TEAPOT_RUNNING = register(TEAPOT_RUNNING_NAME);
+    public static final RegistryObject<SoundEvent> BLENDER_CUP_PLACE = register(BLENDER_CUP_PLACE_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_OPEN = register(BLENDER_OPEN_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_RUNNING = register(BLENDER_RUNNING_NAME);
     public static final RegistryObject<SoundEvent> BLENDER_WATER_DONE = register(BLENDER_WATER_DONE_NAME);
@@ -76,6 +81,7 @@ public class InitSoundEvent {
     public static final RegistryObject<SoundEvent> STOCK_POT_RUNNING = register(STOCK_POT_RUNNING_NAME);
     public static final RegistryObject<SoundEvent> SAUCEPAN_AND_WHISK_STIRS_1 = register(SAUCEPAN_AND_WHISK_STIRS_1_NAME);
     public static final RegistryObject<SoundEvent> SAUCEPAN_AND_WHISK_STIRS_2 = register(SAUCEPAN_AND_WHISK_STIRS_2_NAME);
+    public static final RegistryObject<SoundEvent> SAUCEPAN_AND_WHISK_DONE = register(SAUCEPAN_AND_WHISK_DONE_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_OPEN = register(SHAKER_OPEN_NAME);
     public static final RegistryObject<SoundEvent> SHAKER_SHAKE = register(SHAKER_SHAKE_NAME);
 

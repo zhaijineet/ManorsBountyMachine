@@ -9,11 +9,12 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.item.ShakerItem;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
+
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.*;
 
 public class ShakerMenu extends AbstractContainerMenu {
     public final Player player;
@@ -22,7 +23,7 @@ public class ShakerMenu extends AbstractContainerMenu {
     public int playerInventoryYOffset;
 
     public ShakerMenu(int pContainerId, Inventory pPlayerInventory) {
-        this(pContainerId, pPlayerInventory, new ItemStackHandler(ShakerCapabilityProvider.ITEMS_SIZE));
+        this(pContainerId, pPlayerInventory, new ItemStackHandler(ITEMS_SIZE));
     }
 
     public ShakerMenu(int pContainerId, Inventory pPlayerInventory, IItemHandler itemHandler) {
@@ -47,7 +48,7 @@ public class ShakerMenu extends AbstractContainerMenu {
     }
 
     public void initShakerSlot() {
-        this.addSlot(new SlotItemHandler(this.itemHandler, ShakerCapabilityProvider.OUTPUT, 80, 91) {
+        this.addSlot(new SlotItemHandler(this.itemHandler, OUTPUT, 80, 91) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack)
@@ -56,12 +57,12 @@ public class ShakerMenu extends AbstractContainerMenu {
             }
         });
         int[][] slots = {
-                {ShakerCapabilityProvider.TOP_LEFT, 62, 54},
-                {ShakerCapabilityProvider.TOP_CENTER, 80, 54},
-                {ShakerCapabilityProvider.TOP_RIGHT, 98, 54},
-                {ShakerCapabilityProvider.BOTTOM_LEFT, 62, 72},
-                {ShakerCapabilityProvider.BOTTOM_CENTER, 80, 72},
-                {ShakerCapabilityProvider.BOTTOM_RIGHT, 98, 72},
+                {TOP_LEFT, 62, 54},
+                {TOP_CENTER, 80, 54},
+                {TOP_RIGHT, 98, 54},
+                {BOTTOM_LEFT, 62, 72},
+                {BOTTOM_CENTER, 80, 72},
+                {BOTTOM_RIGHT, 98, 72},
         };
         for (int[] slot : slots) {
             this.addSlot(new SlotItemHandler(this.itemHandler, slot[0], slot[1], slot[2]) {

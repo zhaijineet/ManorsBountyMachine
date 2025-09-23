@@ -25,17 +25,17 @@ public class OvenBlockEntityRenderer extends BaseBlockEntityRenderer<OvenBlockEn
         float angle = pBlockEntity.getBlockState().getValue(OvenBlock.FACING).toYRot();
         // 呃呃，为什么会转个向，我不明白
         if (face.getAxis() == Direction.Axis.X) angle = 360 - angle;
-        pPoseStack.mulPose(Axis.YP.rotationDegrees(angle));
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(270));
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(angle + 180));
+//        pPoseStack.mulPose(Axis.YP.rotationDegrees(180));
         float scale = 0.2F;
         pPoseStack.scale(scale, scale, scale);
         double[][] renderPos = {
-                {0, -1.1, 0},
-                {0, 1.1, 0},
-                {0, 1.1, 0},
-                {0, -2.2, 0.9},
-                {0, 1.1, 0},
-                {0, 1.1, 0}
+                {1.1, 0, 0},
+                {-1.1, 0, 0},
+                {-1.1, 0, 0},
+                {2.2, 0, 0.9},
+                {-1.1, 0, 0},
+                {-1.1, 0, 0},
         };
         ItemStack output = pBlockEntity.getItem(OvenBlockEntity.OUTPUT);
         for (int i = 0; i < renderPos.length; i++) {

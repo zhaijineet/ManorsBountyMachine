@@ -3,16 +3,23 @@ package net.zhaiji.manorsbountymachine.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
+import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.BlenderMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BlenderStartPacket;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class BlenderScreen extends BaseMachineScreen<BlenderMenu> {
@@ -98,6 +105,16 @@ public class BlenderScreen extends BaseMachineScreen<BlenderMenu> {
         this.renderInput(pGuiGraphics);
         this.renderBottle(pGuiGraphics);
         this.renderOutput(pGuiGraphics);
+    }
+
+    @Override
+    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
+        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
+        if (pSlot == null || pType == ClickType.PICKUP_ALL) return;
+        if (pSlot.index != BlenderBlockEntity.CONTAINER) return;
+        Level level = this.blockEntity.getLevel();
+        BlockPos blockPos = this.blockEntity.getBlockPos();
+        level.playLocalSound(blockPos, InitSoundEvent.BLENDER_CUP_PLACE.get(), SoundSource.BLOCKS, 0.15F, 1F, true);
     }
 
     public void renderBlender(GuiGraphics guiGraphics) {
