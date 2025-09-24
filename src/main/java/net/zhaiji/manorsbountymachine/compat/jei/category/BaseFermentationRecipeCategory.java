@@ -20,7 +20,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     public static final int TIME_X_OFFSET = 48;
     public static final int TIME_Y_OFFSET = 80;
     public static final int TIME_WIDTH = 16;
-    public static final int TIME_HEIGHT = 13;
+    public static final int TIME_HEIGHT = 16;
 
     public static final Rect2i TIME_RECT = new Rect2i(
             80,
@@ -41,7 +41,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
         if (recipe.hasContainer()) {
-            builder.addInputSlot(110, 53)
+            builder.addInputSlot(111, 53)
                     .addIngredients(recipe.container);
         }
         int[][] slots = {
@@ -57,7 +57,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
                         .addIngredients(input);
             }
         }
-        builder.addOutputSlot(110, 30)
+        builder.addOutputSlot(111, 30)
                 .addItemStack(recipe.output);
     }
 

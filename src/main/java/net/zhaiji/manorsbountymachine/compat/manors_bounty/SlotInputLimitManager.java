@@ -1,5 +1,6 @@
 package net.zhaiji.manorsbountymachine.compat.manors_bounty;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
@@ -109,6 +110,10 @@ public class SlotInputLimitManager {
             Ingredient container = recipe.container;
             if (!TEAPOT_CUP_LIMIT.contains(container)) {
                 TEAPOT_CUP_LIMIT.add(container);
+            }
+            ItemStack output = recipe.output;
+            if (!TEAPOT_CUP_LIMIT.contains(Ingredient.of(output.getItem()))) {
+                TEAPOT_CUP_LIMIT.add(Ingredient.of(output.getItem()));
             }
             Ingredient drink = recipe.input.get(0);
             if (!TEAPOT_DRINK_LIMIT.contains(drink)) {

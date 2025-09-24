@@ -1,24 +1,56 @@
 package net.zhaiji.manorsbountymachine.event;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.MissingMappingsEvent;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
+import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.InitItem;
 import net.zhaiji.manorsbountymachine.register.InitVillager;
 
 import java.util.List;
+import java.util.Map;
 
 public class CommonEventHandler {
     public static void handlerAddReloadListenerEvent(AddReloadListenerEvent event) {
         SmokingRecipeManager.needInit = true;
         SlotInputLimitManager.needInit = true;
+    }
+
+    public static void handlerMissingMappingsEvent(MissingMappingsEvent event) {
+        Map<ResourceLocation, Item> items = Map.of(
+                ManorsBountyCompat.getManorsBountyResourceLocation("ice_cream_machine"), InitItem.ICE_CREAM_MACHINE.get(),
+                ManorsBountyCompat.getManorsBountyResourceLocation("fryer"), InitItem.FRYER.get(),
+                ManorsBountyCompat.getManorsBountyResourceLocation("oven"), InitItem.OVEN.get()
+        );
+        Map<ResourceLocation, Block> blocks = Map.of(
+                ManorsBountyCompat.getManorsBountyResourceLocation("ice_cream_machine"), InitBlock.ICE_CREAM_MACHINE.get(),
+                ManorsBountyCompat.getManorsBountyResourceLocation("fryer"), InitBlock.FRYER.get(),
+                ManorsBountyCompat.getManorsBountyResourceLocation("oven"), InitBlock.OVEN.get()
+        );
+        for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.ITEMS.getRegistryKey())) {
+            ResourceLocation key = mapping.getKey();
+            if (items.containsKey(key)) {
+                mapping.remap(items.get(key));
+            }
+        };
+        for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.BLOCKS.getRegistryKey())) {
+            ResourceLocation key = mapping.getKey();
+            if (blocks.containsKey(key)) {
+                mapping.remap(blocks.get(key));
+            }
+        };
     }
 
     public static void handlerVillagerTradesEvent(VillagerTradesEvent event) {

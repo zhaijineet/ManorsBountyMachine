@@ -246,7 +246,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void playStockPotSound() {
-        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.STOCK_POT_COVER_MOVING.get(), SoundSource.BLOCKS, 0.3F, 1F);
+        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.STOCK_POT_COVER_MOVING.get(), SoundSource.BLOCKS);
     }
 
     public void setOpen(boolean open) {

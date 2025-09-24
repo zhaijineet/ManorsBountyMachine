@@ -140,7 +140,7 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                                                     ? InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1.get()
                                                     : InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2.get(),
                                             SoundSource.BLOCKS,
-                                            1,
+                                            1.5F,
                                             1,
                                             true
                                     );

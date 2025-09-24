@@ -97,9 +97,9 @@ public class OvenRecipeCategory extends BaseRecipeCategory<OvenRecipe> {
     public void draw(OvenRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int temperatureIndex = this.getTemperatureIndex(recipe.temperature) - 1;
-        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET + TEMPERATURE_WIDTH * temperatureIndex, TEMPERATURE_Y_OFFSET, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, 14, 2);
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET + TEMPERATURE_WIDTH * temperatureIndex, TEMPERATURE_Y_OFFSET, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, 14, 1);
         int cookingTimeIndex = this.getCookingTimeIndex(recipe.maxCookingTime) - 1;
-        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 122, 5);
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET + TIME_WIDTH * cookingTimeIndex, TIME_Y_OFFSET, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 122, 5);
         Font font = Minecraft.getInstance().font;
         if (TEMPERATURE_RECT.contains((int) mouseX, (int) mouseY)) {
             guiGraphics.renderTooltip(font, Component.literal(recipe.temperature + "°"), (int) mouseX, (int) mouseY);
