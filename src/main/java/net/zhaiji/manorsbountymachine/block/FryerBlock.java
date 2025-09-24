@@ -52,6 +52,6 @@ public class FryerBlock extends BaseMachineBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() ? null : createTickerHelper(pBlockEntityType, InitBlockEntityType.FRYER.get(), FryerBlockEntity::serverTick);
+        return createTickerHelper(pBlockEntityType, InitBlockEntityType.FRYER.get(),pLevel.isClientSide() ? FryerBlockEntity::clientTick :  FryerBlockEntity::serverTick);
     }
 }

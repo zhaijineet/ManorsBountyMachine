@@ -31,6 +31,7 @@ import net.zhaiji.manorsbountymachine.menu.FryerMenu;
 import net.zhaiji.manorsbountymachine.recipe.FastFryRecipe;
 import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
+import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
@@ -99,6 +100,28 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         this.fryerCraftContainers = fryerCraftContainers;
     }
 
+    public void addOilSplashParticle(Level level, BlockPos pos) {
+        level.addParticle(
+                InitParticleType.OIL_SPLASH.get(),
+                pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5,
+                0.0D,
+                0.0D,
+                0.0D
+        );
+    }
+
+    public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, FryerBlockEntity pBlockEntity) {
+        if (pBlockEntity.isRunning) {
+            pBlockEntity.addOilSplashParticle(pLevel, pPos);
+            pBlockEntity.addOilSplashParticle(pLevel, pPos);
+            pBlockEntity.addOilSplashParticle(pLevel, pPos);
+            pBlockEntity.addOilSplashParticle(pLevel, pPos);
+            pBlockEntity.addOilSplashParticle(pLevel, pPos);
+        }
+    }
+
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FryerBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
             pBlockEntity.cookingTime++;
@@ -145,6 +168,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             craftContainer.reset();
         }
         this.setChanged();
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void craftItem() {
@@ -399,7 +423,8 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         }
 
         public ItemStack getFailItemStack(ItemStack input) {
-            return Items.CHARCOAL.getDefaultInstance().copyWithCount(input.getCount());
+//            return Items.CHARCOAL.getDefaultInstance().copyWithCount(input.getCount());
+            return ManorsBountyCompat.getManorsBountyItemStack("cinder", input.getCount());
         }
 
         public void reset() {

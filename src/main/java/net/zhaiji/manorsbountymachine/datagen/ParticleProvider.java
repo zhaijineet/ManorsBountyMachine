@@ -20,5 +20,11 @@ public class ParticleProvider extends ParticleDescriptionProvider {
                 12,
                 false
         );
+        this.spriteSet(
+                InitParticleType.OIL_SPLASH.get(),
+                ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "oil_splash"),
+                4,
+                false
+        );
     }
 }

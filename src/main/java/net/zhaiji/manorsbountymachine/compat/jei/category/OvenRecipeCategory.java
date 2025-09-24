@@ -23,15 +23,15 @@ public class OvenRecipeCategory extends BaseRecipeCategory<OvenRecipe> {
     public static final ResourceLocation OVEN_RECIPE_BACKGROUND = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/jei/oven_recipe_background.png");
     public static final String TRANSLATABLE = "gui.jei.category.recipe.oven";
 
-    public static final int TEMPERATURE_X_OFFSET = 192;
+    public static final int TEMPERATURE_X_OFFSET = 154;
     public static final int TEMPERATURE_Y_OFFSET = 0;
-    public static final int TEMPERATURE_WIDTH = 32;
-    public static final int TEMPERATURE_HEIGHT = 32;
+    public static final int TEMPERATURE_WIDTH = 19;
+    public static final int TEMPERATURE_HEIGHT = 14;
 
-    public static final int TIME_X_OFFSET = 160;
-    public static final int TIME_Y_OFFSET = 0;
-    public static final int TIME_WIDTH = 32;
-    public static final int TIME_HEIGHT = 32;
+    public static final int TIME_X_OFFSET = 154;
+    public static final int TIME_Y_OFFSET = 15;
+    public static final int TIME_WIDTH = 16;
+    public static final int TIME_HEIGHT = 13;
 
     public static final Rect2i TEMPERATURE_RECT = new Rect2i(
             15,
@@ -96,14 +96,10 @@ public class OvenRecipeCategory extends BaseRecipeCategory<OvenRecipe> {
     @Override
     public void draw(OvenRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        guiGraphics.pose().pushPose();
-        float scale = 0.5F;
-        guiGraphics.pose().scale(scale, scale, scale);
         int temperatureIndex = this.getTemperatureIndex(recipe.temperature) - 1;
-        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET, TEMPERATURE_Y_OFFSET + TEMPERATURE_HEIGHT * temperatureIndex, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, (int) (16 / scale), (int) (2 / scale));
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TEMPERATURE_X_OFFSET + TEMPERATURE_WIDTH * temperatureIndex, TEMPERATURE_Y_OFFSET, TEMPERATURE_WIDTH, TEMPERATURE_HEIGHT).draw(guiGraphics, 14, 2);
         int cookingTimeIndex = this.getCookingTimeIndex(recipe.maxCookingTime) - 1;
-        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, (int) (122 / scale), (int) (2 / scale));
-        guiGraphics.pose().popPose();
+        this.guiHelper.createDrawable(OVEN_RECIPE_BACKGROUND, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * cookingTimeIndex, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 122, 5);
         Font font = Minecraft.getInstance().font;
         if (TEMPERATURE_RECT.contains((int) mouseX, (int) mouseY)) {
             guiGraphics.renderTooltip(font, Component.literal(recipe.temperature + "°"), (int) mouseX, (int) mouseY);

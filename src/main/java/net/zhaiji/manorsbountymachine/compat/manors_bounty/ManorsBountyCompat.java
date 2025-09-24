@@ -29,14 +29,14 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> ICE_CREAM_AND_CONE = ItemTags.create(getManorsBountyResourceLocation("ice_cream_and_cone"));
     public static final TagKey<Item> DAMAGEABLE_MATERIAL = ItemTags.create(getManorsBountyResourceLocation("damageable_material"));
     //    public static final TagKey<Item> TEAPOT_GUI_MUG = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_APRICOT_KERNEL = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_apricotkernel"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_BLACK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_blacktea"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_COCOA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_cocoa"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_COFFEE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_coffee"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_GREEN_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_greentea"));
-    public static final TagKey<Item> TEAPOT_GUI_MUG_MATCHA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_mug_matcha"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_APRICOT_KERNEL = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_apricotkernel_layer"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_BLACK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_blacktea_layer"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_COCOA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_cocoa_layer"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_COFFEE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_coffee_layer"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_GREEN_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_greentea_layer"));
+    public static final TagKey<Item> TEAPOT_GUI_MUG_MATCHA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_matcha_layer"));
     //    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle"));
-    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE_MILK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_glass_bottle_milktea"));
+    public static final TagKey<Item> TEAPOT_GUI_GLASS_BOTTLE_MILK_TEA = ItemTags.create(getManorsBountyResourceLocation("teapot_gui_milktea_layer"));
     public static final TagKey<Item> CATALYSTS = ItemTags.create(getManorsBountyResourceLocation("catalysts"));
     public static final TagKey<Item> CATALYSTS_A = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_a"));
     public static final TagKey<Item> CATALYSTS_B = ItemTags.create(getManorsBountyResourceLocation("catalyst_type_b"));
@@ -86,6 +86,14 @@ public class ManorsBountyCompat {
 
     public static Item getManorsBountyItem(String name) {
         return ForgeRegistries.ITEMS.getValue(getManorsBountyResourceLocation(name));
+    }
+
+    public static ItemStack getManorsBountyItemStack(String name, int count) {
+        return getManorsBountyItem(name).getDefaultInstance().copyWithCount(count);
+    }
+
+    public static ItemStack getManorsBountyItemStack(String name) {
+        return getManorsBountyItemStack(name, 1);
     }
 
     public static Fluid getManorBountyFluid(String name) {

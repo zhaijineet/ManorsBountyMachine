@@ -12,10 +12,10 @@ import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.zhaiji.manorsbountymachine.client.particle.OilSplashParticle;
 import net.zhaiji.manorsbountymachine.client.particle.SteamParticle;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
-import net.zhaiji.manorsbountymachine.compat.jei.ManorsBountyMachineJeiPlugin;
 import net.zhaiji.manorsbountymachine.compat.jei.RecipeOrderManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
@@ -74,5 +74,6 @@ public class ClientEventHandler {
 
     public static void handlerRegisterParticleProvidersEvent(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(InitParticleType.COSY_STEAM.get(), SteamParticle.CosyProvider::new);
+        event.registerSpriteSet(InitParticleType.OIL_SPLASH.get(), OilSplashParticle.Provider::new);
     }
 }

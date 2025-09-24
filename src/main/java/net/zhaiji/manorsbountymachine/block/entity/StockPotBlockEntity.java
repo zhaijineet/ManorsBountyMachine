@@ -194,6 +194,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
             this.setItem(OUTPUT, stockPotRecipe.assemble(this, this.level.registryAccess()));
             this.insertCraftRemaining(craftRemaining);
             this.popCraftRemaining(craftRemaining);
+            this.playStockPotSound();
         });
         this.stopRunning();
     }

@@ -172,7 +172,8 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
     }
 
     public ItemStack getFailItemStack() {
-        return Items.CHARCOAL.getDefaultInstance().copyWithCount(1);
+//        return Items.CHARCOAL.getDefaultInstance().copyWithCount(1);
+        return ManorsBountyCompat.getManorsBountyItemStack("cinder");
     }
 
     public void setRunningState(boolean isRunning) {

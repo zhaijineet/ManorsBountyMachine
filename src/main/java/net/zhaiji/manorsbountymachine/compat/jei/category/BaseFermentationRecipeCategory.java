@@ -17,6 +17,11 @@ import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationRecipe> extends BaseRecipeCategory<T> {
+    public static final int TIME_X_OFFSET = 48;
+    public static final int TIME_Y_OFFSET = 80;
+    public static final int TIME_WIDTH = 16;
+    public static final int TIME_HEIGHT = 13;
+
     public static final Rect2i TIME_RECT = new Rect2i(
             80,
             53,
@@ -60,9 +65,15 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         int minutes = recipe.maxCookingTime / (20 * 60);
-        String texture = "textures/item/light_" + (minutes < 10 ? "0" + minutes : minutes) + ".png";
-        // 不知道玩家是哪个版本，连withDefaultNamespace都不能用，先改了再说
-        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath("minecraft", texture), 80, 53, 0, 0, 16, 16, 16, 16);
+        int index = 0;
+        if (minutes >= 40) {
+            index = 3;
+        } else if(minutes>=20){
+            index = 2;
+        } else if (minutes >= 10) {
+            index = 1;
+        }
+        this.guiHelper.createDrawable(this.background, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * index, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 80, 53);
         if (TIME_RECT.contains((int) mouseX, (int) mouseY)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(minutes + "minutes"), (int) mouseX, (int) mouseY);
         }

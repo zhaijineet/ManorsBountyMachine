@@ -13,5 +13,6 @@ public class CommonEventManager {
 
     public static void forgeBusListener(IEventBus forgeEventBus) {
         forgeEventBus.addListener(CommonEventHandler::handlerAddReloadListenerEvent);
+        forgeEventBus.addListener(CommonEventHandler::handlerVillagerTradesEvent);
     }
 }

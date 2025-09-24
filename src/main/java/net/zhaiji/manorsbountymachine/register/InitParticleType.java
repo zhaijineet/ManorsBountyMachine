@@ -11,4 +11,6 @@ public class InitParticleType {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPE = DeferredRegister.create(Registries.PARTICLE_TYPE, ManorsBountyMachine.MOD_ID);
 
     public static final RegistryObject<SimpleParticleType> COSY_STEAM = PARTICLE_TYPE.register("cosy_steam", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<SimpleParticleType> OIL_SPLASH = PARTICLE_TYPE.register("oil_splash", () -> new SimpleParticleType(false));
 }
