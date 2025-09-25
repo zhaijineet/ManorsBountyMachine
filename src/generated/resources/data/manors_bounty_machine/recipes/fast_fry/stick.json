@@ -1,0 +1,9 @@
+{
+  "type": "manors_bounty_machine:fast_fry",
+  "input": {
+    "item": "minecraft:apple"
+  },
+  "output": {
+    "item": "minecraft:stick"
+  }
+}

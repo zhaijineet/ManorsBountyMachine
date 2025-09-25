@@ -168,7 +168,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             craftContainer.reset();
         }
         this.setChanged();
-        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void craftItem() {
@@ -220,7 +220,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void syncData() {
-        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void handlerCraftRemaining(FryerCraftContainer container, List<ItemStack> craftRemaining) {

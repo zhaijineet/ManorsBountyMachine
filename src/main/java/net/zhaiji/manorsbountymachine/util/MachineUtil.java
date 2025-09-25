@@ -54,7 +54,7 @@ public class MachineUtil {
         }
         FluidStack fluidStack = fluidHandler.getFluidInTank(0);
         if (!level.isClientSide()) {
-            container.getLevel().sendBlockUpdated(container.getBlockPos(), container.getBlockState(), container.getBlockState(), 3);
+            container.getLevel().sendBlockUpdated(container.getBlockPos(), container.getBlockState(), container.getBlockState(), 2);
         }
         SoundEvent soundevent = fluidStack.getFluid().getFluidType().getSound(fluidStack, SoundActions.BUCKET_EMPTY);
         if (soundevent != null) {

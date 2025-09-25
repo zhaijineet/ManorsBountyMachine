@@ -37,7 +37,6 @@ public class IceCreamRecipe extends BaseRecipe<IceCreamMachineBlockEntity> imple
 
     @Override
     public boolean matches(IceCreamMachineBlockEntity pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
         if (this.isTowFlavor != pContainer.isTwoFlavor) return false;
         if (!this.isFluidStackMatch(pContainer.fluidTank)) return false;
         if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(OUTPUT_SLOT))) return false;

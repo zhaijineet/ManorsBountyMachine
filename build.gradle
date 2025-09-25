@@ -100,6 +100,14 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+            workingDirectory project.file('./run')
+        }
+
+        client2 {
+            parent minecraft.runs.client
+            property 'forge.enabledGameTestNamespaces', mod_id
+            workingDirectory project.file('./run/client2')
+            args '--username', 'CIM_LFL'
         }
 
         server {

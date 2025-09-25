@@ -18,13 +18,13 @@ import java.util.Map;
 public class RecipeManagerMixin {
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("RETURN"))
     public void manorsBountyMachine$apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler, CallbackInfo ci) {
-        if (SlotInputLimitManager.needInit) {
-            SlotInputLimitManager.init((RecipeManager) (Object) this);
-            SlotInputLimitManager.needInit = false;
-        }
         if (SmokingRecipeManager.needInit) {
             SmokingRecipeManager.init((RecipeManager) (Object) this);
             SmokingRecipeManager.needInit = false;
+        }
+        if (SlotInputLimitManager.needInit) {
+            SlotInputLimitManager.init((RecipeManager) (Object) this);
+            SlotInputLimitManager.needInit = false;
         }
     }
 }

@@ -65,6 +65,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
 
         @Override
         protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            BlenderBlockEntity.this.playBlenderOpenSound();
             BlenderBlockEntity.this.setOpen(false);
         }
 

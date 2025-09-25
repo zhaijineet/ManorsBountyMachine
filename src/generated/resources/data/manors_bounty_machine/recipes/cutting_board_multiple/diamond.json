@@ -1,0 +1,21 @@
+{
+  "type": "manors_bounty_machine:cutting_board_multiple",
+  "input": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "isShaped": true,
+  "output": {
+    "item": "minecraft:diamond"
+  },
+  "tool": {
+    "tag": "minecraft:swords"
+  }
+}

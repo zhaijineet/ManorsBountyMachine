@@ -64,7 +64,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
     @Override
     public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        int minutes = recipe.maxCookingTime / (20 * 60);
+        int minutes = recipe.maxCookingTime / 60;
         int index = 0;
         if (minutes >= 40) {
             index = 3;
@@ -73,7 +73,7 @@ public abstract class BaseFermentationRecipeCategory<T extends BaseFermentationR
         } else if (minutes >= 10) {
             index = 1;
         }
-        this.guiHelper.createDrawable(this.background, TIME_X_OFFSET, TIME_Y_OFFSET + TIME_HEIGHT * index, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 80, 53);
+        this.guiHelper.createDrawable(this.background, TIME_X_OFFSET + TIME_WIDTH * index, TIME_Y_OFFSET, TIME_WIDTH, TIME_HEIGHT).draw(guiGraphics, 80, 53);
         if (TIME_RECT.contains((int) mouseX, (int) mouseY)) {
             guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(minutes + "minutes"), (int) mouseX, (int) mouseY);
         }

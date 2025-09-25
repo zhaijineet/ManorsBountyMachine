@@ -25,6 +25,12 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_NAME)))
         );
         add(
+                InitSoundEvent.ICE_CREAM_MACHINE_DONE,
+                definition()
+                        .subtitle(InitSoundEvent.ICE_CREAM_MACHINE_DONE_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.ICE_CREAM_MACHINE_DONE_NAME)))
+        );
+        add(
                 InitSoundEvent.FRYER_FRYING,
                 definition()
                         .subtitle(InitSoundEvent.FRYER_FRYING_TRANSLATABLE)

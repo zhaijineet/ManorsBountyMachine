@@ -190,7 +190,7 @@ public class FermenterScreen extends BaseMachineScreen<FermenterMenu> {
         int cookingTime = this.menu.getCookingTime();
         int maxCookingTime = this.menu.getMaxCookingTime();
         if (cookingTime != 0) {
-            String text = (maxCookingTime - cookingTime) / 20 + "s";
+            String text = maxCookingTime - cookingTime + "s";
             guiGraphics.drawString(
                     this.font,
                     text,

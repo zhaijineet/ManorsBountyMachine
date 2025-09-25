@@ -1,0 +1,24 @@
+{
+  "type": "manors_bounty_machine:cutting_board_single",
+  "input": {
+    "item": "minecraft:diamond"
+  },
+  "outgrowths": [
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "chance": 0.5,
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:apple"
+  },
+  "tool": {
+    "tag": "minecraft:swords"
+  }
+}

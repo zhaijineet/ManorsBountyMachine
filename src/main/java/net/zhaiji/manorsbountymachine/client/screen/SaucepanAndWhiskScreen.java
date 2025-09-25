@@ -123,28 +123,6 @@ public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMe
                             if (flag) {
                                 BlockPos blockPos = this.blockEntity.getBlockPos();
                                 whiskStir = !whiskStir;
-                                if (this.menu.getStirsCount() >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT - 1) {
-                                    blockEntity.getLevel().playLocalSound(
-                                            blockPos,
-                                            InitSoundEvent.SAUCEPAN_AND_WHISK_DONE.get(),
-                                            SoundSource.BLOCKS,
-                                            1,
-                                            1,
-                                            true
-                                    );
-
-                                } else {
-                                    blockEntity.getLevel().playLocalSound(
-                                            blockPos,
-                                            whiskStir
-                                                    ? InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1.get()
-                                                    : InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2.get(),
-                                            SoundSource.BLOCKS,
-                                            1.5F,
-                                            1,
-                                            true
-                                    );
-                                }
                                 ManorsBountyMachinePacket.sendToServer(new TrySaucepanAndWhiskCraftPacket(blockPos));
                             } else {
                                 this.getMinecraft().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));

@@ -1,0 +1,18 @@
+{
+  "type": "manors_bounty_machine:cutting_board_multiple",
+  "input": [
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:apple"
+    }
+  ],
+  "isShaped": true,
+  "output": {
+    "item": "minecraft:iron_ingot"
+  }
+}

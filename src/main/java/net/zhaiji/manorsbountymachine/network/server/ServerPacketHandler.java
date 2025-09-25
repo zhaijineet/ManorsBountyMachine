@@ -1,8 +1,12 @@
 package net.zhaiji.manorsbountymachine.network.server;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
 import net.zhaiji.manorsbountymachine.block.entity.*;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 public class ServerPacketHandler {
     public static void handlerIceCreamTowFlavorSwitch(IceCreamTowFlavorSwitchPacket packet) {
@@ -90,10 +94,41 @@ public class ServerPacketHandler {
         if (player.level().getBlockEntity(packet.blockPos) instanceof SaucepanAndWhiskBlockEntity blockEntity) {
             blockEntity.addStirsCount();
             blockEntity.triggerAnim("saucepan_and_whisk", "animation.saucepan_and_whisk.working");
+            BlockPos blockPos = blockEntity.getBlockPos();
+            if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT - 1) {
+                blockEntity.getLevel().playSound(
+                        null,
+                        blockPos,
+                        InitSoundEvent.SAUCEPAN_AND_WHISK_DONE.get(),
+                        SoundSource.BLOCKS,
+                        1,
+                        1
+                );
+            } else {
+                blockEntity.getLevel().playSound(
+                        null,
+                        blockPos,
+                        blockEntity.stirsCount % 2 == 1
+                                ? InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_1.get()
+                                : InitSoundEvent.SAUCEPAN_AND_WHISK_STIRS_2.get(),
+                        SoundSource.BLOCKS,
+                        1.5F,
+                        1
+                );
+            }
             if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT) {
                 blockEntity.craftItem();
                 blockEntity.setStirsCount(SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT);
             }
+        }
+    }
+
+    public static void handlerSyncCuttingBoard(SyncCuttingBoardPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof CuttingBoardBlockEntity blockEntity) {
+            BlockPos pos = blockEntity.getBlockPos();
+            BlockState state = blockEntity.getBlockState();
+            blockEntity.getLevel().sendBlockUpdated(pos, state, state, 2);
         }
     }
 }

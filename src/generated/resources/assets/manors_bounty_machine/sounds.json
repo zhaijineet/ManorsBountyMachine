@@ -59,6 +59,12 @@
     ],
     "subtitle": "sound.manors_bounty_machine.ice_cream_machine_clank"
   },
+  "ice_cream_machine_done": {
+    "sounds": [
+      "manors_bounty_machine:ice_cream_machine_done"
+    ],
+    "subtitle": "sound.manors_bounty_machine.ice_cream_machine_done"
+  },
   "oven_ding": {
     "sounds": [
       "manors_bounty_machine:oven_ding"

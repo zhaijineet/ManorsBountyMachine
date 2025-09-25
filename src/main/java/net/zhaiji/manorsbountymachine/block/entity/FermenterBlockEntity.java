@@ -77,6 +77,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         }
     };
     public boolean isRunning = false;
+    public int tickCount = 0;
     public int cookingTime = 0;
     public int maxCookingTime = 0;
     public final ContainerData data = new ContainerData() {
@@ -113,7 +114,12 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FermenterBlockEntity pBlockEntity) {
         pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
-            pBlockEntity.cookingTime++;
+            pBlockEntity.tickCount++;
+            // 我没辙了，containerData的int同步是用的short，数字太大会溢出
+            if (pBlockEntity.tickCount >= 20) {
+                pBlockEntity.cookingTime++;
+                pBlockEntity.tickCount = 0;
+            }
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }

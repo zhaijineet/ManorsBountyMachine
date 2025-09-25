@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,6 +23,7 @@ import net.zhaiji.manorsbountymachine.menu.IceCreamMachineMenu;
 import net.zhaiji.manorsbountymachine.recipe.IceCreamRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
+import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +60,7 @@ public class IceCreamMachineBlockEntity extends BaseMachineBlockEntity {
         Optional<IceCreamRecipe> recipe = this.getRecipe();
         recipe.ifPresent(iceCreamRecipe -> {
             this.fluidTank.drain(iceCreamRecipe.fluidStack.getAmount(), IFluidHandler.FluidAction.EXECUTE);
-            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
             List<ItemStack> craftRemaining = new ArrayList<>();
             for (int i = 0; i < (this.isTwoFlavor ? 3 : 2); i++) {
                 if (OUTPUT_SLOT == INPUT_SLOTS[i]) continue;
@@ -82,6 +84,7 @@ public class IceCreamMachineBlockEntity extends BaseMachineBlockEntity {
             this.setItem(OUTPUT_SLOT, iceCreamRecipe.assemble(this, this.level.registryAccess()));
             this.insertCraftRemaining(craftRemaining);
             this.popCraftRemaining(craftRemaining);
+            this.level.playSound(null, this.getBlockPos(), InitSoundEvent.ICE_CREAM_MACHINE_DONE.get(), SoundSource.BLOCKS);
         });
     }
 

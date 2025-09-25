@@ -1,0 +1,20 @@
+{
+  "type": "manors_bounty_machine:saucepan_and_whisk",
+  "container": {
+    "item": "minecraft:apple"
+  },
+  "heatState": "need",
+  "mainInput": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:diamond"
+  },
+  "secondaryInput": [
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ]
+}

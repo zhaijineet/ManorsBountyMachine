@@ -8,6 +8,8 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -74,6 +76,10 @@ public class IceCreamMachineScreen extends BaseMachineScreen<IceCreamMachineMenu
                             ManorsBountyMachinePacket.sendToServer(new IceCreamCraftPacket(this.blockEntity.getBlockPos()));
                         }
                 ) {
+                    @Override
+                    public void playDownSound(SoundManager pHandler) {
+                    }
+
                     @Override
                     public void renderTexture(GuiGraphics pGuiGraphics, ResourceLocation pTexture, int pX, int pY, int pUOffset, int pVOffset, int pTextureDifference, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
                         int i = pVOffset;
