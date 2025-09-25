@@ -122,13 +122,4 @@ public class ServerPacketHandler {
             }
         }
     }
-
-    public static void handlerSyncCuttingBoard(SyncCuttingBoardPacket packet) {
-        Player player = packet.context.getSender();
-        if (player.level().getBlockEntity(packet.blockPos) instanceof CuttingBoardBlockEntity blockEntity) {
-            BlockPos pos = blockEntity.getBlockPos();
-            BlockState state = blockEntity.getBlockState();
-            blockEntity.getLevel().sendBlockUpdated(pos, state, state, 2);
-        }
-    }
 }

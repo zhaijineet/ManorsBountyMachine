@@ -97,12 +97,6 @@ public class ManorsBountyMachinePacket {
                 .encoder(TrySaucepanAndWhiskCraftPacket::encode)
                 .consumerMainThread(TrySaucepanAndWhiskCraftPacket::handle)
                 .add();
-
-        INSTANCE.messageBuilder(SyncCuttingBoardPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .decoder(SyncCuttingBoardPacket::decode)
-                .encoder(SyncCuttingBoardPacket::encode)
-                .consumerMainThread(SyncCuttingBoardPacket::handle)
-                .add();
     }
 
     public static void registerClientPacket() {

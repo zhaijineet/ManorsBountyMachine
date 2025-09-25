@@ -44,13 +44,15 @@ public class CommonEventHandler {
             if (items.containsKey(key)) {
                 mapping.remap(items.get(key));
             }
-        };
+        }
+        ;
         for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.BLOCKS.getRegistryKey())) {
             ResourceLocation key = mapping.getKey();
             if (blocks.containsKey(key)) {
                 mapping.remap(blocks.get(key));
             }
-        };
+        }
+        ;
     }
 
     public static void handlerVillagerTradesEvent(VillagerTradesEvent event) {
@@ -223,6 +225,99 @@ public class CommonEventHandler {
                     event.getTrades(),
                     ManorsBountyCompat.getManorsBountyItemStack("pudding_a_la_mode"),
                     ManorsBountyCompat.getManorsBountyItemStack("pink_crystal")
+            );
+        }
+        if (event.getType() == InitVillager.BARTENDER.get()) {
+            noviceTrades(
+                    event.getTrades(),
+                    emerald(5),
+                    InitItem.FERMENTER.get().getDefaultInstance()
+            );
+            noviceTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("red_wine"),
+                    ManorsBountyCompat.getManorsBountyItemStack("garnet")
+            );
+            noviceTrades(
+                    event.getTrades(),
+                    emerald(10),
+                    ManorsBountyCompat.getManorsBountyItemStack("glass_of_whiskey")
+            );
+            noviceTrades(
+                    event.getTrades(),
+                    emerald(10),
+                    ManorsBountyCompat.getManorsBountyItemStack("glass_of_rum")
+            );
+            noviceTrades(
+                    event.getTrades(),
+                    emerald(10),
+                    ManorsBountyCompat.getManorsBountyItemStack("glass_of_vodka")
+            );
+            apprenticeTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("hurricane_cocktail"),
+                    ManorsBountyCompat.getManorsBountyItemStack("garnet", 5)
+            );
+            apprenticeTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("garnet", 3),
+                    ManorsBountyCompat.getManorsBountyItemStack("grenadine")
+            );
+            apprenticeTrades(
+                    event.getTrades(),
+                    emerald(15),
+                    ManorsBountyCompat.getManorsBountyItemStack("daiquiri")
+            );
+            apprenticeTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("pink_crystal", 5),
+                    ManorsBountyCompat.getManorsBountyItemStack("gin")
+            );
+            journeymanTrades(
+                    event.getTrades(),
+                    emerald(32),
+                    ManorsBountyCompat.getManorsBountyItemStack("topaz", 16),
+                    ManorsBountyCompat.getManorsBountyItemStack("champagne")
+            );
+            journeymanTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("beillni_base"),
+                    ManorsBountyCompat.getManorsBountyItemStack("pink_crystal", 12)
+            );
+            journeymanTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("irish_coffee"),
+                    ManorsBountyCompat.getManorsBountyItemStack("topaz", 16)
+            );
+            expertTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("creme_de_cassis"),
+                    emerald(24)
+            );
+            expertTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("umeshu"),
+                    ManorsBountyCompat.getManorsBountyItemStack("pink_crystal", 12)
+            );
+            expertTrades(
+                    event.getTrades(),
+                    emerald(32),
+                    ManorsBountyCompat.getManorsBountyItemStack("sake")
+            );
+            masterTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("starfruit_wine"),
+                    ManorsBountyCompat.getManorsBountyItemStack("brilliant_diamond")
+            );
+            masterTrades(
+                    event.getTrades(),
+                    ManorsBountyCompat.getManorsBountyItemStack("kir_royal"),
+                    ManorsBountyCompat.getManorsBountyItemStack("pink_crystal", 16)
+            );
+            masterTrades(
+                    event.getTrades(),
+                    emerald(40),
+                    ManorsBountyCompat.getManorsBountyItemStack("white_wine")
             );
         }
     }

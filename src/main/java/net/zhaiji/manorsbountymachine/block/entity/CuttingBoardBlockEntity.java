@@ -10,7 +10,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -33,7 +32,6 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public int craftIndex = 5;
     public boolean inCraft = false;
-    public int syncTick = 0;
 
     public CuttingBoardBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.CUTTING_BOARD.get(), pPos, pBlockState);

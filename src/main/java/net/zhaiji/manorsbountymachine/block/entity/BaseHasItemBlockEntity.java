@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -79,6 +80,7 @@ public abstract class BaseHasItemBlockEntity extends BlockEntity implements Cont
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
+        this.getItems().clear();
         ContainerHelper.loadAllItems(pTag, this.getItems());
     }
 

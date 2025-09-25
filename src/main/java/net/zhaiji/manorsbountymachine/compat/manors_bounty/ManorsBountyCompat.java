@@ -45,6 +45,9 @@ public class ManorsBountyCompat {
     public static final TagKey<Item> KNIVES = ItemTags.create(getForgeResourceLocation("tools/knives"));
     public static final TagKey<Item> ROLLING_PINS = ItemTags.create(getForgeResourceLocation("tools/rolling_pins"));
 
+    public static final TagKey<Item> OUTPUT_FLUID = ItemTags.create(getManorsBountyResourceLocation("blender_output_type_fluid"));
+    public static final TagKey<Item> OUTPUT_POWDER = ItemTags.create(getManorsBountyResourceLocation("blender_output_type_powder"));
+
     public static final TagKey<Block> TEAPOT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("teapot_heat_blocks"));
     public static final TagKey<Block> STOCK_POT_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("stock_pot_heat_blocks"));
     public static final TagKey<Block> SAUCEPAN_AND_WHISK_HEAT_BLOCKS = BlockTags.create(getManorsBountyResourceLocation("saucepan_and_whisk_heat_blocks"));
@@ -240,6 +243,14 @@ public class ManorsBountyCompat {
 
     public static boolean isAxe(ItemStack itemStack) {
         return itemStack.is(ItemTags.AXES);
+    }
+
+    public static boolean isOutputFluid(ItemStack itemStack) {
+        return itemStack.is(OUTPUT_FLUID);
+    }
+
+    public static boolean isOutputPowder(ItemStack itemStack) {
+        return itemStack.is(OUTPUT_POWDER);
     }
 
     public static boolean isRollingPin(ItemStack itemStack) {
