@@ -25,6 +25,7 @@ public class DataGenHandler {
         generator.addProvider(event.includeClient(), new SoundProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.EN_US));
         generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.ZH_CN));
+        generator.addProvider(event.includeClient(), new LanguageProvider(packOutput, LanguageProvider.JA_JP));
         generator.addProvider(event.includeServer(), new ParticleProvider(packOutput, existingFileHelper));
 
         generator.addProvider(event.includeServer(), new BlockTagProvider(packOutput, lookupProvider, existingFileHelper));
