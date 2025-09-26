@@ -9,13 +9,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.OvenBlock;
+import net.zhaiji.manorsbountymachine.block.TeapotBlock;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.menu.OvenMenu;
@@ -24,6 +25,7 @@ import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
+import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -40,10 +42,34 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
     public static final int BOTTOM_RIGHT = 5;
     public static final int OUTPUT = 6;
     public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
-    public static final int SOUND_TIME = 100;
     public final RecipeManager.CachedCheck<OvenBlockEntity, OvenRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
     public boolean isRunning = false;
+    public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
+        protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
+            OvenBlockEntity.this.playOvenSound();
+            OvenBlockEntity.this.setOpen(true);
+        }
+
+        @Override
+        protected void onClose(Level pLevel, BlockPos pPos, BlockState pState) {
+            OvenBlockEntity.this.playOvenSound();
+            OvenBlockEntity.this.setOpen(false);
+        }
+
+        @Override
+        protected void openerCountChanged(Level pLevel, BlockPos pPos, BlockState pState, int pCount, int pOpenCount) {
+        }
+
+        @Override
+        protected boolean isOwnContainer(Player pPlayer) {
+            if (pPlayer.containerMenu instanceof OvenMenu menu) {
+                return menu.blockEntity == OvenBlockEntity.this;
+            }
+            return false;
+        }
+    };
     public Temperature temperature = Temperature.ZERO;
     public int cookingTime = 0;
     public MaxCookingTime maxCookingTime = MaxCookingTime.ZERO;
@@ -72,25 +98,30 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
             return 3;
         }
     };
-    public int playSoundCooldown = 0;
+    public boolean isPlaySound = false;
 
     public OvenBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.OVEN.get(), pPos, pBlockState);
         this.recipeCheck = RecipeManager.createCheck(InitRecipe.OVEN_RECIPE_TYPE.get());
     }
 
+    public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, OvenBlockEntity pBlockEntity) {
+        if (pBlockEntity.isRunning) {
+            if (!pBlockEntity.isPlaySound) {
+                pBlockEntity.isPlaySound = true;
+                SoundUtil.playOvenSoundInstance(pBlockEntity);
+            }
+        }
+    }
+
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, OvenBlockEntity pBlockEntity) {
+        pBlockEntity.recheckOpen();
         if (pBlockEntity.isRunning) {
             pBlockEntity.cookingTime++;
             if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime.cookingTime) {
                 pBlockEntity.craftItem();
                 pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_DING.get(), SoundSource.BLOCKS);
             }
-            if (pBlockEntity.playSoundCooldown <= 0) {
-                pBlockEntity.playSoundCooldown = SOUND_TIME;
-                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.OVEN_RUNNING.get(), SoundSource.BLOCKS);
-            }
-            pBlockEntity.playSoundCooldown--;
             pBlockEntity.setChanged();
         }
     }
@@ -102,9 +133,10 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         if (!this.getItem(OUTPUT).isEmpty()) return;
         if (this.getRecipe().isEmpty() && this.getSmokingRecipe().isEmpty()) return;
         this.isRunning = true;
-        this.playSoundCooldown = 0;
         this.setRunningState(true);
         this.setCookingTime(0);
+        this.setOpen(false);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void stopRunning() {
@@ -112,6 +144,7 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         this.setRunningState(false);
         this.setCookingTime(0);
         this.setMaxCookingTime(0);
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void craftItem() {
@@ -220,6 +253,36 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
 
     public List<OvenRecipe> getAllRecipe() {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get());
+    }
+
+    public void playOvenSound() {
+        this.level.playSound(null, this.getBlockPos(), InitSoundEvent.OVEN_OPEN.get(), SoundSource.BLOCKS);
+    }
+
+    public void setOpen(boolean open) {
+        this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(TeapotBlock.OPEN, !this.isRunning && open));
+    }
+
+    @Override
+    public void startOpen(Player pPlayer) {
+        super.startOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.incrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    @Override
+    public void stopOpen(Player pPlayer) {
+        super.stopOpen(pPlayer);
+        if (!this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.decrementOpeners(pPlayer, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public void recheckOpen() {
+        if (!this.remove) {
+            this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
     }
 
     @Override

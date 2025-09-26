@@ -35,6 +35,7 @@ import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
+import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,7 +54,6 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
     public static final int FAST_COOKING_TIME = 80;
     public static final int SLOW_COOKING_TIME = 160;
     public static final int FAIL_COOKING_TIME = 280;
-    public static final int SOUND_TIME = 20;
     public final RecipeManager.CachedCheck<FryerCraftContainer, FastFryRecipe> fastRecipeCheck;
     public final RecipeManager.CachedCheck<FryerCraftContainer, SlowFryRecipe> slowRecipeCheck;
     public final FluidTank fluidTank = new FluidTank(4000, ManorsBountyCompat::isOilFluid) {
@@ -86,8 +86,8 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             return 1;
         }
     };
-    public int playSoundCooldown = 0;
     public LazyOptional<IFluidHandler> fluidHandler = LazyOptional.empty();
+    public boolean isPlaySound = false;
 
     public FryerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.FRYER.get(), pPos, pBlockState);
@@ -119,17 +119,16 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             pBlockEntity.addOilSplashParticle(pLevel, pPos);
             pBlockEntity.addOilSplashParticle(pLevel, pPos);
             pBlockEntity.addOilSplashParticle(pLevel, pPos);
+            if (!pBlockEntity.isPlaySound) {
+                pBlockEntity.isPlaySound = true;
+                SoundUtil.playFryerSoundInstance(pBlockEntity);
+            }
         }
     }
 
     public static void serverTick(Level pLevel, BlockPos pPos, BlockState pState, FryerBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
             pBlockEntity.cookingTime++;
-            if (pBlockEntity.playSoundCooldown <= 0) {
-                pBlockEntity.playSoundCooldown = SOUND_TIME;
-                pLevel.playSound(null, pBlockEntity.getBlockPos(), InitSoundEvent.FRYER_FRYING.get(), SoundSource.BLOCKS);
-            }
-            pBlockEntity.playSoundCooldown--;
             pBlockEntity.craftItem();
             pBlockEntity.setChanged();
         }
@@ -150,7 +149,6 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         if (count == 0) return;
         if (!flag) return;
         this.isRunning = true;
-        this.playSoundCooldown = 0;
         this.setCookingTime(0);
         if (this.level instanceof ServerLevel serverLevel && serverLevel.random.nextInt(10000) < count * 625) {
             this.fluidTank.drain(250, IFluidHandler.FluidAction.EXECUTE);
@@ -158,6 +156,7 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             this.handlerFluidSlot();
         }
         this.setChanged();
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void stopRunning() {

@@ -69,6 +69,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "Ice Cream Machine Clank");
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "Fryer Frying");
+        add(InitSoundEvent.OVEN_OPEN_TRANSLATABLE, "Oven Open");
+        add(InitSoundEvent.OVEN_KNOB_TURN_TRANSLATABLE, "Oven Knob Turn");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "Oven Ding");
         add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "Oven Running");
         add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "Teapot Cup Place");
@@ -140,6 +142,8 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
 
         add(InitSoundEvent.ICE_CREAM_MACHINE_CLANK_TRANSLATABLE, "冰淇淋机：哐当");
         add(InitSoundEvent.FRYER_FRYING_TRANSLATABLE, "炸锅：油炸");
+        add(InitSoundEvent.OVEN_OPEN_TRANSLATABLE, "烤箱：打开");
+        add(InitSoundEvent.OVEN_KNOB_TURN_TRANSLATABLE, "烤箱：旋钮转动");
         add(InitSoundEvent.OVEN_DING_TRANSLATABLE, "烤箱：叮");
         add(InitSoundEvent.OVEN_RUNNING_TRANSLATABLE, "烤箱：运行");
         add(InitSoundEvent.TEAPOT_CUP_PLACE_TRANSLATABLE, "茶壶：杯子放置");

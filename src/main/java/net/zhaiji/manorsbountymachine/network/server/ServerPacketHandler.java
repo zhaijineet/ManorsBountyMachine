@@ -44,6 +44,7 @@ public class ServerPacketHandler {
                 case 0 -> blockEntity.setTemperature(packet.value);
                 case 1 -> blockEntity.setMaxCookingTime(packet.value);
             }
+            blockEntity.getLevel().playSound(null, blockEntity.getBlockPos(), InitSoundEvent.OVEN_KNOB_TURN.get(), SoundSource.BLOCKS);
         }
     }
 
@@ -95,7 +96,7 @@ public class ServerPacketHandler {
             blockEntity.addStirsCount();
             blockEntity.triggerAnim("saucepan_and_whisk", "animation.saucepan_and_whisk.working");
             BlockPos blockPos = blockEntity.getBlockPos();
-            if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT - 1) {
+            if (blockEntity.stirsCount >= SaucepanAndWhiskBlockEntity.MAX_STIRS_COUNT) {
                 blockEntity.getLevel().playSound(
                         null,
                         blockPos,

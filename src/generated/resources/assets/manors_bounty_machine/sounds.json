@@ -71,6 +71,18 @@
     ],
     "subtitle": "sound.manors_bounty_machine.oven_ding"
   },
+  "oven_knob_turn": {
+    "sounds": [
+      "manors_bounty_machine:oven_knob_turn"
+    ],
+    "subtitle": "sound.manors_bounty_machine.oven_knob_turn"
+  },
+  "oven_open": {
+    "sounds": [
+      "manors_bounty_machine:oven_open"
+    ],
+    "subtitle": "sound.manors_bounty_machine.oven_open"
+  },
   "oven_running": {
     "sounds": [
       "manors_bounty_machine:oven_running"

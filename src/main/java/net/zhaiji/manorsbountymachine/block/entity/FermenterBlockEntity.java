@@ -196,13 +196,13 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         }
         if (recipe.lightState != this.getLightState()) {
             int count = 1;
-            int maxCookingTime = recipe.maxCookingTime;
-            if (maxCookingTime >= 90) {
-                count = 9;
-            } else if (maxCookingTime >= 60) {
-                count = 6;
-            } else if (maxCookingTime >= 30) {
-                count = 3;
+            int minutes = recipe.maxCookingTime / 60;
+            if (minutes >= 40) {
+                count = 8;
+            } else if (minutes >= 20) {
+                count = 4;
+            } else if (minutes >= 10) {
+                count = 2;
             }
             this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(count));
         } else {

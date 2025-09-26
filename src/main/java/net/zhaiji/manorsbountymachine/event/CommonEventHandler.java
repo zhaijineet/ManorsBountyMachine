@@ -45,14 +45,12 @@ public class CommonEventHandler {
                 mapping.remap(items.get(key));
             }
         }
-        ;
         for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.BLOCKS.getRegistryKey())) {
             ResourceLocation key = mapping.getKey();
             if (blocks.containsKey(key)) {
                 mapping.remap(blocks.get(key));
             }
         }
-        ;
     }
 
     public static void handlerVillagerTradesEvent(VillagerTradesEvent event) {
@@ -107,7 +105,7 @@ public class CommonEventHandler {
             journeymanTrades(
                     event.getTrades(),
                     ManorsBountyCompat.getManorsBountyItemStack("golden_apple_slice", 6),
-                    ManorsBountyCompat.getManorsBountyItemStack("brilliant_diamond"),
+                    ManorsBountyCompat.getManorsBountyItemStack("topaz", 8),
                     ManorsBountyCompat.getManorsBountyItemStack("enchanted_golden_apple_slice")
             );
             expertTrades(
@@ -158,13 +156,13 @@ public class CommonEventHandler {
             );
             noviceTrades(
                     event.getTrades(),
-                    ManorsBountyCompat.getManorsBountyItemStack("fried_chicken"),
-                    emerald(10)
+                    ManorsBountyCompat.getManorsBountyItemStack("fried_chicken", 3),
+                    emerald(1)
             );
             noviceTrades(
                     event.getTrades(),
-                    ManorsBountyCompat.getManorsBountyItemStack("fried_steak"),
-                    emerald(10)
+                    ManorsBountyCompat.getManorsBountyItemStack("fried_steak", 3),
+                    emerald(1)
             );
             apprenticeTrades(
                     event.getTrades(),

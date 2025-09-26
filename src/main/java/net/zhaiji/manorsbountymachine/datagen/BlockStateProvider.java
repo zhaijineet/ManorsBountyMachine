@@ -70,12 +70,16 @@ public class BlockStateProvider extends net.minecraftforge.client.model.generato
         String texture1 = namespace + ":block/" + path;
         String texture2 = namespace + ":block/" + path + "_running";
         ModelFile modelFile1 = modelFile(path, texture1);
-        ModelFile modelFile2 = modelFile(path + "_running", texture2);
+        ModelFile modelFile2 = modelFile(path + "_open", texture1);
+        ModelFile modelFile3 = modelFile(path + "_running", texture2);
         this.getVariantBuilder(block)
                 .forAllStatesExcept(
                         state -> ConfiguredModel.builder()
                                 .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
-                                .modelFile(state.getValue(OvenBlock.RUNNING) ? modelFile2 : modelFile1)
+                                .modelFile(
+                                        state.getValue(OvenBlock.RUNNING) ? modelFile3
+                                                : state.getValue(OvenBlock.OPEN) ? modelFile2 : modelFile1
+                                )
                                 .build()
                 );
     }

@@ -3,6 +3,7 @@ package net.zhaiji.manorsbountymachine.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -72,6 +73,10 @@ public class OvenScreen extends BaseMachineScreen<OvenMenu> {
                         }
                 ) {
                     @Override
+                    public void playDownSound(SoundManager pHandler) {
+                    }
+
+                    @Override
                     public void renderTexture(GuiGraphics pGuiGraphics, ResourceLocation pTexture, int pX, int pY, int pUOffset, int pVOffset, int pTextureDifference, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
                         RenderSystem.enableDepthTest();
                         int temperatureState = OvenScreen.this.menu.getTemperature().state;
@@ -95,6 +100,10 @@ public class OvenScreen extends BaseMachineScreen<OvenMenu> {
                             ManorsBountyMachinePacket.sendToServer(new SyncOvenTimeOrTemperaturePacket(this.blockEntity.getBlockPos(), 1, syncState));
                         }
                 ) {
+                    @Override
+                    public void playDownSound(SoundManager pHandler) {
+                    }
+
                     @Override
                     public void renderTexture(GuiGraphics pGuiGraphics, ResourceLocation pTexture, int pX, int pY, int pUOffset, int pVOffset, int pTextureDifference, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
                         RenderSystem.enableDepthTest();

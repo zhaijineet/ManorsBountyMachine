@@ -37,6 +37,18 @@ public class SoundProvider extends SoundDefinitionsProvider {
                         .with(sound(soundName(InitSoundEvent.FRYER_FRYING_NAME)))
         );
         add(
+                InitSoundEvent.OVEN_OPEN,
+                definition()
+                        .subtitle(InitSoundEvent.OVEN_OPEN_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.OVEN_OPEN_NAME)))
+        );
+        add(
+                InitSoundEvent.OVEN_KNOB_TURN,
+                definition()
+                        .subtitle(InitSoundEvent.OVEN_KNOB_TURN_TRANSLATABLE)
+                        .with(sound(soundName(InitSoundEvent.OVEN_KNOB_TURN_NAME)))
+        );
+        add(
                 InitSoundEvent.OVEN_DING,
                 definition()
                         .subtitle(InitSoundEvent.OVEN_DING_TRANSLATABLE)

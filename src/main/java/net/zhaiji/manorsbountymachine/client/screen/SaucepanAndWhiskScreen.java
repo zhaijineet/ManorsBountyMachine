@@ -12,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.SaucepanAndWhiskMenu;
@@ -20,6 +22,7 @@ import net.zhaiji.manorsbountymachine.network.server.packet.TrySaucepanAndWhiskC
 import net.zhaiji.manorsbountymachine.recipe.SaucepanAndWhiskRecipe;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
+@OnlyIn(Dist.CLIENT)
 public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMenu> {
     public static final ResourceLocation SAUCEPAN_AND_WHISK_GUI = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/saucepan_and_whisk_gui.png");
     public static final ResourceLocation SAUCEPAN_AND_WHISK_GUI_WIDGET = ResourceLocation.fromNamespaceAndPath(ManorsBountyMachine.MOD_ID, "textures/gui/saucepan_and_whisk_gui_widget.png");

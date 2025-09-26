@@ -120,7 +120,6 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, StockPotBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
             if (pBlockEntity.isOnStockPotHeatBlock()) {
-                pBlockEntity.cookingTime++;
                 RandomSource random = pLevel.random;
                 if (random.nextFloat() < 0.11F) {
                     for (int i = 0; i < random.nextInt(2) + 2; ++i) {
@@ -129,12 +128,8 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
                 }
             }
             if (!pBlockEntity.isPlaySound) {
-                SoundUtil.playStockPotSoundInstance(pBlockEntity);
                 pBlockEntity.isPlaySound = true;
-            }
-            if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
-                pBlockEntity.isRunning = false;
-                pBlockEntity.isPlaySound = false;
+                SoundUtil.playStockPotSoundInstance(pBlockEntity);
             }
         }
     }
