@@ -63,10 +63,10 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "geckolib"
+modId = "jei"
 mandatory = false
-versionRange = "*"
-ordering = "AFTER"
+versionRange = "[15.20.0.112,]"
+ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]

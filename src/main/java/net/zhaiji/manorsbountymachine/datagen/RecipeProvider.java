@@ -8,7 +8,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
@@ -184,7 +183,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 //        singleTestMap.put(Items.GOLD_INGOT, 1F);
 //        cuttingBoardSingleRecipe(pWriter, ItemTags.SWORDS, Items.DIAMOND, Items.APPLE, 1, singleTestMap);
 //
-//        cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.IRON_INGOT);
+//        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.APPLE, Items.DIAMOND, Items.APPLE}, Items.STONE);
+//        cuttingBoardMultipleRecipe(pWriter, true, new Item[]{Items.APPLE, Items.DIAMOND}, Items.IRON_INGOT);
 //        cuttingBoardMultipleRecipe(pWriter, false, new Item[]{Items.APPLE, Items.DIAMOND, Items.STICK}, Items.GOLD_INGOT);
 //        cuttingBoardMultipleRecipe(pWriter, true, ItemTags.SWORDS, new Item[]{Items.STICK, Items.DIAMOND, Items.STICK}, Items.DIAMOND);
 //        Map<Item, Float> multipleTestMap = new HashMap<>();

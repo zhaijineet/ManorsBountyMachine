@@ -44,7 +44,7 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
         boolean flag = false;
         while (this.craftIndex >= 0) {
             Optional<CuttingBoardSingleRecipe> recipe = this.getSingleRecipe(container);
-            if (recipe.isPresent()) {
+            if (recipe.isPresent() && this.getItem(this.craftIndex + 1).isEmpty()) {
                 CuttingBoardSingleRecipe cuttingBoardSingleRecipe = recipe.get();
                 this.toolHurt(player, tool);
                 ItemStack remaining = MachineUtil.getCraftRemaining(this.getItem(this.craftIndex), 1);

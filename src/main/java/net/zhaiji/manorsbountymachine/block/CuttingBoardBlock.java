@@ -18,6 +18,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zhaiji.manorsbountymachine.block.entity.CuttingBoardBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import net.zhaiji.manorsbountymachine.register.manager.BlockShapeManager;
 import org.jetbrains.annotations.Nullable;
@@ -96,17 +97,18 @@ public class CuttingBoardBlock extends BaseMachineBlock {
                 : InteractionResult.CONSUME_PARTIAL;
     }
 
-    public InteractionResult tryCraftItem(CuttingBoardBlockEntity blockEntity, Level level, Player player, ItemStack heldItem, ItemStack otherHeldItem) {
-        boolean flag = blockEntity.craftMultipleItem(player, heldItem);
-        if (!flag) {
-            if (!otherHeldItem.isEmpty() && !blockEntity.isFull() && !blockEntity.inCraft) {
-                return InteractionResult.PASS;
-            }
-            if (blockEntity.craftSingleItem(player, heldItem)) {
-                flag = true;
-            } else if (!blockEntity.isFull()) {
-                flag = this.addItem(blockEntity, heldItem);
-            }
+    public InteractionResult trySingleCraft(CuttingBoardBlockEntity blockEntity, Level level, Player player, ItemStack heldItem, ItemStack otherHeldItem) {
+        if (this.isTool(heldItem)
+                && !this.isTool(otherHeldItem)
+                && !blockEntity.isFull()
+                && !blockEntity.inCraft) {
+            return InteractionResult.PASS;
+        }
+        boolean flag = false;
+        if (blockEntity.craftSingleItem(player, heldItem)) {
+            flag = true;
+        } else if (!blockEntity.isFull()) {
+            flag = this.addItem(blockEntity, heldItem);
         }
         this.sync(blockEntity);
         return flag
@@ -119,21 +121,32 @@ public class CuttingBoardBlock extends BaseMachineBlock {
         blockEntity.getLevel().sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 2);
     }
 
+    public boolean isTool(ItemStack itemStack) {
+        return SlotInputLimitManager.CUTTING_BOARD_TOOL_LIMIT.stream().anyMatch(ingredient -> ingredient.test(itemStack));
+    }
+
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
         if (pLevel.getBlockEntity(pPos) instanceof CuttingBoardBlockEntity blockEntity) {
             ItemStack heldItem = pPlayer.getItemInHand(pHand);
             ItemStack otherHeldItem = pPlayer.getItemInHand(pHand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+            ItemStack mainHandItem = pPlayer.getMainHandItem();
             if (pPlayer.isShiftKeyDown() && !blockEntity.isEmpty()) {
                 Containers.dropContents(pLevel, pPos, blockEntity);
                 this.playDropItemSound(blockEntity);
                 this.sync(blockEntity);
                 return InteractionResult.sidedSuccess(pLevel.isClientSide());
             }
+            if (mainHandItem.isEmpty() || this.isTool(mainHandItem)) {
+                if (blockEntity.craftMultipleItem(pPlayer, heldItem)) {
+                    this.sync(blockEntity);
+                    return InteractionResult.sidedSuccess(pLevel.isClientSide());
+                }
+            }
             if (!heldItem.isEmpty()) {
                 if (pHand == InteractionHand.MAIN_HAND) {
-                    return this.tryCraftItem(blockEntity, pLevel, pPlayer, heldItem, otherHeldItem);
+                    return this.trySingleCraft(blockEntity, pLevel, pPlayer, heldItem, otherHeldItem);
                 }
                 return this.addItem(blockEntity, heldItem)
                         ? InteractionResult.sidedSuccess(pLevel.isClientSide())

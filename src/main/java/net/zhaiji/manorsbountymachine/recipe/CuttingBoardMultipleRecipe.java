@@ -41,7 +41,7 @@ public class CuttingBoardMultipleRecipe extends BaseRecipe<CuttingBoardCraftCont
 
     @Override
     public boolean matches(CuttingBoardCraftContainer pContainer, Level pLevel) {
-        if (this.hasTool() && !this.isToolMatch(pContainer.tool)) return false;
+        if (!this.isToolMatch(pContainer.tool)) return false;
         if (isShaped) {
             for (int i = 0; i < this.input.size(); i++) {
                 if (!this.input.get(i).test(pContainer.getAllItem().get(i))) {

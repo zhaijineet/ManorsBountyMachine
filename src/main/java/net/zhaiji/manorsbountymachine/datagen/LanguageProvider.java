@@ -201,7 +201,7 @@ public class LanguageProvider extends net.minecraftforge.common.data.LanguagePro
         add(TeapotRecipeCategory.TRANSLATABLE, "淹れる");
         add(DimFermentationRecipeCategory.TRANSLATABLE, "発酵・暗い環境");
         add(NormalFermentationRecipeCategory.TRANSLATABLE, "発酵・涼しい環境");
-        add(BrightFermentationRecipeCategory.TRANSLATABLE, "发酵：明亮环境");
+        add(BrightFermentationRecipeCategory.TRANSLATABLE, "発酵・明るい環境");
         add(BlenderRecipeCategory.TRANSLATABLE, "ミキサー");
         add(CuttingBoardRecipeCategory.TRANSLATABLE, "まな板");
         add(StockPotRecipeCategory.TRANSLATABLE, "煮込み");

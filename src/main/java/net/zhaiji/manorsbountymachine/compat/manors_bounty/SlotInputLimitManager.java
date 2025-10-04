@@ -20,6 +20,7 @@ public class SlotInputLimitManager {
     public static final List<Ingredient> TEAPOT_MATERIAL_LIMIT = new ArrayList<>();
     public static final List<Ingredient> FERMENTER_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> BLENDER_INPUT_LIMIT = new ArrayList<>();
+    public static final List<Ingredient> CUTTING_BOARD_TOOL_LIMIT = new ArrayList<>();
     public static final List<Ingredient> STOCK_POT_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> SAUCEPAN_AND_WHISK_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> SHAKER_INPUT_LIMIT = new ArrayList<>();
@@ -36,6 +37,7 @@ public class SlotInputLimitManager {
         TEAPOT_MATERIAL_LIMIT.clear();
         FERMENTER_INPUT_LIMIT.clear();
         BLENDER_INPUT_LIMIT.clear();
+        CUTTING_BOARD_TOOL_LIMIT.clear();
         STOCK_POT_INPUT_LIMIT.clear();
         SAUCEPAN_AND_WHISK_INPUT_LIMIT.clear();
         SHAKER_INPUT_LIMIT.clear();
@@ -49,6 +51,7 @@ public class SlotInputLimitManager {
         initTeapotSlotLimit(recipeManager);
         initFermenterSlotLimit(recipeManager);
         initBlenderSlotLimit(recipeManager);
+        initCuttingBoardToolLimit(recipeManager);
         initStockPotSlotLimit(recipeManager);
         initSaucepanAndWhiskSlotLimit(recipeManager);
         initShakerSlotLimit(recipeManager);
@@ -144,6 +147,21 @@ public class SlotInputLimitManager {
             Ingredient container = recipe.container;
             if (!BLENDER_INPUT_LIMIT.contains(container)) {
                 BLENDER_INPUT_LIMIT.add(container);
+            }
+        });
+    }
+
+    public static void initCuttingBoardToolLimit(RecipeManager recipeManager) {
+        recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get()).forEach(recipe -> {
+            Ingredient tool = recipe.tool;
+            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+                CUTTING_BOARD_TOOL_LIMIT.add(tool);
+            }
+        });
+        recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get()).forEach(recipe -> {
+            Ingredient tool = recipe.tool;
+            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+                CUTTING_BOARD_TOOL_LIMIT.add(tool);
             }
         });
     }
