@@ -103,6 +103,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             return 2;
         }
     };
+    public LightState recipeLightState = LightState.DIM;
 
     public FermenterBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.FERMENTER.get(), pPos, pBlockState);
@@ -120,7 +121,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
                 pBlockEntity.cookingTime++;
                 pBlockEntity.tickCount = 0;
             }
-            if (pBlockEntity.cookingTime >= pBlockEntity.maxCookingTime) {
+            if (pBlockEntity.cookingTime - 1 >= pBlockEntity.maxCookingTime) {
                 pBlockEntity.craftItem();
             }
             pBlockEntity.setChanged();
@@ -130,24 +131,26 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public void startRunning() {
         if (this.isRunning) return;
         if (!this.getItem(OUTPUT).isEmpty()) return;
-        int maxCookingTime;
+        BaseFermentationRecipe recipe;
         Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
         Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
         Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
         if (dimRecipe.isPresent()) {
-            maxCookingTime = dimRecipe.get().maxCookingTime;
+            recipe = dimRecipe.get();
         } else if (normalRecipe.isPresent()) {
-            maxCookingTime = normalRecipe.get().maxCookingTime;
+            recipe = normalRecipe.get();
         } else if (brightRecipe.isPresent()) {
-            maxCookingTime = brightRecipe.get().maxCookingTime;
+            recipe = brightRecipe.get();
         } else {
             return;
         }
+        this.recipeLightState = recipe.lightState;
         this.playBarrelCloseSound();
         this.setOpen(false);
         this.isRunning = true;
-        this.setCookingTime(0);
-        this.setMaxCookingTime(this.handleMaxCookingTime(maxCookingTime));
+        this.setCookingTime(1);
+        this.setMaxCookingTime(this.handleMaxCookingTime(recipe.maxCookingTime));
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void stopRunning() {
@@ -159,9 +162,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
 
     public void craftItem() {
         BaseFermentationRecipe recipe;
-        Optional<DimFermentationRecipe> dimRecipe = this.getIgnoreLightDimRecipe();
-        Optional<NormalFermentationRecipe> normalRecipe = this.getIgnoreLightNormalRecipe();
-        Optional<BrightFermentationRecipe> brightRecipe = this.getIgnoreLightBrightRecipe();
+        Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
+        Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
+        Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
         if (dimRecipe.isPresent()) {
             recipe = dimRecipe.get();
         } else if (normalRecipe.isPresent()) {
@@ -171,9 +174,6 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         } else {
             this.stopRunning();
             return;
-        }
-        if (recipe.hasContainer()) {
-            this.getItem(CONTAINER).shrink(1);
         }
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int slot : INPUT_SLOTS) {
@@ -194,9 +194,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
                 craftRemaining.add(remaining);
             }
         }
-        if (recipe.lightState != this.getLightState()) {
+        if (this.recipeLightState != this.getLightState()) {
             int count = 1;
-            int minutes = recipe.maxCookingTime / 60;
+            int minutes = this.maxCookingTime / 60;
             if (minutes >= 40) {
                 count = 8;
             } else if (minutes >= 20) {
@@ -206,6 +206,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             }
             this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(count));
         } else {
+            if (recipe.hasContainer()) {
+                this.getItem(CONTAINER).shrink(1);
+            }
             this.setItem(OUTPUT, recipe.assemble(this, this.level.registryAccess()));
         }
         this.insertCraftRemaining(craftRemaining);
@@ -244,7 +247,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         ItemStack catalystsBottom = this.getItem(CATALYSTS_BOTTOM);
         value = applyCatalystEffect(value, catalystsTop);
         value = applyCatalystEffect(value, catalystsBottom);
-        return Math.max(value, 10);
+        return Math.max(value, 1);
     }
 
     private int applyCatalystEffect(int value, ItemStack catalyst) {
@@ -298,33 +301,6 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
 
     public List<BrightFermentationRecipe> getAllBrightRecipe() {
         return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get());
-    }
-
-    public Optional<DimFermentationRecipe> getIgnoreLightDimRecipe() {
-        List<DimFermentationRecipe> recipe = this.getAllDimRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
-        if (recipe.isEmpty()) {
-            return Optional.empty();
-        } else {
-            return Optional.of(recipe.get(0));
-        }
-    }
-
-    public Optional<NormalFermentationRecipe> getIgnoreLightNormalRecipe() {
-        List<NormalFermentationRecipe> recipe = this.getAllNormalRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
-        if (recipe.isEmpty()) {
-            return Optional.empty();
-        } else {
-            return Optional.of(recipe.get(0));
-        }
-    }
-
-    public Optional<BrightFermentationRecipe> getIgnoreLightBrightRecipe() {
-        List<BrightFermentationRecipe> recipe = this.getAllBrightRecipe().stream().filter(dim -> dim.noLightMatches(this, this.level)).toList();
-        if (recipe.isEmpty()) {
-            return Optional.empty();
-        } else {
-            return Optional.of(recipe.get(0));
-        }
     }
 
     public void playBarrelOpenSound() {
@@ -383,6 +359,11 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         this.isRunning = pTag.getBoolean("isRunning");
         this.cookingTime = pTag.getInt("cookingTime");
         this.maxCookingTime = pTag.getInt("maxCookingTime");
+        this.recipeLightState = switch (pTag.getString("recipeLightState")) {
+            case "DIM" -> LightState.DIM;
+            case "NORMAL" -> LightState.NORMAL;
+            default -> LightState.BRIGHT;
+        };
     }
 
     @Override
@@ -391,6 +372,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         pTag.putBoolean("isRunning", this.isRunning);
         pTag.putInt("cookingTime", this.cookingTime);
         pTag.putInt("maxCookingTime", this.maxCookingTime);
+        pTag.putString("recipeLightState",this.recipeLightState.toString());
     }
 
     public enum LightState {

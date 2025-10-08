@@ -27,15 +27,8 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
         this.input = input;
     }
 
-    public boolean noLightMatches(FermenterBlockEntity pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
-        if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER))) return false;
-        return this.isInputMatch(pContainer.getInput());
-    }
-
     @Override
     public boolean matches(FermenterBlockEntity pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
         if (this.lightState != pContainer.getLightState()) return false;
         if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER))) return false;
         return this.isInputMatch(pContainer.getInput());

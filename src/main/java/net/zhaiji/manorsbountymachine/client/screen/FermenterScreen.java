@@ -71,7 +71,6 @@ public class FermenterScreen extends BaseMachineScreen<FermenterMenu> {
         super(pMenu, pPlayerInventory, pTitle, FERMENTER_GUI);
         this.blockEntity = pMenu.blockEntity;
     }
-    // 2 5
 
     @Override
     protected void init() {
@@ -190,7 +189,7 @@ public class FermenterScreen extends BaseMachineScreen<FermenterMenu> {
         int cookingTime = this.menu.getCookingTime();
         int maxCookingTime = this.menu.getMaxCookingTime();
         if (cookingTime != 0) {
-            String text = maxCookingTime - cookingTime + "s";
+            String text = maxCookingTime - cookingTime + 1 + "s";
             guiGraphics.drawString(
                     this.font,
                     text,
