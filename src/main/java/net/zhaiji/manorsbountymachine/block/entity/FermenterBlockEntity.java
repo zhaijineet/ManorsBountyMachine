@@ -131,19 +131,8 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public void startRunning() {
         if (this.isRunning) return;
         if (!this.getItem(OUTPUT).isEmpty()) return;
-        BaseFermentationRecipe recipe;
-        Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
-        Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
-        Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
-        if (dimRecipe.isPresent()) {
-            recipe = dimRecipe.get();
-        } else if (normalRecipe.isPresent()) {
-            recipe = normalRecipe.get();
-        } else if (brightRecipe.isPresent()) {
-            recipe = brightRecipe.get();
-        } else {
-            return;
-        }
+        BaseFermentationRecipe recipe = this.getPresentRecipe();
+        if(recipe == null) return;
         this.recipeLightState = recipe.lightState;
         this.playBarrelCloseSound();
         this.setOpen(false);
@@ -161,20 +150,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void craftItem() {
-        BaseFermentationRecipe recipe;
-        Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
-        Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
-        Optional<BrightFermentationRecipe> brightRecipe = this.getBrightRecipe();
-        if (dimRecipe.isPresent()) {
-            recipe = dimRecipe.get();
-        } else if (normalRecipe.isPresent()) {
-            recipe = normalRecipe.get();
-        } else if (brightRecipe.isPresent()) {
-            recipe = brightRecipe.get();
-        } else {
-            this.stopRunning();
-            return;
-        }
+        BaseFermentationRecipe recipe = this.getPresentRecipe();
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
@@ -194,9 +170,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
                 craftRemaining.add(remaining);
             }
         }
-        if (this.recipeLightState != this.getLightState()) {
+        if (this.recipeLightState != this.getLightState() || recipe == null) {
             int count = 1;
-            int minutes = this.maxCookingTime / 60;
+            int minutes = (recipe == null ? this.maxCookingTime : recipe.maxCookingTime) / 60;
             if (minutes >= 40) {
                 count = 8;
             } else if (minutes >= 20) {
@@ -214,6 +190,18 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         this.insertCraftRemaining(craftRemaining);
         this.popCraftRemaining(craftRemaining);
         this.stopRunning();
+    }
+
+    public BaseFermentationRecipe getPresentRecipe() {
+        Optional<DimFermentationRecipe> dimRecipe = this.getDimRecipe();
+        if (dimRecipe.isPresent()) {
+            return dimRecipe.get();
+        }
+        Optional<NormalFermentationRecipe> normalRecipe = this.getNormalRecipe();
+        if (normalRecipe.isPresent()) {
+            return normalRecipe.get();
+        }
+        return this.getBrightRecipe().orElse(null);
     }
 
     public void insertCraftRemaining(List<ItemStack> craftRemaining) {
