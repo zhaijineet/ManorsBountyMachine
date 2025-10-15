@@ -57,6 +57,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
     public final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public final RecipeManager.CachedCheck<BlenderBlockEntity, BlenderRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public boolean isRunning = false;
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -82,8 +83,6 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
             return false;
         }
     };
-
-    public boolean isRunning = false;
     public int cookingTime = 0;
     public final ContainerData data = new ContainerData() {
         @Override
@@ -156,7 +155,11 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
                         remaining = ItemStack.EMPTY;
                     }
                 } else {
-                    input.shrink(slot == CONTAINER ? output.getCount() : this.outputMultiple);
+                    if (slot == CONTAINER && blenderRecipe.hasContainer()) {
+                        input.shrink(output.getCount());
+                    } else {
+                        input.shrink(this.outputMultiple);
+                    }
                 }
                 if (input.isEmpty() && !remaining.isEmpty()) {
                     this.setItem(slot, remaining);
@@ -172,7 +175,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
                 this.level.playSound(null, this.getBlockPos(), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
             }
             this.setItem(MAIN_OUTPUT, output);
-            ItemStack outgrowth = blenderRecipe.rollForOutgrowth(this.level);
+            ItemStack outgrowth = blenderRecipe.rollForOutgrowth(this.level, this.outputMultiple);
             if (!outgrowth.isEmpty()) {
                 this.setItem(SECONDARY_OUTPUT, outgrowth);
             }

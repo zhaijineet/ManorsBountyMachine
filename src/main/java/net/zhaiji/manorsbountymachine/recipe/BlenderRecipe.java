@@ -51,15 +51,14 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
         for (int slot : BlenderBlockEntity.INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
             if (input.isEmpty()) continue;
-            if (slot == BlenderBlockEntity.CONTAINER) {
+            if (slot == BlenderBlockEntity.CONTAINER && this.hasContainer()) {
                 multiple = Math.min(multiple, input.getCount() / count);
                 continue;
             }
             multiple = Math.min(multiple, input.getCount());
         }
         pContainer.outputMultiple = multiple;
-        output.setCount(count * multiple);
-        return output;
+        return output.copyWithCount(count * multiple);
     }
 
     @Override

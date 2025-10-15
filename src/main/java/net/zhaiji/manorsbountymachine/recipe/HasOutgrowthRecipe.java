@@ -13,6 +13,16 @@ public interface HasOutgrowthRecipe {
     }
 
     default ItemStack rollForOutgrowth(Level level) {
-        return level.random.nextFloat() < this.getOutgrowthChance() ? this.getOutgrowth().copy() : ItemStack.EMPTY;
+        return this.rollForOutgrowth(level, 1);
+    }
+
+    default ItemStack rollForOutgrowth(Level level, int count) {
+        int outgrowthCount = 0;
+        for (int i = 0; i < count; i++) {
+            if (level.random.nextFloat() < this.getOutgrowthChance()) {
+                outgrowthCount += this.getOutgrowth().getCount();
+            }
+        }
+        return outgrowthCount != 0 ? this.getOutgrowth().copyWithCount(outgrowthCount) : ItemStack.EMPTY;
     }
 }
