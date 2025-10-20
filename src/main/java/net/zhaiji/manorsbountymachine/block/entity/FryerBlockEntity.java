@@ -6,14 +6,12 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,7 +31,6 @@ import net.zhaiji.manorsbountymachine.recipe.SlowFryRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlockEntityType;
 import net.zhaiji.manorsbountymachine.register.InitParticleType;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
-import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.NotNull;
@@ -100,18 +97,6 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         this.fryerCraftContainers = fryerCraftContainers;
     }
 
-    public void addOilSplashParticle(Level level, BlockPos pos) {
-        level.addParticle(
-                InitParticleType.OIL_SPLASH.get(),
-                pos.getX() + 0.5,
-                pos.getY() + 0.5,
-                pos.getZ() + 0.5,
-                0.0D,
-                0.0D,
-                0.0D
-        );
-    }
-
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, FryerBlockEntity pBlockEntity) {
         if (pBlockEntity.isRunning) {
             pBlockEntity.addOilSplashParticle(pLevel, pPos);
@@ -132,6 +117,18 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
             pBlockEntity.craftItem();
             pBlockEntity.setChanged();
         }
+    }
+
+    public void addOilSplashParticle(Level level, BlockPos pos) {
+        level.addParticle(
+                InitParticleType.OIL_SPLASH.get(),
+                pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5,
+                0.0D,
+                0.0D,
+                0.0D
+        );
     }
 
     public void startRunning() {
@@ -422,7 +419,6 @@ public class FryerBlockEntity extends BaseMachineBlockEntity {
         }
 
         public ItemStack getFailItemStack(ItemStack input) {
-//            return Items.CHARCOAL.getDefaultInstance().copyWithCount(input.getCount());
             return ManorsBountyCompat.getManorsBountyItemStack("cinder", input.getCount());
         }
 

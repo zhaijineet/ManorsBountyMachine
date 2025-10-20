@@ -14,6 +14,7 @@ import net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.StockPotMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.StockPotStartPacket;
+import net.zhaiji.manorsbountymachine.network.server.packet.StockPotStopPacket;
 
 @OnlyIn(Dist.CLIENT)
 public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
@@ -99,8 +100,55 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
                     }
 
                     @Override
+                    protected boolean clicked(double pMouseX, double pMouseY) {
+                        return super.clicked(pMouseX, pMouseY) && menu.getCookingTime() == 0;
+                    }
+
+                    @Override
                     public boolean isActive() {
                         return super.isActive() && menu.getCookingTime() == 0;
+                    }
+                }
+        );
+        this.addRenderableWidget(
+                new ImageButton(
+                        this.leftPos + 2,
+                        this.topPos + 34,
+                        RUNNING_WIDTH,
+                        RUNNING_HEIGHT,
+                        RUNNING_X_OFFSET,
+                        RUNNING_Y_OFFSET,
+                        STOCK_POT_GUI_WIDGET,
+                        pButton -> {
+                            ManorsBountyMachinePacket.sendToServer(new StockPotStopPacket(this.blockEntity.getBlockPos()));
+                        }
+                ){
+                    @Override
+                    public void renderTexture(GuiGraphics pGuiGraphics, ResourceLocation pTexture, int pX, int pY, int pUOffset, int pVOffset, int pTextureDifference, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
+                        if (menu.getCookingTime() != 0) {
+                            RenderSystem.enableDepthTest();
+                            RenderSystem.enableBlend();
+                            // WTF，为什么这里就是必须用1
+                            // 我搞不懂，我搞不懂啊！
+                            if (this.isHovered()) {
+                                pGuiGraphics.setColor(1, 1F, 1F, 0.85F);
+                            }
+                            pGuiGraphics.blit(pTexture, pX, pY, pUOffset, pVOffset, pWidth, pHeight, pTextureWidth, pTextureHeight);
+                            if (this.isHovered()) {
+                                pGuiGraphics.setColor(1, 1, 1, 1);
+                            }
+                            renderRunning(pGuiGraphics);
+                        }
+                    }
+
+                    @Override
+                    protected boolean clicked(double pMouseX, double pMouseY) {
+                        return super.clicked(pMouseX, pMouseY) && menu.getCookingTime() != 0;
+                    }
+
+                    @Override
+                    public boolean isActive() {
+                        return super.isActive() && menu.getCookingTime() != 0;
                     }
                 }
         );
@@ -110,7 +158,6 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
         this.renderInput(pGuiGraphics);
-        this.renderRunning(pGuiGraphics);
     }
 
     public void renderInput(GuiGraphics pGuiGraphics) {
@@ -123,7 +170,6 @@ public class StockPotScreen extends BaseMachineScreen<StockPotMenu> {
     public void renderRunning(GuiGraphics pGuiGraphics) {
         int cookingTime = this.menu.getCookingTime();
         if (cookingTime == 0) return;
-        pGuiGraphics.blit(STOCK_POT_GUI_WIDGET, this.leftPos + 2, this.topPos + 34, RUNNING_X_OFFSET, RUNNING_Y_OFFSET, RUNNING_WIDTH, RUNNING_HEIGHT);
         int x = this.leftPos + 20;
         int y = this.topPos + 40;
         int maxCookingTime = this.menu.getMaxCookingTime();

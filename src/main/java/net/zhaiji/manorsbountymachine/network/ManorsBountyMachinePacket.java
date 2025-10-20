@@ -92,6 +92,12 @@ public class ManorsBountyMachinePacket {
                 .consumerMainThread(StockPotStartPacket::handle)
                 .add();
 
+        INSTANCE.messageBuilder(StockPotStopPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .decoder(StockPotStopPacket::decode)
+                .encoder(StockPotStopPacket::encode)
+                .consumerMainThread(StockPotStopPacket::handle)
+                .add();
+
         INSTANCE.messageBuilder(TrySaucepanAndWhiskCraftPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
                 .decoder(TrySaucepanAndWhiskCraftPacket::decode)
                 .encoder(TrySaucepanAndWhiskCraftPacket::encode)

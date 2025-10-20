@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +33,24 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
         if (this.lightState != pContainer.getLightState()) return false;
         if (this.hasContainer() && !this.isContainerMatch(pContainer.getItem(CONTAINER))) return false;
         return this.isInputMatch(pContainer.getInput());
+    }
+
+    @Override
+    public ItemStack assemble(FermenterBlockEntity pContainer, RegistryAccess pRegistryAccess) {
+        ItemStack output = this.output.copy();
+        int count = output.getCount();
+        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
+        for (int slot : INPUT_SLOTS) {
+            ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
+            if (slot == CONTAINER && this.hasContainer()) {
+                multiple = Math.min(multiple, input.getCount() / count);
+                continue;
+            }
+            multiple = Math.min(multiple, input.getCount());
+        }
+        pContainer.outputMultiple = multiple;
+        return this.output.copyWithCount(count * multiple);
     }
 
     @Override

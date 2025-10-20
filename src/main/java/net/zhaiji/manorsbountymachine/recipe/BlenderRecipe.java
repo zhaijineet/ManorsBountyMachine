@@ -14,8 +14,7 @@ import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity.MAIN_INPUT_SLOTS;
-import static net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity.SECONDARY_INPUT_SLOTS;
+import static net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity.*;
 
 public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements HasContainerItem, TwoInputRecipe, HasOutgrowthRecipe {
     public final Ingredient container;
@@ -36,7 +35,7 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
     @Override
     public boolean matches(BlenderBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
-        ItemStack container = pContainer.getItem(BlenderBlockEntity.CONTAINER);
+        ItemStack container = pContainer.getItem(CONTAINER);
         if (this.hasContainer() && !this.isContainerMatch(container)) return false;
         if (this.hasContainer() && container.getCount() < this.output.getCount()) return false;
         return this.isInputMatch(pContainer.getMainInput(), pContainer.getSecondaryInput());
@@ -48,10 +47,10 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
         ItemStack outgrowth = this.outgrowth.copy();
         int count = Math.max(output.getCount(), outgrowth.getCount());
         int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
-        for (int slot : BlenderBlockEntity.INPUT_SLOTS) {
+        for (int slot : INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
             if (input.isEmpty()) continue;
-            if (slot == BlenderBlockEntity.CONTAINER && this.hasContainer()) {
+            if (slot == CONTAINER && this.hasContainer()) {
                 multiple = Math.min(multiple, input.getCount() / count);
                 continue;
             }

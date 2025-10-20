@@ -42,7 +42,8 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public static final int BOTTOM_LEFT = 5;
     public static final int BOTTOM_RIGHT = 6;
     public static final int OUTPUT = 7;
-    public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
+    public static final int[] INPUT_SLOTS = {CONTAINER, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
+    public static final int[] MATERIAL_SLOTS = {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
     public static final double CATALYST_A_EFFECT = 0.85;
     public static final double CATALYST_B_EFFECT = 0.7;
     public static final double CATALYST_C_EFFECT = 0.5;
@@ -51,6 +52,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     public final RecipeManager.CachedCheck<FermenterBlockEntity, NormalFermentationRecipe> normalRecipeCheck;
     public final RecipeManager.CachedCheck<FermenterBlockEntity, BrightFermentationRecipe> brightRecipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public boolean isRunning = false;
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -76,7 +78,6 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             return false;
         }
     };
-    public boolean isRunning = false;
     public int tickCount = 0;
     public int cookingTime = 0;
     public int maxCookingTime = 0;
@@ -104,6 +105,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         }
     };
     public LightState recipeLightState = LightState.DIM;
+    public int outputMultiple = 0;
 
     public FermenterBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.FERMENTER.get(), pPos, pBlockState);
@@ -132,7 +134,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         if (this.isRunning) return;
         if (!this.getItem(OUTPUT).isEmpty()) return;
         BaseFermentationRecipe recipe = this.getPresentRecipe();
-        if(recipe == null) return;
+        if (recipe == null) return;
         this.recipeLightState = recipe.lightState;
         this.playBarrelCloseSound();
         this.setOpen(false);
@@ -151,18 +153,25 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
 
     public void craftItem() {
         BaseFermentationRecipe recipe = this.getPresentRecipe();
+        ItemStack output = ItemStack.EMPTY;
+        if (recipe == null) {
+            this.outputMultiple = 1;
+        } else {
+            output = recipe.assemble(this, this.level.registryAccess());
+        }
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
             if (input.isEmpty()) continue;
-            ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
+            if (slot == CONTAINER && (recipe == null || !recipe.hasContainer())) continue;
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(1);
+                input.shrink(this.outputMultiple);
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(slot, remaining);
@@ -180,12 +189,10 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             } else if (minutes >= 10) {
                 count = 2;
             }
-            this.setItem(OUTPUT, ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance().copyWithCount(count));
+            ItemStack failItem = ManorsBountyCompat.getManorsBountyItem("suspicious_mold").getDefaultInstance();
+            this.setItem(OUTPUT, failItem.copyWithCount(Math.min(count * this.outputMultiple, failItem.getMaxStackSize())));
         } else {
-            if (recipe.hasContainer()) {
-                this.getItem(CONTAINER).shrink(1);
-            }
-            this.setItem(OUTPUT, recipe.assemble(this, this.level.registryAccess()));
+            this.setItem(OUTPUT, output);
         }
         this.insertCraftRemaining(craftRemaining);
         this.popCraftRemaining(craftRemaining);
@@ -205,7 +212,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void insertCraftRemaining(List<ItemStack> craftRemaining) {
-        MachineUtil.insertCraftRemaining(this, INPUT_SLOTS, craftRemaining);
+        MachineUtil.insertCraftRemaining(this, MATERIAL_SLOTS, craftRemaining);
     }
 
     public void popCraftRemaining(List<ItemStack> craftRemaining) {
@@ -213,9 +220,9 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
     }
 
     public NonNullList<ItemStack> getInput() {
-        NonNullList<ItemStack> input = NonNullList.withSize(INPUT_SLOTS.length, ItemStack.EMPTY);
+        NonNullList<ItemStack> input = NonNullList.withSize(MATERIAL_SLOTS.length, ItemStack.EMPTY);
         for (int i = 0; i < input.size(); i++) {
-            input.set(i, this.getItem(INPUT_SLOTS[i]));
+            input.set(i, this.getItem(MATERIAL_SLOTS[i]));
         }
         return input;
     }
@@ -360,7 +367,7 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
         pTag.putBoolean("isRunning", this.isRunning);
         pTag.putInt("cookingTime", this.cookingTime);
         pTag.putInt("maxCookingTime", this.maxCookingTime);
-        pTag.putString("recipeLightState",this.recipeLightState.toString());
+        pTag.putString("recipeLightState", this.recipeLightState.toString());
     }
 
     public enum LightState {

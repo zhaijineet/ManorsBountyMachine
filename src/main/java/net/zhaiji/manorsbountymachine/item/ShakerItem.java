@@ -29,8 +29,12 @@ import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import net.zhaiji.manorsbountymachine.util.SoundUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.INPUT_SLOTS;
+import static net.zhaiji.manorsbountymachine.capability.ShakerCapabilityProvider.OUTPUT;
 
 public class ShakerItem extends Item {
     public ShakerItem() {
@@ -70,21 +74,39 @@ public class ShakerItem extends Item {
             RecipeWrapper recipeWrapper = new RecipeWrapper((ItemStackHandler) iItemHandler);
             Optional<ShakerRecipe> recipe = getRecipe(level, recipeWrapper);
             recipe.ifPresent(shakerRecipe -> {
+                ItemStack output = shakerRecipe.assemble(recipeWrapper, level.registryAccess());
+                int count = output.getCount();
+                int multiple = Math.min(iItemHandler.getSlotLimit(0), output.getMaxStackSize()) / count;
+                multiple = Math.min(multiple, recipeWrapper.getItem(OUTPUT).getCount() / count);
+                for (int slot : INPUT_SLOTS) {
+                    ItemStack input = recipeWrapper.getItem(slot);
+                    if (input.isEmpty()) continue;
+                    multiple = Math.min(multiple, input.getCount());
+                }
+                List<ItemStack> craftRemaining = new ArrayList<>();
                 for (int i = 0; i < recipeWrapper.getContainerSize(); i++) {
                     ItemStack input = recipeWrapper.getItem(i);
-                    ItemStack remaining = MachineUtil.getCraftRemaining(input);
+                    ItemStack remaining = MachineUtil.getCraftRemaining(input, multiple);
                     if (ManorsBountyCompat.isDamageableMaterial(input)) {
                         ManorsBountyCompat.damageItem(input, level);
-                        if (!input.isEmpty()) continue;
+                        if (!input.isEmpty()) {
+                            remaining = ItemStack.EMPTY;
+                        }
+                    } else {
+                        input.shrink(multiple);
                     }
-                    recipeWrapper.setItem(i, remaining);
+                    if (input.isEmpty() && !remaining.isEmpty()) {
+                        recipeWrapper.setItem(i, remaining);
+                    } else if (!remaining.isEmpty()) {
+                        craftRemaining.add(remaining);
+                    }
                 }
-                ItemStack output = shakerRecipe.assemble(recipeWrapper, level.registryAccess());
                 if (livingEntity.getOffhandItem().isEmpty()) {
-                    livingEntity.setItemInHand(InteractionHand.OFF_HAND, output);
+                    livingEntity.setItemInHand(InteractionHand.OFF_HAND, output.copyWithCount(count * multiple));
                 } else {
-                    addOrSpawnItem(livingEntity, output);
+                    addOrSpawnItem(livingEntity, output.copyWithCount(count * multiple));
                 }
+                craftRemaining.forEach(remaining -> addOrSpawnItem(livingEntity, remaining));
                 setCanStartUsing(itemStack, false);
                 level.playSound(null, livingEntity.blockPosition(), SoundEvents.BREWING_STAND_BREW, SoundSource.PLAYERS);
             });

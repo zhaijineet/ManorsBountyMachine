@@ -90,6 +90,13 @@ public class ServerPacketHandler {
         }
     }
 
+    public static void handlerStockPotStop(StockPotStopPacket packet) {
+        Player player = packet.context.getSender();
+        if (player.level().getBlockEntity(packet.blockPos) instanceof StockPotBlockEntity blockEntity) {
+            blockEntity.stopRunning();
+        }
+    }
+
     public static void handlerTrySaucepanAndWhiskCraft(TrySaucepanAndWhiskCraftPacket packet) {
         Player player = packet.context.getSender();
         if (player.level().getBlockEntity(packet.blockPos) instanceof SaucepanAndWhiskBlockEntity blockEntity) {

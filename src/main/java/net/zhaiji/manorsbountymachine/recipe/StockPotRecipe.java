@@ -38,7 +38,16 @@ public class StockPotRecipe extends BaseRecipe<StockPotBlockEntity> implements C
 
     @Override
     public ItemStack assemble(StockPotBlockEntity pContainer, RegistryAccess pRegistryAccess) {
-        return this.output.copy();
+        ItemStack output = this.output.copy();
+        int count = output.getCount();
+        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
+        for (int slot : INPUT_SLOTS) {
+            ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
+            multiple = Math.min(multiple, input.getCount());
+        }
+        pContainer.outputMultiple = multiple;
+        return this.output.copyWithCount(count * multiple);
     }
 
     @Override

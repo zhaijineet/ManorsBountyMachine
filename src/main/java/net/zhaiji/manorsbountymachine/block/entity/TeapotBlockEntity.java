@@ -29,6 +29,7 @@ import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 import net.zhaiji.manorsbountymachine.util.MachineUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,16 +151,27 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void handlerRecipe(TeapotRecipe recipe) {
+        List<ItemStack> craftRemaining = new ArrayList<>();
         for (int i = 0; i < ITEMS_SIZE; i++) {
             if (i == OUTPUT) continue;
             ItemStack input = this.getItem(i);
             ItemStack remaining = MachineUtil.getCraftRemaining(input);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
-                if (!input.isEmpty()) continue;
+                if (!input.isEmpty()) {
+                    remaining = ItemStack.EMPTY;
+                }
+            } else {
+                input.shrink(1);
             }
-            this.setItem(i, remaining);
+            if (input.isEmpty() && !remaining.isEmpty()) {
+                this.setItem(i, remaining);
+            } else if (!remaining.isEmpty()) {
+                craftRemaining.add(remaining);
+            }
         }
+        this.insertCraftRemaining(craftRemaining);
+        this.popCraftRemaining(craftRemaining);
         this.output = recipe.assemble(this, this.level.registryAccess());
         this.setChanged();
     }
@@ -167,6 +179,14 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     public void craftItem() {
         this.setItem(OUTPUT, this.output);
         this.stopRunning();
+    }
+
+    public void insertCraftRemaining(List<ItemStack> craftRemaining) {
+        MachineUtil.insertCraftRemaining(this, INPUT_SLOTS, craftRemaining);
+    }
+
+    public void popCraftRemaining(List<ItemStack> craftRemaining) {
+        MachineUtil.popCraftRemaining(this.level, this.getBlockPos(), craftRemaining);
     }
 
     public NonNullList<ItemStack> getInput() {

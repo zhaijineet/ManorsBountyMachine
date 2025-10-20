@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -39,6 +40,20 @@ public class OvenRecipe extends BaseRecipe<OvenBlockEntity> implements CookingTi
     public boolean matches(OvenBlockEntity pContainer, Level pLevel) {
         if (pLevel.isClientSide()) return false;
         return this.isInputMatch(pContainer.getInput());
+    }
+
+    @Override
+    public ItemStack assemble(OvenBlockEntity pContainer, RegistryAccess pRegistryAccess) {
+        ItemStack output = this.output.copy();
+        int count = output.getCount();
+        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
+        for (int slot : INPUT_SLOTS) {
+            ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
+            multiple = Math.min(multiple, input.getCount());
+        }
+        pContainer.outputMultiple = multiple;
+        return this.output.copyWithCount(count * multiple);
     }
 
     @Override

@@ -99,6 +99,7 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         }
     };
     public boolean isPlaySound = false;
+    public int outputMultiple = 0;
 
     public OvenBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.OVEN.get(), pPos, pBlockState);
@@ -159,6 +160,14 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
             this.handlerCraft(craftRemaining);
         } else {
             output = this.getFailItemStack();
+            int multiple = Math.min(this.getMaxStackSize(), output.getMaxStackSize());
+            for (int slot : INPUT_SLOTS) {
+                ItemStack input = this.getItem(slot);
+                if (input.isEmpty()) continue;
+                multiple = Math.min(multiple, input.getCount());
+            }
+            output.setCount(multiple);
+            this.outputMultiple = multiple;
             this.handlerCraft(craftRemaining);
         }
         this.setItem(OUTPUT, output);
@@ -171,14 +180,14 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
         for (int slot : INPUT_SLOTS) {
             ItemStack input = this.getItem(slot);
             if (input.isEmpty()) continue;
-            ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
                 ManorsBountyCompat.damageItem(input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(1);
+                input.shrink(this.outputMultiple);
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(slot, remaining);
@@ -205,7 +214,6 @@ public class OvenBlockEntity extends BaseMachineBlockEntity {
     }
 
     public ItemStack getFailItemStack() {
-//        return Items.CHARCOAL.getDefaultInstance().copyWithCount(1);
         return ManorsBountyCompat.getManorsBountyItemStack("cinder");
     }
 

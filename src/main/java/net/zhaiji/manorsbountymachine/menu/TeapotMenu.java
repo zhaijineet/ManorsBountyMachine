@@ -64,21 +64,11 @@ public class TeapotMenu extends BaseMachineMenu {
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_DRINK_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
             }
-
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
         });
         this.addSlot(new Slot(this.blockEntity, MATERIAL, 96, 118) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack) && SlotInputLimitManager.TEAPOT_MATERIAL_LIMIT.stream().anyMatch(ingredient -> ingredient.test(pStack));
-            }
-
-            @Override
-            public int getMaxStackSize() {
-                return 1;
             }
         });
         int[][] slots = {
@@ -88,12 +78,7 @@ public class TeapotMenu extends BaseMachineMenu {
                 {BOTTOM_RIGHT, 54, 32}
         };
         for (int[] slot : slots) {
-            this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
-                @Override
-                public int getMaxStackSize() {
-                    return 1;
-                }
-            });
+            this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]));
         }
     }
 }

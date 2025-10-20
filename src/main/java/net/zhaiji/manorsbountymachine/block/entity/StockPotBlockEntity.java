@@ -1,6 +1,5 @@
 package net.zhaiji.manorsbountymachine.block.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.StockPotBlock;
-import net.zhaiji.manorsbountymachine.client.sound.StockPotSoundInstance;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.StockPotMenu;
 import net.zhaiji.manorsbountymachine.recipe.StockPotRecipe;
@@ -56,6 +54,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static final int[] INPUT_SLOTS = {OUTPUT, MAIN_TOP_LEFT, MAIN_TOP_CENTER_LEFT, MAIN_TOP_CENTER_RIGHT, MAIN_TOP_RIGHT, MAIN_BOTTOM_LEFT, MAIN_BOTTOM_CENTER_LEFT, MAIN_BOTTOM_CENTER_RIGHT, MAIN_BOTTOM_RIGHT, SECONDARY_TOP_LEFT, SECONDARY_TOP_RIGHT, SECONDARY_BOTTOM_LEFT, SECONDARY_BOTTOM_RIGHT};
     public final RecipeManager.CachedCheck<StockPotBlockEntity, StockPotRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public boolean isRunning = false;
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -81,7 +80,6 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
             return false;
         }
     };
-    public boolean isRunning = false;
     public int cookingTime = 0;
     public int maxCookingTime = 0;
     public final ContainerData data = new ContainerData() {
@@ -108,6 +106,7 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
         }
     };
     public boolean isPlaySound = false;
+    public int outputMultiple = 0;
 
     public StockPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.STOCK_POT.get(), pPos, pBlockState);
@@ -166,19 +165,20 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void craftItem() {
-        this.getRecipe().ifPresent(stockPotRecipe -> {
+        this.getRecipe().ifPresent(recipe -> {
+            ItemStack output = recipe.assemble(this, this.level.registryAccess());
             List<ItemStack> craftRemaining = new ArrayList<>();
             for (int slot : INPUT_SLOTS) {
                 ItemStack input = this.getItem(slot);
                 if (input.isEmpty()) continue;
-                ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
+                ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
                     ManorsBountyCompat.damageItem(input, this.level);
                     if (!input.isEmpty()) {
                         remaining = ItemStack.EMPTY;
                     }
                 } else {
-                    input.shrink(1);
+                    input.shrink(this.outputMultiple);
                 }
                 if (input.isEmpty() && !remaining.isEmpty()) {
                     this.setItem(slot, remaining);
@@ -186,8 +186,12 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
                     craftRemaining.add(remaining);
                 }
             }
-            this.setItem(OUTPUT, stockPotRecipe.assemble(this, this.level.registryAccess()));
+            ItemStack outputRemaining = this.getItem(OUTPUT).copy();
+            this.setItem(OUTPUT, output);
             this.insertCraftRemaining(craftRemaining);
+            if (!outputRemaining.isEmpty()) {
+                craftRemaining.add(outputRemaining);
+            }
             this.popCraftRemaining(craftRemaining);
             this.playStockPotSound();
         });

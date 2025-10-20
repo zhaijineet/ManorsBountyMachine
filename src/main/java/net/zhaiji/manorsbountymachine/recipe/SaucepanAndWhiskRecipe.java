@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -13,9 +14,7 @@ import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity.MAIN_INPUT_SLOTS;
-import static net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity.SECONDARY_INPUT_SLOTS;
-import static net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity.OUTPUT;
+import static net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity.*;
 
 public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEntity> implements HasContainerItem, TwoInputRecipe {
     public final HeatState heatState;
@@ -58,8 +57,21 @@ public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEnti
 
     @Override
     public boolean matches(SaucepanAndWhiskBlockEntity pContainer, Level pLevel) {
-        if (pLevel.isClientSide()) return false;
         return this.matches(pContainer);
+    }
+
+    @Override
+    public ItemStack assemble(SaucepanAndWhiskBlockEntity pContainer, RegistryAccess pRegistryAccess) {
+        ItemStack output = this.output.copy();
+        int count = output.getCount();
+        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
+        for (int slot : INPUT_SLOTS) {
+            ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
+            multiple = Math.min(multiple, input.getCount());
+        }
+        pContainer.outputMultiple = multiple;
+        return this.output.copyWithCount(count * multiple);
     }
 
     @Override

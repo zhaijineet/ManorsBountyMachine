@@ -72,6 +72,7 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
             return 1;
         }
     };
+    public int outputMultiple = 0;
 
     public SaucepanAndWhiskBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.SAUCEPAN_AND_WHISK.get(), pPos, pBlockState);
@@ -79,19 +80,20 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
     }
 
     public void craftItem() {
-        this.getRecipe().ifPresent(saucepanAndWhiskRecipe -> {
+        this.getRecipe().ifPresent(recipe -> {
+            ItemStack output = recipe.assemble(this, this.level.registryAccess());
             List<ItemStack> craftRemaining = new ArrayList<>();
             for (int slot : INPUT_SLOTS) {
                 ItemStack input = this.getItem(slot);
                 if (input.isEmpty()) continue;
-                ItemStack remaining = MachineUtil.getCraftRemaining(input, 1);
+                ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
                     ManorsBountyCompat.damageItem(input, this.level);
                     if (!input.isEmpty()) {
                         remaining = ItemStack.EMPTY;
                     }
                 } else {
-                    input.shrink(1);
+                    input.shrink(this.outputMultiple);
                 }
                 if (input.isEmpty() && !remaining.isEmpty()) {
                     this.setItem(slot, remaining);
@@ -99,8 +101,12 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
                     craftRemaining.add(remaining);
                 }
             }
-            this.setItem(OUTPUT, saucepanAndWhiskRecipe.assemble(this, this.level.registryAccess()));
+            ItemStack outputRemaining = this.getItem(OUTPUT).copy();
+            this.setItem(OUTPUT, output);
             this.insertCraftRemaining(craftRemaining);
+            if (!outputRemaining.isEmpty()) {
+                craftRemaining.add(outputRemaining);
+            }
             this.popCraftRemaining(craftRemaining);
         });
         this.resetStirsCount();
