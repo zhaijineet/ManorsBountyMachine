@@ -4,6 +4,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
 import net.zhaiji.manorsbountymachine.recipe.BaseFermentationRecipe;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 
@@ -27,7 +29,7 @@ public class SlotInputLimitManager {
 
     public static boolean needInit = false;
 
-    public static void reset() {
+    public static void reset(RecipeManager recipeManager) {
         ICE_CREAM_MACHINE_FLUID_LIMIT.clear();
         ICE_CREAM_MACHINE_INPUT_LIMIT.clear();
         FRYER_INPUT_LIMIT.clear();
@@ -41,10 +43,7 @@ public class SlotInputLimitManager {
         STOCK_POT_INPUT_LIMIT.clear();
         SAUCEPAN_AND_WHISK_INPUT_LIMIT.clear();
         SHAKER_INPUT_LIMIT.clear();
-    }
 
-    public static void init(RecipeManager recipeManager) {
-        reset();
         initIceCreamMachineSlotLimit(recipeManager);
         initFryerSlotLimit(recipeManager);
         initOvenSlotLimit(recipeManager);
@@ -55,6 +54,13 @@ public class SlotInputLimitManager {
         initStockPotSlotLimit(recipeManager);
         initSaucepanAndWhiskSlotLimit(recipeManager);
         initShakerSlotLimit(recipeManager);
+    }
+
+    public static void init(RecipeManager recipeManager) {
+        if (needInit) {
+            reset(recipeManager);
+            needInit = false;
+        }
     }
 
     public static void initIceCreamMachineSlotLimit(RecipeManager recipeManager) {
@@ -164,10 +170,22 @@ public class SlotInputLimitManager {
                 CUTTING_BOARD_TOOL_LIMIT.add(tool);
             }
         });
+        CuttingBoardRecipeCompat.cuttingBoardSingleRecipes.forEach(recipe -> {
+            Ingredient tool = recipe.tool;
+            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+                CUTTING_BOARD_TOOL_LIMIT.add(tool);
+            }
+        });
     }
 
     public static void initStockPotSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()).forEach(recipe -> {
+            Ingredient container = recipe.container;
+            if (!STOCK_POT_INPUT_LIMIT.contains(container)) {
+                STOCK_POT_INPUT_LIMIT.add(container);
+            }
+        });
+        CookingPotRecipeCompat.stockPotRecipes.forEach(recipe -> {
             Ingredient container = recipe.container;
             if (!STOCK_POT_INPUT_LIMIT.contains(container)) {
                 STOCK_POT_INPUT_LIMIT.add(container);

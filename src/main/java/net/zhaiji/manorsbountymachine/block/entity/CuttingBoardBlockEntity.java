@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardMultipleRecipe;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardSingleRecipe;
@@ -135,7 +136,15 @@ public class CuttingBoardBlockEntity extends BaseHasItemBlockEntity {
     }
 
     public Optional<CuttingBoardSingleRecipe> getSingleRecipe(CuttingBoardCraftContainer container) {
-        return this.singleRecipeCheck.getRecipeFor(container, this.level);
+        Optional<CuttingBoardSingleRecipe> recipe = this.singleRecipeCheck.getRecipeFor(container, this.level);
+        if (recipe.isEmpty()) {
+            for (CuttingBoardSingleRecipe singleRecipe : CuttingBoardRecipeCompat.cuttingBoardSingleRecipes) {
+                if (singleRecipe.matches(container, this.level)) {
+                    return Optional.of(singleRecipe);
+                }
+            }
+        }
+        return recipe;
     }
 
     public Optional<CuttingBoardMultipleRecipe> getMultipleRecipe(CuttingBoardCraftContainer container) {

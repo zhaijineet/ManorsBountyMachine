@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.jei.category.*;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
 import net.zhaiji.manorsbountymachine.recipe.*;
@@ -101,16 +103,19 @@ public class ManorsBountyMachineJeiPlugin implements IModPlugin {
         registration.addRecipes(NORMAL_FERMENTATION, this.getAllRecipesFor(InitRecipe.NORMAL_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(BRIGHT_FERMENTATION, this.getAllRecipesFor(InitRecipe.BRIGHT_FERMENTATION_RECIPE_TYPE.get()));
         registration.addRecipes(BLENDER, this.getAllRecipesFor(InitRecipe.BLENDER_RECIPE_TYPE.get()));
-        List<CuttingBoardRecipeWrapper> cuttingBoardRecipes = Stream.concat(
-                this.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get())
-                        .stream()
-                        .map(CuttingBoardRecipeWrapper::new),
-                this.getAllRecipesFor(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get())
-                        .stream()
-                        .map(CuttingBoardRecipeWrapper::new)
-        ).collect(Collectors.toList());
+        List<CuttingBoardRecipeWrapper> cuttingBoardRecipes = Stream.of(
+                        this.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get()),
+                        this.getAllRecipesFor(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get()),
+                        CuttingBoardRecipeCompat.cuttingBoardSingleRecipes
+                ).flatMap(List::stream)
+                .map(CuttingBoardRecipeWrapper::new)
+                .collect(Collectors.toList());
         registration.addRecipes(CUTTING_BOARD, cuttingBoardRecipes);
-        registration.addRecipes(STOCK_POT, this.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()));
+        List<StockPotRecipe> stockPotRecipes = Stream.concat(
+                this.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()).stream(),
+                CookingPotRecipeCompat.stockPotRecipes.stream()
+        ).collect(Collectors.toList());
+        registration.addRecipes(STOCK_POT, stockPotRecipes);
         registration.addRecipes(SAUCEPAN_AND_WHISK, this.getAllRecipesFor(InitRecipe.SAUCEPAN_AND_WHISK_RECIPE_TYPE.get()));
         registration.addRecipes(SHAKER, this.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()));
 

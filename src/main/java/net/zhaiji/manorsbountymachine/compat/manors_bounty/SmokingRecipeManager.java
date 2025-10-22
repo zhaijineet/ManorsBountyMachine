@@ -20,16 +20,19 @@ public class SmokingRecipeManager {
 
     public static List<OvenRecipe> ovenRecipes = new ArrayList<>();
 
-    public static void reset() {
+    public static void reset(RecipeManager recipeManager) {
         fastFryRecipes.clear();
         ovenRecipes.clear();
-    }
-
-    public static void init(RecipeManager recipeManager) {
-        reset();
         List<SmokingRecipe> smokingRecipes = recipeManager.getAllRecipesFor(RecipeType.SMOKING);
         smokingRecipes.forEach(recipe -> fastFryRecipes.add(toFastFryRecipe(recipe)));
         smokingRecipes.forEach(recipe -> ovenRecipes.add(toOvenRecipe(recipe)));
+    }
+
+    public static void init(RecipeManager recipeManager) {
+        if (needInit) {
+            reset(recipeManager);
+            needInit = false;
+        }
     }
 
     public static FastFryRecipe toFastFryRecipe(SmokingRecipe recipe) {

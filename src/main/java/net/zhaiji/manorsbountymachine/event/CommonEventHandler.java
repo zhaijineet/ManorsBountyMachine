@@ -12,6 +12,8 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.MissingMappingsEvent;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
@@ -25,6 +27,8 @@ import java.util.Map;
 public class CommonEventHandler {
     public static void handlerAddReloadListenerEvent(AddReloadListenerEvent event) {
         SmokingRecipeManager.needInit = true;
+        CuttingBoardRecipeCompat.needInit = true;
+        CookingPotRecipeCompat.needInit = true;
         SlotInputLimitManager.needInit = true;
     }
 

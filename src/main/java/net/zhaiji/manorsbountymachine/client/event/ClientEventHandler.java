@@ -16,6 +16,8 @@ import net.zhaiji.manorsbountymachine.client.particle.OilSplashParticle;
 import net.zhaiji.manorsbountymachine.client.particle.SteamParticle;
 import net.zhaiji.manorsbountymachine.client.render.*;
 import net.zhaiji.manorsbountymachine.client.screen.*;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.jei.RecipeOrderManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
@@ -51,6 +53,8 @@ public class ClientEventHandler {
     public static void handlerRecipesUpdatedEvent(RecipesUpdatedEvent event) {
         RecipeManager recipeManager = event.getRecipeManager();
         SmokingRecipeManager.init(recipeManager);
+        CuttingBoardRecipeCompat.init(recipeManager);
+        CookingPotRecipeCompat.init(recipeManager);
         SlotInputLimitManager.init(recipeManager);
     }
 

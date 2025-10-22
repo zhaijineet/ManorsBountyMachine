@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.zhaiji.manorsbountymachine.block.StockPotBlock;
+import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.StockPotMenu;
 import net.zhaiji.manorsbountymachine.recipe.StockPotRecipe;
@@ -33,6 +34,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StockPotBlockEntity extends BaseMachineBlockEntity {
     public static final int ITEMS_SIZE = 13;
@@ -221,11 +224,20 @@ public class StockPotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public Optional<StockPotRecipe> getRecipe() {
-        return this.recipeCheck.getRecipeFor(this, this.level);
+        Optional<StockPotRecipe> recipe = this.recipeCheck.getRecipeFor(this, this.level);
+        for (StockPotRecipe stockPotRecipe : CookingPotRecipeCompat.stockPotRecipes) {
+            if (stockPotRecipe.matches(this, this.level)) {
+                return Optional.of(stockPotRecipe);
+            }
+        }
+        return recipe;
     }
 
     public List<StockPotRecipe> getAllRecipe() {
-        return this.level.getRecipeManager().getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get());
+        return Stream.concat(
+                this.level.getRecipeManager().getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()).stream(),
+                CookingPotRecipeCompat.stockPotRecipes.stream()
+        ).collect(Collectors.toList());
     }
 
     public NonNullList<ItemStack> getMainInput() {
