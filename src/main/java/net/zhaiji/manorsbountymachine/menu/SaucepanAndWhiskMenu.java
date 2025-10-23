@@ -43,7 +43,7 @@ public class SaucepanAndWhiskMenu extends BaseMachineMenu {
 
             @Override
             public int getMaxStackSize() {
-                return 1;
+                return 4;
             }
         });
         int[][] slots = {
@@ -62,7 +62,7 @@ public class SaucepanAndWhiskMenu extends BaseMachineMenu {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
                 @Override
                 public int getMaxStackSize() {
-                    return 1;
+                    return 4;
                 }
             });
         }

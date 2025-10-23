@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.SaucepanAndWhiskBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +55,6 @@ public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEnti
         return this.isInputMatch(container.getMainInput(), container.getSecondaryInput());
     }
 
-
     @Override
     public boolean matches(SaucepanAndWhiskBlockEntity pContainer, Level pLevel) {
         return this.matches(pContainer);
@@ -68,7 +68,11 @@ public class SaucepanAndWhiskRecipe extends BaseRecipe<SaucepanAndWhiskBlockEnti
         for (int slot : INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
             if (input.isEmpty()) continue;
-            multiple = Math.min(multiple, input.getCount());
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+            } else {
+                multiple = Math.min(multiple, input.getCount());
+            }
         }
         pContainer.outputMultiple = multiple;
         return this.output.copyWithCount(count * multiple);

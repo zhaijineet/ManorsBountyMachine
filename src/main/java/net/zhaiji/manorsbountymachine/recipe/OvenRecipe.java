@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class OvenRecipe extends BaseRecipe<OvenBlockEntity> implements CookingTi
     }
 
     public boolean isStateMatch(OvenBlockEntity pContainer) {
-        return this.isTemperatureMatch(pContainer) && this.isCookingTimeMatch(pContainer.cookingTime);
+        return this.isTemperatureMatch(pContainer) && this.maxCookingTime == pContainer.cookingTime;
     }
 
     @Override
@@ -50,7 +51,11 @@ public class OvenRecipe extends BaseRecipe<OvenBlockEntity> implements CookingTi
         for (int slot : INPUT_SLOTS) {
             ItemStack input = pContainer.getItem(slot);
             if (input.isEmpty()) continue;
-            multiple = Math.min(multiple, input.getCount());
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+            } else {
+                multiple = Math.min(multiple, input.getCount());
+            }
         }
         pContainer.outputMultiple = multiple;
         return this.output.copyWithCount(count * multiple);

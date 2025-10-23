@@ -81,7 +81,7 @@ public class OvenMenu extends BaseMachineMenu {
 
                 @Override
                 public int getMaxStackSize() {
-                    return 16;
+                    return 8;
                 }
             });
         }

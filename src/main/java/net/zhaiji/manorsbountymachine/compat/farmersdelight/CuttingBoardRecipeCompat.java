@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardSingleRecipe;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
+import vectorwing.farmersdelight.common.crafting.ingredient.ChanceResult;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 import java.util.ArrayList;
@@ -36,7 +37,10 @@ public class CuttingBoardRecipeCompat {
 
     public static CuttingBoardSingleRecipe toCuttingBoardRecipe(CuttingBoardRecipe recipe) {
         Map<ItemStack, Float> outgrowths = new HashMap<>();
-        recipe.getRollableResults().forEach(chanceResult -> outgrowths.put(chanceResult.getStack(), chanceResult.getChance()));
+        for (int i = 1; i < recipe.getRollableResults().size(); i++) {
+            ChanceResult chanceResult = recipe.getRollableResults().get(i);
+            outgrowths.put(chanceResult.getStack(), chanceResult.getChance());
+        }
         return new CuttingBoardSingleRecipe(
                 recipe.getId(),
                 recipe.getTool(),

@@ -23,7 +23,12 @@ public class ShakerCapabilityProvider extends CapabilityProvider<ShakerCapabilit
     public static final int BOTTOM_RIGHT = 6;
     public static final int[] INPUT_SLOTS = {TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
 
-    public ItemStackHandler itemStackHandler = new ItemStackHandler(ITEMS_SIZE);
+    public ItemStackHandler itemStackHandler = new ItemStackHandler(ITEMS_SIZE){
+        @Override
+        public int getSlotLimit(int slot) {
+            return 4;
+        }
+    };
     public LazyOptional<IItemHandler> itemHandler = LazyOptional.empty();
 
     public ShakerCapabilityProvider() {

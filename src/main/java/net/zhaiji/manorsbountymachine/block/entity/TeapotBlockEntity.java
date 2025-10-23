@@ -46,6 +46,7 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     public static final int SOUND_TIME = 60;
     public final RecipeManager.CachedCheck<TeapotBlockEntity, TeapotRecipe> recipeCheck;
     public final NonNullList<ItemStack> items = NonNullList.withSize(ITEMS_SIZE, ItemStack.EMPTY);
+    public boolean isRunning = false;
     public final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -71,7 +72,6 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
             return false;
         }
     };
-    public boolean isRunning = false;
     public int cookingTime = 0;
     public final ContainerData data = new ContainerData() {
         @Override
@@ -97,6 +97,7 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     public ItemStack output = ItemStack.EMPTY;
     public int maxCookingTime = SOUND_TIME;
     public int playSoundCooldown = SOUND_TIME;
+    public int outputMultiple = 0;
 
     public TeapotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(InitBlockEntityType.TEAPOT.get(), pPos, pBlockState);
@@ -151,18 +152,22 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
     }
 
     public void handlerRecipe(TeapotRecipe recipe) {
+        this.output = recipe.assemble(this, this.level.registryAccess());
         List<ItemStack> craftRemaining = new ArrayList<>();
         for (int i = 0; i < ITEMS_SIZE; i++) {
-            if (i == OUTPUT) continue;
             ItemStack input = this.getItem(i);
-            ItemStack remaining = MachineUtil.getCraftRemaining(input);
+            ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                ManorsBountyCompat.damageItem(input, this.level);
+                ManorsBountyCompat.damageItem(this.outputMultiple, input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(1);
+                if (i == OUTPUT) {
+                    input.shrink(output.getCount());
+                } else {
+                    input.shrink(this.outputMultiple);
+                }
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(i, remaining);
@@ -171,8 +176,10 @@ public class TeapotBlockEntity extends BaseMachineBlockEntity {
             }
         }
         this.insertCraftRemaining(craftRemaining);
+        if (!this.getItem(OUTPUT).isEmpty()) {
+            craftRemaining.add(this.getItem(OUTPUT).copy());
+        }
         this.popCraftRemaining(craftRemaining);
-        this.output = recipe.assemble(this, this.level.registryAccess());
         this.setChanged();
     }
 

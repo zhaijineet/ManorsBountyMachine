@@ -67,6 +67,11 @@ public class MachineUtil {
     }
 
     public static ItemStack getCraftRemaining(ItemStack input, int count) {
+        // MCR的耐久处理是直接塞到CraftRemaining里的，简直无语
+        // 这里直接返回空，如果其他mod出了兼容性问题就改这里
+        if (input.isDamageableItem()) {
+            return ItemStack.EMPTY;
+        }
         return input.hasCraftingRemainingItem() ? input.getCraftingRemainingItem().copyWithCount(count) : ItemStack.EMPTY;
     }
 

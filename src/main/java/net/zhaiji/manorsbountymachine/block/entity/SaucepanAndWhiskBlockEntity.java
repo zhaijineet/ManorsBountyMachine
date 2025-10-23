@@ -88,12 +88,16 @@ public class SaucepanAndWhiskBlockEntity extends BaseMachineBlockEntity implemen
                 if (input.isEmpty()) continue;
                 ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                    ManorsBountyCompat.damageItem(input, this.level);
+                    ManorsBountyCompat.damageItem(this.outputMultiple, input, this.level);
                     if (!input.isEmpty()) {
                         remaining = ItemStack.EMPTY;
                     }
                 } else {
-                    input.shrink(this.outputMultiple);
+                    if (slot == OUTPUT) {
+                        input.shrink(output.getCount());
+                    } else {
+                        input.shrink(this.outputMultiple);
+                    }
                 }
                 if (input.isEmpty() && !remaining.isEmpty()) {
                     this.setItem(slot, remaining);

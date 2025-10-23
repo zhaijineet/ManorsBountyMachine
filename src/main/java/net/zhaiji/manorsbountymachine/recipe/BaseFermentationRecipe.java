@@ -9,10 +9,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import org.jetbrains.annotations.Nullable;
 
-import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.CONTAINER;
-import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.INPUT_SLOTS;
+import static net.zhaiji.manorsbountymachine.block.entity.FermenterBlockEntity.*;
 
 public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEntity> implements CookingTimeRecipe, HasContainerItem, OneInputRecipe {
     public final FermenterBlockEntity.LightState lightState;
@@ -47,7 +47,11 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
                 multiple = Math.min(multiple, input.getCount() / count);
                 continue;
             }
-            multiple = Math.min(multiple, input.getCount());
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+            } else {
+                multiple = Math.min(multiple, input.getCount());
+            }
         }
         pContainer.outputMultiple = multiple;
         return this.output.copyWithCount(count * multiple);
@@ -77,7 +81,7 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
                     pRecipeId,
                     this.getCookingTime(pSerializedRecipe),
                     this.getContainer(pSerializedRecipe),
-                    this.getInput(pSerializedRecipe, INPUT_SLOTS.length),
+                    this.getInput(pSerializedRecipe, MATERIAL_SLOTS.length),
                     this.getOutput(pSerializedRecipe)
             );
         }
@@ -88,7 +92,7 @@ public abstract class BaseFermentationRecipe extends BaseRecipe<FermenterBlockEn
                     pRecipeId,
                     this.getCookingTime(pBuffer),
                     this.getContainer(pBuffer),
-                    this.getInput(pBuffer, INPUT_SLOTS.length),
+                    this.getInput(pBuffer, MATERIAL_SLOTS.length),
                     this.getOutput(pBuffer)
             );
         }

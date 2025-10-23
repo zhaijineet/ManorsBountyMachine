@@ -61,6 +61,11 @@ public class StockPotMenu extends BaseMachineMenu {
             }
 
             @Override
+            public int getMaxStackSize() {
+                return 8;
+            }
+
+            @Override
             public boolean isActive() {
                 return super.isActive() && getCookingTime() == 0;
             }
@@ -89,6 +94,11 @@ public class StockPotMenu extends BaseMachineMenu {
                 @Override
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;
+                }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 8;
                 }
 
                 @Override

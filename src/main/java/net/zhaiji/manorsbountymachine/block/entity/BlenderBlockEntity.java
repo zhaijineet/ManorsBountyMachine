@@ -150,7 +150,7 @@ public class BlenderBlockEntity extends BaseMachineBlockEntity implements GeoBlo
                 if (input.isEmpty()) continue;
                 ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
                 if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                    ManorsBountyCompat.damageItem(input, this.level);
+                    ManorsBountyCompat.damageItem(this.outputMultiple, input, this.level);
                     if (!input.isEmpty()) {
                         remaining = ItemStack.EMPTY;
                     }

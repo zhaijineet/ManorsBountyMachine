@@ -102,6 +102,11 @@ public class FermenterMenu extends BaseMachineMenu {
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;
                 }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 4;
+                }
             });
         }
         this.addSlot(new Slot(this.blockEntity, OUTPUT, 57, 63) {

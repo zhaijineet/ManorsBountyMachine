@@ -166,12 +166,16 @@ public class FermenterBlockEntity extends BaseMachineBlockEntity {
             if (slot == CONTAINER && (recipe == null || !recipe.hasContainer())) continue;
             ItemStack remaining = MachineUtil.getCraftRemaining(input, this.outputMultiple);
             if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                ManorsBountyCompat.damageItem(input, this.level);
+                ManorsBountyCompat.damageItem(this.outputMultiple, input, this.level);
                 if (!input.isEmpty()) {
                     remaining = ItemStack.EMPTY;
                 }
             } else {
-                input.shrink(this.outputMultiple);
+                if (slot == CONTAINER) {
+                    input.shrink(output.getCount());
+                } else {
+                    input.shrink(this.outputMultiple);
+                }
             }
             if (input.isEmpty() && !remaining.isEmpty()) {
                 this.setItem(slot, remaining);

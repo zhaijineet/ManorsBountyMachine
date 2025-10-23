@@ -11,6 +11,8 @@ import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.register.InitMenuType;
 
+import static net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity.*;
+
 public class BlenderMenu extends BaseMachineMenu {
     public BlenderBlockEntity blockEntity;
     public ContainerData data;
@@ -40,7 +42,7 @@ public class BlenderMenu extends BaseMachineMenu {
 
     @Override
     public void initMachineInventorySlot() {
-        this.addSlot(new Slot(this.blockEntity, BlenderBlockEntity.CONTAINER, 28, 63) {
+        this.addSlot(new Slot(this.blockEntity, CONTAINER, 28, 63) {
             @Override
             public boolean mayPlace(ItemStack pStack) {
                 return super.mayPlace(pStack)
@@ -52,18 +54,23 @@ public class BlenderMenu extends BaseMachineMenu {
             public boolean mayPickup(Player pPlayer) {
                 return super.mayPickup(pPlayer) && getCookingTime() == 0;
             }
+
+            @Override
+            public int getMaxStackSize() {
+                return 8;
+            }
         });
         int[][] slots = {
-                {BlenderBlockEntity.MAIN_TOP_LEFT, 103, 54},
-                {BlenderBlockEntity.MAIN_TOP_RIGHT, 129, 54},
-                {BlenderBlockEntity.MAIN_CENTER_LEFT, 103, 74},
-                {BlenderBlockEntity.MAIN_CENTER_RIGHT, 129, 74},
-                {BlenderBlockEntity.MAIN_BOTTOM_LEFT, 103, 94},
-                {BlenderBlockEntity.MAIN_BOTTOM_RIGHT, 129, 94},
-                {BlenderBlockEntity.SECONDARY_TOP_LEFT, 18, 14},
-                {BlenderBlockEntity.SECONDARY_TOP_RIGHT, 38, 14},
-                {BlenderBlockEntity.SECONDARY_BOTTOM_LEFT, 18, 34},
-                {BlenderBlockEntity.SECONDARY_BOTTOM_RIGHT, 38, 34},
+                {MAIN_TOP_LEFT, 103, 54},
+                {MAIN_TOP_RIGHT, 129, 54},
+                {MAIN_CENTER_LEFT, 103, 74},
+                {MAIN_CENTER_RIGHT, 129, 74},
+                {MAIN_BOTTOM_LEFT, 103, 94},
+                {MAIN_BOTTOM_RIGHT, 129, 94},
+                {SECONDARY_TOP_LEFT, 18, 14},
+                {SECONDARY_TOP_RIGHT, 38, 14},
+                {SECONDARY_BOTTOM_LEFT, 18, 34},
+                {SECONDARY_BOTTOM_RIGHT, 38, 34},
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {
@@ -71,11 +78,16 @@ public class BlenderMenu extends BaseMachineMenu {
                 public boolean mayPickup(Player pPlayer) {
                     return super.mayPickup(pPlayer) && getCookingTime() == 0;
                 }
+
+                @Override
+                public int getMaxStackSize() {
+                    return 8;
+                }
             });
         }
         slots = new int[][]{
-                {BlenderBlockEntity.SECONDARY_OUTPUT, 28, 90},
-                {BlenderBlockEntity.MAIN_OUTPUT, 28, 115}
+                {SECONDARY_OUTPUT, 28, 90},
+                {MAIN_OUTPUT, 28, 115}
         };
         for (int[] slot : slots) {
             this.addSlot(new Slot(this.blockEntity, slot[0], slot[1], slot[2]) {

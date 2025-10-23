@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +33,25 @@ public class TeapotRecipe extends BaseRecipe<TeapotBlockEntity> implements HasCo
         if (!this.input.get(0).test(pContainer.getItem(DRINK))) return false;
         if (!this.input.get(1).test(pContainer.getItem(MATERIAL))) return false;
         return this.isInputMatch(pContainer.getInput());
+    }
+
+    @Override
+    public ItemStack assemble(TeapotBlockEntity pContainer, RegistryAccess pRegistryAccess) {
+        ItemStack output = this.output.copy();
+        int count = output.getCount();
+        int multiple = Math.min(pContainer.getMaxStackSize(), output.getMaxStackSize()) / count;
+        for (int slot : INPUT_SLOTS) {
+            ItemStack input = pContainer.getItem(slot);
+            if (input.isEmpty()) continue;
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+            } else {
+                multiple = Math.min(multiple, input.getCount());
+            }
+        }
+        multiple = Math.min(multiple, pContainer.getItem(OUTPUT).getCount() / count);
+        pContainer.outputMultiple = multiple;
+        return this.output.copyWithCount(count * multiple);
     }
 
     @Override

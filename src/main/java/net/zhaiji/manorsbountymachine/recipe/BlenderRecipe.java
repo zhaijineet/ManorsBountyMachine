@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +55,11 @@ public class BlenderRecipe extends BaseRecipe<BlenderBlockEntity> implements Has
                 multiple = Math.min(multiple, input.getCount() / count);
                 continue;
             }
-            multiple = Math.min(multiple, input.getCount());
+            if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+            } else {
+                multiple = Math.min(multiple, input.getCount());
+            }
         }
         pContainer.outputMultiple = multiple;
         return output.copyWithCount(count * multiple);

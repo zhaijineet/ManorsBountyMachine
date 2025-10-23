@@ -81,14 +81,18 @@ public class ShakerItem extends Item {
                 for (int slot : INPUT_SLOTS) {
                     ItemStack input = recipeWrapper.getItem(slot);
                     if (input.isEmpty()) continue;
-                    multiple = Math.min(multiple, input.getCount());
+                    if (ManorsBountyCompat.isDamageableMaterial(input)) {
+                        multiple = Math.min(multiple, input.getMaxDamage() - input.getDamageValue());
+                    } else {
+                        multiple = Math.min(multiple, input.getCount());
+                    }
                 }
                 List<ItemStack> craftRemaining = new ArrayList<>();
                 for (int i = 0; i < recipeWrapper.getContainerSize(); i++) {
                     ItemStack input = recipeWrapper.getItem(i);
                     ItemStack remaining = MachineUtil.getCraftRemaining(input, multiple);
                     if (ManorsBountyCompat.isDamageableMaterial(input)) {
-                        ManorsBountyCompat.damageItem(input, level);
+                        ManorsBountyCompat.damageItem(multiple, input, level);
                         if (!input.isEmpty()) {
                             remaining = ItemStack.EMPTY;
                         }
