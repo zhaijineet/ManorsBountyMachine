@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/sunshine_musk",
+  "textures": {
+    "all": "manors_bounty:block/sunshine_musk_block",
+    "particle": "manors_bounty:block/sunshine_musk_block",
+    "0": "manors_bounty:block/sunshine_musk_block"
+  },
+  "render_type": "translucent"
+}

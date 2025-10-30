@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/grimace_shake",
+  "textures": {
+    "all": "manors_bounty:block/grimace_shake_block",
+    "particle": "manors_bounty:block/grimace_shake_block",
+    "0": "manors_bounty:block/grimace_shake_block"
+  },
+  "render_type": "translucent"
+}

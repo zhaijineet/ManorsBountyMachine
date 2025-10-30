@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/bubble_tea",
+  "textures": {
+    "all": "manors_bounty:block/bubble_tea_block",
+    "particle": "manors_bounty:block/bubble_tea_block",
+    "1": "manors_bounty:block/bubble_tea_block"
+  },
+  "render_type": "translucent"
+}

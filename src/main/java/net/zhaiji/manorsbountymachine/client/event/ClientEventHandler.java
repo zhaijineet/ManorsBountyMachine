@@ -2,6 +2,7 @@ package net.zhaiji.manorsbountymachine.client.event;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -10,11 +11,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.zhaiji.manorsbountymachine.client.particle.OilSplashParticle;
 import net.zhaiji.manorsbountymachine.client.particle.SteamParticle;
 import net.zhaiji.manorsbountymachine.client.render.*;
+import net.zhaiji.manorsbountymachine.client.resource.GlassBlockPackRepositorySource;
+import net.zhaiji.manorsbountymachine.client.resource.ModBlockPackRepositorySource;
+import net.zhaiji.manorsbountymachine.client.resource.VanillaBlockPackRepositorySource;
 import net.zhaiji.manorsbountymachine.client.screen.*;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
@@ -79,5 +84,13 @@ public class ClientEventHandler {
     public static void handlerRegisterParticleProvidersEvent(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(InitParticleType.COSY_STEAM.get(), SteamParticle.CosyProvider::new);
         event.registerSpriteSet(InitParticleType.OIL_SPLASH.get(), OilSplashParticle.Provider::new);
+    }
+
+    public static void handlerAddPackFindersEvent(AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            event.addRepositorySource(new GlassBlockPackRepositorySource());
+            event.addRepositorySource(new ModBlockPackRepositorySource());
+            event.addRepositorySource(new VanillaBlockPackRepositorySource());
+        }
     }
 }

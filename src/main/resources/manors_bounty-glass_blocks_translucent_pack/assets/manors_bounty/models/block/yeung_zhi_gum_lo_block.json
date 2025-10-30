@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/yeung_zhi_gum_lo",
+  "textures": {
+    "all": "manors_bounty:block/yeung_zhi_gum_lo_block",
+    "particle": "manors_bounty:block/yeung_zhi_gum_lo_block",
+    "1": "manors_bounty:block/yeung_zhi_gum_lo_block"
+  },
+  "render_type": "translucent"
+}

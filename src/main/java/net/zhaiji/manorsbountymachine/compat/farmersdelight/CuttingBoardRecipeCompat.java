@@ -3,6 +3,7 @@ package net.zhaiji.manorsbountymachine.compat.farmersdelight;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.zhaiji.manorsbountymachine.recipe.CuttingBoardSingleRecipe;
+import net.zhaiji.manorsbountymachine.register.InitRecipe;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.crafting.ingredient.ChanceResult;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
@@ -21,8 +22,10 @@ public class CuttingBoardRecipeCompat {
         if (!FarmersDelightCompat.isLoad()) return;
         cuttingBoardSingleRecipes.clear();
         List<CuttingBoardRecipe> cuttingRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.CUTTING.get());
+        List<CuttingBoardSingleRecipe> singleRecipes = recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get());
         cuttingRecipes.forEach(recipe -> {
-            if (recipe.getResults().size() - 1 <= 4) {
+            if (recipe.getResults().size() <= 4
+                    && singleRecipes.stream().noneMatch(singleRecipe -> singleRecipe.input.equals(recipe.getIngredients().get(0)))) {
                 cuttingBoardSingleRecipes.add(toCuttingBoardRecipe(recipe));
             }
         });

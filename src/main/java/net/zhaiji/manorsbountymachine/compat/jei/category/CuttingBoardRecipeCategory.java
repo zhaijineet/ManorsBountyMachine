@@ -16,8 +16,6 @@ import net.zhaiji.manorsbountymachine.recipe.CuttingBoardMultipleRecipe;
 import net.zhaiji.manorsbountymachine.register.InitBlock;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardRecipeWrapper> {

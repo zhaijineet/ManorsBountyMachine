@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/mangonada",
+  "textures": {
+    "all": "manors_bounty:block/mangonada_block",
+    "particle": "manors_bounty:block/mangonada_block",
+    "3": "manors_bounty:block/mangonada_block"
+  },
+  "render_type": "translucent"
+}

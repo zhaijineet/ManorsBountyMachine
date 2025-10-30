@@ -15,7 +15,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
-import net.zhaiji.manorsbountymachine.block.entity.TeapotBlockEntity;
 import net.zhaiji.manorsbountymachine.menu.BlenderMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BlenderStartPacket;

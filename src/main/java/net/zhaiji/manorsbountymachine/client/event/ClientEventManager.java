@@ -16,6 +16,7 @@ public class ClientEventManager {
         modEventBus.addListener(ClientEventHandler::handlerEntityRenderersEvent$RegisterRenderers);
         modEventBus.addListener(ClientEventHandler::handlerBuildCreativeModeTabContentsEvent);
         modEventBus.addListener(ClientEventHandler::handlerRegisterParticleProvidersEvent);
+        modEventBus.addListener(ClientEventHandler::handlerAddPackFindersEvent);
     }
 
     public static void forgeBusListener(IEventBus forgeEventBus) {

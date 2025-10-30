@@ -3,7 +3,6 @@ package net.zhaiji.manorsbountymachine.network.server;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.state.BlockState;
 import net.zhaiji.manorsbountymachine.block.entity.*;
 import net.zhaiji.manorsbountymachine.network.server.packet.*;
 import net.zhaiji.manorsbountymachine.register.InitSoundEvent;

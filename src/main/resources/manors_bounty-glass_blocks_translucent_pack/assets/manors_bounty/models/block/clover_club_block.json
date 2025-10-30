@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/clover_club",
+  "textures": {
+    "all": "manors_bounty:block/clover_club_block",
+    "particle": "manors_bounty:block/clover_club_block",
+    "0": "manors_bounty:block/clover_club_block"
+  },
+  "render_type": "translucent"
+}

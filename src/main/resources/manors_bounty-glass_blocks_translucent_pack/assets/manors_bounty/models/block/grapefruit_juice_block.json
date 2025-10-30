@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/grapefruit_juice",
+  "textures": {
+    "all": "manors_bounty:block/grapefruit_juice_block",
+    "particle": "manors_bounty:block/grapefruit_juice_block",
+    "3": "manors_bounty:block/grapefruit_juice_block"
+  },
+  "render_type": "translucent"
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/hk_milk_tea",
+  "textures": {
+    "all": "manors_bounty:block/hk_milk_tea_block",
+    "particle": "manors_bounty:block/hk_milk_tea_block",
+    "3": "manors_bounty:block/hk_milk_tea_block"
+  },
+  "render_type": "translucent"
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/punch_bowl",
+  "textures": {
+    "all": "manors_bounty:block/punch_bowl_block",
+    "particle": "manors_bounty:block/punch_bowl_block",
+    "2": "manors_bounty:block/punch_bowl_block"
+  },
+  "render_type": "translucent"
+}

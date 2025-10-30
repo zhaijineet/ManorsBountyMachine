@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/glass_of_starfruit_wine",
+  "textures": {
+    "all": "manors_bounty:block/glass_of_starfruit_wine_block",
+    "particle": "manors_bounty:block/glass_of_starfruit_wine_block",
+    "0": "manors_bounty:block/glass_of_starfruit_wine_block"
+  },
+  "render_type": "translucent"
+}

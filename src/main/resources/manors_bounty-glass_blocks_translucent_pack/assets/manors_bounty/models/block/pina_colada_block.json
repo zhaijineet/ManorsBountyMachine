@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/pina_colada",
+  "textures": {
+    "all": "manors_bounty:block/pina_colada_block",
+    "particle": "manors_bounty:block/pina_colada_block",
+    "3": "manors_bounty:block/pina_colada_block"
+  },
+  "render_type": "translucent"
+}

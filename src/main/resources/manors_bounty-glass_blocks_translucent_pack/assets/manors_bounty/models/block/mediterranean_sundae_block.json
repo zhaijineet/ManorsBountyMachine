@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/mediterranean_sundae",
+  "textures": {
+    "all": "manors_bounty:block/mediterranean_sundae",
+    "particle": "manors_bounty:block/mediterranean_sundae",
+    "3": "manors_bounty:block/mediterranean_sundae"
+  },
+  "render_type": "translucent"
+}

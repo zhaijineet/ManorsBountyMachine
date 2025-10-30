@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/mango_pudding",
+  "textures": {
+    "all": "manors_bounty:block/mango_pudding_block",
+    "particle": "manors_bounty:block/mango_pudding_block",
+    "1": "manors_bounty:block/mango_pudding_block"
+  },
+  "render_type": "translucent"
+}

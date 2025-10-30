@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/pomegranate_juice",
+  "textures": {
+    "all": "manors_bounty:block/pomegranate_juice_block",
+    "particle": "manors_bounty:block/pomegranate_juice_block",
+    "2": "manors_bounty:block/pomegranate_juice_block"
+  },
+  "render_type": "translucent"
+}

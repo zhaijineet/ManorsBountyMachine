@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/hurricane_cocktail",
+  "textures": {
+    "all": "manors_bounty:block/hurricane_cocktail_block",
+    "particle": "manors_bounty:block/hurricane_cocktail_block",
+    "3": "manors_bounty:block/hurricane_cocktail_block"
+  },
+  "render_type": "translucent"
+}

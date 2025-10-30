@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/frutas_con_chamoy",
+  "textures": {
+    "all": "manors_bounty:block/frutas_con_chamoy_block",
+    "particle": "manors_bounty:block/frutas_con_chamoy_block",
+    "0": "manors_bounty:block/frutas_con_chamoy_block"
+  },
+  "render_type": "translucent"
+}

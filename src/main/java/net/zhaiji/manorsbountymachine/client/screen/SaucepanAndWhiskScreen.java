@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,7 +19,6 @@ import net.zhaiji.manorsbountymachine.menu.SaucepanAndWhiskMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.TrySaucepanAndWhiskCraftPacket;
 import net.zhaiji.manorsbountymachine.recipe.SaucepanAndWhiskRecipe;
-import net.zhaiji.manorsbountymachine.register.InitSoundEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class SaucepanAndWhiskScreen extends BaseMachineScreen<SaucepanAndWhiskMenu> {

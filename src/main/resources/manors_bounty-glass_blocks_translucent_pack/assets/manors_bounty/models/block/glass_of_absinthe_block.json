@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/glass_of_absinthe",
+  "textures": {
+    "all": "manors_bounty:block/glass_of_absinthe_block",
+    "particle": "manors_bounty:block/glass_of_absinthe_block",
+    "0": "manors_bounty:block/glass_of_absinthe_block"
+  },
+  "render_type": "translucent"
+}

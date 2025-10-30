@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/risalamande",
+  "textures": {
+    "all": "manors_bounty:block/risalamande_block",
+    "particle": "manors_bounty:block/risalamande_block",
+    "0": "manors_bounty:block/risalamande_block"
+  },
+  "render_type": "translucent"
+}

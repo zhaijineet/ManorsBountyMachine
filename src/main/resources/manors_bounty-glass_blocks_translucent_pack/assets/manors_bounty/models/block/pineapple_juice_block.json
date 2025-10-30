@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/pineapple_juice",
+  "textures": {
+    "all": "manors_bounty:block/pineapple_juice_block",
+    "particle": "manors_bounty:block/pineapple_juice_block",
+    "0": "manors_bounty:block/pineapple_juice_block"
+  },
+  "render_type": "translucent"
+}

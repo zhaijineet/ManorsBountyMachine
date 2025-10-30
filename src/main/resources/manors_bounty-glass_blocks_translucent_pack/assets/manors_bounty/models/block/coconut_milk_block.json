@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/coconut_milk",
+  "textures": {
+    "all": "manors_bounty:block/coconut_milk_block",
+    "particle": "manors_bounty:block/coconut_milk_block",
+    "3": "manors_bounty:block/coconut_milk_block"
+  },
+  "render_type": "translucent"
+}

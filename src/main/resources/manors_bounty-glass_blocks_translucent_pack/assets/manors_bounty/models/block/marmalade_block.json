@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/marmalade",
+  "textures": {
+    "all": "manors_bounty:block/marmalade",
+    "particle": "manors_bounty:block/marmalade",
+    "3": "manors_bounty:block/marmalade"
+  },
+  "render_type": "translucent"
+}

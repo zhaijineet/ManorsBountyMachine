@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/glass_of_rum",
+  "textures": {
+    "all": "manors_bounty:block/glass_of_rum_block",
+    "particle": "manors_bounty:block/glass_of_rum_block",
+    "0": "manors_bounty:block/glass_of_rum_block"
+  },
+  "render_type": "translucent"
+}

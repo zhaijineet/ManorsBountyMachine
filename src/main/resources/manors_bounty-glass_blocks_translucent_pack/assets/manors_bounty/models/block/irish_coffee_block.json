@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/irish_coffee",
+  "textures": {
+    "all": "manors_bounty:block/irish_coffee_block",
+    "particle": "manors_bounty:block/irish_coffee_block",
+    "1": "manors_bounty:block/irish_coffee_block"
+  },
+  "render_type": "translucent"
+}

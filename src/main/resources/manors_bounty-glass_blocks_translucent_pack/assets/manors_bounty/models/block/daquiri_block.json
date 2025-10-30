@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/daquiri",
+  "textures": {
+    "all": "manors_bounty:block/daquiri_block",
+    "particle": "manors_bounty:block/daquiri_block",
+    "3": "manors_bounty:block/daquiri_block"
+  },
+  "render_type": "translucent"
+}

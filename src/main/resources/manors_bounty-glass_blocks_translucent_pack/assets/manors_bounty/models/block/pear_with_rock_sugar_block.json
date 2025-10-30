@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/pear_with_rock_sugar",
+  "textures": {
+    "all": "manors_bounty:block/pear_with_rock_sugar_block",
+    "particle": "manors_bounty:block/pear_with_rock_sugar_block",
+    "0": "manors_bounty:block/pear_with_rock_sugar_block"
+  },
+  "render_type": "translucent"
+}

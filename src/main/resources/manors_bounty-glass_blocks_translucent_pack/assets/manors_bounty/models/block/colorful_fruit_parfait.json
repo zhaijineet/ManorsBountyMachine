@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/colorful_fruit_parfait",
+  "textures": {
+    "all": "manors_bounty:block/colorful_fruit_parfait",
+    "particle": "manors_bounty:block/colorful_fruit_parfait",
+    "1": "manors_bounty:block/colorful_fruit_parfait"
+  },
+  "render_type": "translucent"
+}

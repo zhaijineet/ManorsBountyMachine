@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/banana_shake",
+  "textures": {
+    "all": "manors_bounty:block/banana_shake_block",
+    "particle": "manors_bounty:block/banana_shake_block",
+    "2": "manors_bounty:block/banana_shake_block"
+  },
+  "render_type": "translucent"
+}

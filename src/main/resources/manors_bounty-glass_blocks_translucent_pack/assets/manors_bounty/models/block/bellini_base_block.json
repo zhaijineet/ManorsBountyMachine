@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/bellini_base",
+  "textures": {
+    "all": "manors_bounty:block/bellini_base_block",
+    "particle": "manors_bounty:block/bellini_base_block",
+    "1": "manors_bounty:block/bellini_base_block"
+  },
+  "render_type": "translucent"
+}

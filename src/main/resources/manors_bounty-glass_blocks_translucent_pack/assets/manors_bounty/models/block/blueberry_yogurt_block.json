@@ -1,0 +1,9 @@
+{
+  "parent": "manors_bounty:custom/blueberry_yogurt",
+  "textures": {
+    "all": "manors_bounty:block/blueberry_yogurt_block",
+    "particle": "manors_bounty:block/blueberry_yogurt_block",
+    "0": "manors_bounty:block/blueberry_yogurt_block"
+  },
+  "render_type": "translucent"
+}
