@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.MissingMappingsEvent;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
+import net.zhaiji.manorsbountymachine.compat.kjs.ManorsBountyMachineReloadListener;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
@@ -30,6 +31,7 @@ public class CommonEventHandler {
         CuttingBoardRecipeCompat.needInit = true;
         CookingPotRecipeCompat.needInit = true;
         SlotInputLimitManager.needInit = true;
+        event.addListener(new ManorsBountyMachineReloadListener());
     }
 
     public static void handlerMissingMappingsEvent(MissingMappingsEvent event) {

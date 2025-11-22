@@ -70,7 +70,7 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                     },
                     {
                             {105, 33},
-                            {131, 33}
+                            {131, 33},
                     },
                     {
                             {105, 19},
@@ -82,6 +82,14 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {131, 19},
                             {105, 45},
                             {131, 45}
+                    },
+                    {
+                            {105, 15},
+                            {131, 15},
+                            {105, 34},
+                            {131, 34},
+                            {105, 53},
+                            {131, 53}
                     }
             };
             builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
@@ -134,6 +142,14 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {131, 19},
                             {105, 45},
                             {131, 45}
+                    },
+                    {
+                            {105, 15},
+                            {131, 15},
+                            {105, 34},
+                            {131, 34},
+                            {105, 53},
+                            {131, 53}
                     }
             };
             builder.addOutputSlot(pos[size][0][0], pos[size][0][1])
@@ -184,6 +200,14 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {130, 18},
                             {104, 44},
                             {130, 44}
+                    },
+                    {
+                            {104, 14},
+                            {130, 14},
+                            {104, 33},
+                            {130, 33},
+                            {104, 52},
+                            {130, 52}
                     }
             };
             int i = 0;
@@ -247,6 +271,14 @@ public class CuttingBoardRecipeCategory extends BaseRecipeCategory<CuttingBoardR
                             {130, 18},
                             {104, 44},
                             {130, 44}
+                    },
+                    {
+                            {104, 14},
+                            {130, 14},
+                            {104, 33},
+                            {130, 33},
+                            {104, 52},
+                            {130, 52}
                     }
             };
             int i = 0;

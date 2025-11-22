@@ -24,7 +24,7 @@ public class CuttingBoardRecipeCompat {
         List<CuttingBoardRecipe> cuttingRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.CUTTING.get());
         List<CuttingBoardSingleRecipe> singleRecipes = recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get());
         cuttingRecipes.forEach(recipe -> {
-            if (recipe.getResults().size() <= 4
+            if (recipe.getResults().size() <= 6
                     && singleRecipes.stream().noneMatch(singleRecipe -> singleRecipe.input.equals(recipe.getIngredients().get(0)))) {
                 cuttingBoardSingleRecipes.add(toCuttingBoardRecipe(recipe));
             }
