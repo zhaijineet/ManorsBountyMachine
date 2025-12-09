@@ -19,7 +19,6 @@ public class CuttingBoardRecipeCompat {
     public static List<CuttingBoardSingleRecipe> cuttingBoardSingleRecipes = new ArrayList<>();
 
     public static void reset(RecipeManager recipeManager) {
-        if (!FarmersDelightCompat.isLoad()) return;
         cuttingBoardSingleRecipes.clear();
         List<CuttingBoardRecipe> cuttingRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.CUTTING.get());
         List<CuttingBoardSingleRecipe> singleRecipes = recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get());
@@ -32,6 +31,7 @@ public class CuttingBoardRecipeCompat {
     }
 
     public static void init(RecipeManager recipeManager) {
+        if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
         if (needInit) {
             reset(recipeManager);
             needInit = false;

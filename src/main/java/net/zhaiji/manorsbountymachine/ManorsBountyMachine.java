@@ -5,6 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.zhaiji.manorsbountymachine.event.CommonEventManager;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
@@ -22,6 +23,7 @@ public class ManorsBountyMachine {
         CommonEventManager.init(modEventBus, forgeEventBus);
         GeckoLib.initialize();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ManorsBountyMachineClient.init(modEventBus, forgeEventBus));
+        context.registerConfig(ModConfig.Type.COMMON, ManorsBountyMachineConfig.SPEC);
         InitItem.ITEM.register(modEventBus);
         InitBlock.BLOCK.register(modEventBus);
         InitCreativeModeTab.CREATIVE_MODE_TAB.register(modEventBus);

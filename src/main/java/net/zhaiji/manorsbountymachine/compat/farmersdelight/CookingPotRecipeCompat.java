@@ -19,13 +19,13 @@ public class CookingPotRecipeCompat {
     public static List<StockPotRecipe> stockPotRecipes = new ArrayList<>();
 
     public static void reset(RecipeManager recipeManager) {
-        if (!FarmersDelightCompat.isLoad()) return;
         stockPotRecipes.clear();
         List<CookingPotRecipe> cookingPotRecipes = recipeManager.getAllRecipesFor(ModRecipeTypes.COOKING.get());
         cookingPotRecipes.forEach(recipe -> stockPotRecipes.add(toStockPotRecipe(recipe)));
     }
 
     public static void init(RecipeManager recipeManager) {
+        if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
         if (needInit) {
             reset(recipeManager);
             needInit = false;
