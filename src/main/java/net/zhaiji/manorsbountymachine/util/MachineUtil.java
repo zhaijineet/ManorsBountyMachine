@@ -36,10 +36,14 @@ public class MachineUtil {
                     fluidHandler.getTankCapacity(0) - fluidHandler.getFluidInTank(0).getAmount() >= 1000
                             && ManorsBountyCompat.BUCKET_FLUID_MAP.containsKey(stack.getItem())
             ) {
-                new FluidStack(ManorsBountyCompat.BUCKET_FLUID_MAP.get(stack.getItem()), 1000);
-                fluidHandler.fill(new FluidStack(ManorsBountyCompat.BUCKET_FLUID_MAP.get(stack.getItem()), 1000), IFluidHandler.FluidAction.EXECUTE);
-                emptyStackableFluidTankCount++;
-                emptyStackableFluidTank = Items.BUCKET.getDefaultInstance();
+                FluidStack fluidStack = new FluidStack(ManorsBountyCompat.BUCKET_FLUID_MAP.get(stack.getItem()), 1000);
+                int filled = fluidHandler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                if (filled > 0) {
+                    emptyStackableFluidTankCount++;
+                    emptyStackableFluidTank = Items.BUCKET.getDefaultInstance();
+                } else {
+                    break;
+                }
             } else {
                 break;
             }

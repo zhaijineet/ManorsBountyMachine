@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CuttingBoardRecipeCompat {
-    public static boolean needInit = false;
-
     public static List<CuttingBoardSingleRecipe> cuttingBoardSingleRecipes = new ArrayList<>();
 
     public static void reset(RecipeManager recipeManager) {
@@ -32,10 +30,7 @@ public class CuttingBoardRecipeCompat {
 
     public static void init(RecipeManager recipeManager) {
         if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
-        if (needInit) {
-            reset(recipeManager);
-            needInit = false;
-        }
+        reset(recipeManager);
     }
 
     public static CuttingBoardSingleRecipe toCuttingBoardRecipe(CuttingBoardRecipe recipe) {

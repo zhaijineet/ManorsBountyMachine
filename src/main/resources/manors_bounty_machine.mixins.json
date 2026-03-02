@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "manors_bounty_machine.refmap.json",
   "mixins": [
-    "ReloadableServerResourcesMixin"
   ],
   "client": [
   ],

@@ -27,8 +27,6 @@ public class SlotInputLimitManager {
     public static final List<Ingredient> SAUCEPAN_AND_WHISK_INPUT_LIMIT = new ArrayList<>();
     public static final List<Ingredient> SHAKER_INPUT_LIMIT = new ArrayList<>();
 
-    public static boolean needInit = false;
-
     public static void reset(RecipeManager recipeManager) {
         ICE_CREAM_MACHINE_FLUID_LIMIT.clear();
         ICE_CREAM_MACHINE_INPUT_LIMIT.clear();
@@ -57,10 +55,7 @@ public class SlotInputLimitManager {
     }
 
     public static void init(RecipeManager recipeManager) {
-        if (needInit) {
-            reset(recipeManager);
-            needInit = false;
-        }
+        reset(recipeManager);
     }
 
     public static void initIceCreamMachineSlotLimit(RecipeManager recipeManager) {
@@ -70,7 +65,7 @@ public class SlotInputLimitManager {
                 ICE_CREAM_MACHINE_FLUID_LIMIT.add(fluid);
             }
             Ingredient container = recipe.container;
-            if (!container.isEmpty() && !ICE_CREAM_MACHINE_INPUT_LIMIT.contains(container)) {
+            if (!container.isEmpty() && !ingredientOverlaps(ICE_CREAM_MACHINE_INPUT_LIMIT, container)) {
                 ICE_CREAM_MACHINE_INPUT_LIMIT.add(container);
             }
         });
@@ -79,19 +74,19 @@ public class SlotInputLimitManager {
     public static void initFryerSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.FAST_FRY_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient input = recipe.input;
-            if (!FRYER_INPUT_LIMIT.contains(input)) {
+            if (!ingredientOverlaps(FRYER_INPUT_LIMIT, input)) {
                 FRYER_INPUT_LIMIT.add(input);
             }
         });
         SmokingRecipeManager.fastFryRecipes.forEach(recipe -> {
             Ingredient input = recipe.input;
-            if (!FRYER_INPUT_LIMIT.contains(input)) {
+            if (!ingredientOverlaps(FRYER_INPUT_LIMIT, input)) {
                 FRYER_INPUT_LIMIT.add(input);
             }
         });
         recipeManager.getAllRecipesFor(InitRecipe.SLOW_FRY_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient input = recipe.input;
-            if (!FRYER_INPUT_LIMIT.contains(input)) {
+            if (!ingredientOverlaps(FRYER_INPUT_LIMIT, input)) {
                 FRYER_INPUT_LIMIT.add(input);
             }
         });
@@ -100,14 +95,14 @@ public class SlotInputLimitManager {
     public static void initOvenSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.OVEN_RECIPE_TYPE.get()).forEach(recipe -> {
             recipe.input.forEach(ingredient -> {
-                if (!OVEN_INPUT_LIMIT.contains(ingredient)) {
+                if (!ingredientOverlaps(OVEN_INPUT_LIMIT, ingredient)) {
                     OVEN_INPUT_LIMIT.add(ingredient);
                 }
             });
         });
         SmokingRecipeManager.ovenRecipes.forEach(recipe -> {
             recipe.input.forEach(ingredient -> {
-                if (!OVEN_INPUT_LIMIT.contains(ingredient)) {
+                if (!ingredientOverlaps(OVEN_INPUT_LIMIT, ingredient)) {
                     OVEN_INPUT_LIMIT.add(ingredient);
                 }
             });
@@ -117,19 +112,20 @@ public class SlotInputLimitManager {
     public static void initTeapotSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.TEAPOT_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!TEAPOT_CUP_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(TEAPOT_CUP_LIMIT, container)) {
                 TEAPOT_CUP_LIMIT.add(container);
             }
             ItemStack output = recipe.output;
-            if (!TEAPOT_CUP_LIMIT.contains(Ingredient.of(output.getItem()))) {
-                TEAPOT_CUP_LIMIT.add(Ingredient.of(output.getItem()));
+            Ingredient outputIngredient = Ingredient.of(output.getItem());
+            if (!ingredientOverlaps(TEAPOT_CUP_LIMIT, outputIngredient)) {
+                TEAPOT_CUP_LIMIT.add(outputIngredient);
             }
             Ingredient drink = recipe.input.get(0);
-            if (!TEAPOT_DRINK_LIMIT.contains(drink)) {
+            if (!ingredientOverlaps(TEAPOT_DRINK_LIMIT, drink)) {
                 TEAPOT_DRINK_LIMIT.add(drink);
             }
             Ingredient material = recipe.input.get(1);
-            if (!TEAPOT_MATERIAL_LIMIT.contains(material)) {
+            if (!ingredientOverlaps(TEAPOT_MATERIAL_LIMIT, material)) {
                 TEAPOT_MATERIAL_LIMIT.add(material);
             }
         });
@@ -142,7 +138,7 @@ public class SlotInputLimitManager {
         recipes.addAll(recipeManager.getAllRecipesFor(InitRecipe.DIM_FERMENTATION_RECIPE_TYPE.get()));
         recipes.forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!FERMENTER_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(FERMENTER_INPUT_LIMIT, container)) {
                 FERMENTER_INPUT_LIMIT.add(container);
             }
         });
@@ -151,7 +147,7 @@ public class SlotInputLimitManager {
     public static void initBlenderSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.BLENDER_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!BLENDER_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(BLENDER_INPUT_LIMIT, container)) {
                 BLENDER_INPUT_LIMIT.add(container);
             }
         });
@@ -160,19 +156,19 @@ public class SlotInputLimitManager {
     public static void initCuttingBoardToolLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_MULTIPLE_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient tool = recipe.tool;
-            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+            if (!ingredientOverlaps(CUTTING_BOARD_TOOL_LIMIT, tool)) {
                 CUTTING_BOARD_TOOL_LIMIT.add(tool);
             }
         });
         recipeManager.getAllRecipesFor(InitRecipe.CUTTING_BOARD_SINGLE_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient tool = recipe.tool;
-            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+            if (!ingredientOverlaps(CUTTING_BOARD_TOOL_LIMIT, tool)) {
                 CUTTING_BOARD_TOOL_LIMIT.add(tool);
             }
         });
         CuttingBoardRecipeCompat.cuttingBoardSingleRecipes.forEach(recipe -> {
             Ingredient tool = recipe.tool;
-            if (!CUTTING_BOARD_TOOL_LIMIT.contains(tool)) {
+            if (!ingredientOverlaps(CUTTING_BOARD_TOOL_LIMIT, tool)) {
                 CUTTING_BOARD_TOOL_LIMIT.add(tool);
             }
         });
@@ -181,13 +177,13 @@ public class SlotInputLimitManager {
     public static void initStockPotSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.STOCK_POT_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!STOCK_POT_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(STOCK_POT_INPUT_LIMIT, container)) {
                 STOCK_POT_INPUT_LIMIT.add(container);
             }
         });
         CookingPotRecipeCompat.stockPotRecipes.forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!STOCK_POT_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(STOCK_POT_INPUT_LIMIT, container)) {
                 STOCK_POT_INPUT_LIMIT.add(container);
             }
         });
@@ -196,7 +192,7 @@ public class SlotInputLimitManager {
     public static void initSaucepanAndWhiskSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.SAUCEPAN_AND_WHISK_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!SAUCEPAN_AND_WHISK_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(SAUCEPAN_AND_WHISK_INPUT_LIMIT, container)) {
                 SAUCEPAN_AND_WHISK_INPUT_LIMIT.add(container);
             }
         });
@@ -205,9 +201,26 @@ public class SlotInputLimitManager {
     public static void initShakerSlotLimit(RecipeManager recipeManager) {
         recipeManager.getAllRecipesFor(InitRecipe.SHAKER_RECIPE_TYPE.get()).forEach(recipe -> {
             Ingredient container = recipe.container;
-            if (!SHAKER_INPUT_LIMIT.contains(container)) {
+            if (!ingredientOverlaps(SHAKER_INPUT_LIMIT, container)) {
                 SHAKER_INPUT_LIMIT.add(container);
             }
         });
+    }
+
+    private static boolean ingredientOverlaps(List<Ingredient> list, Ingredient newIngredient) {
+        if (newIngredient.isEmpty()) return false;
+
+        for (Ingredient existing : list) {
+            if (existing.isEmpty()) continue;
+
+            // 获取现有 Ingredient 的所有物品堆叠
+            ItemStack[] existingItems = existing.getItems();
+            for (ItemStack stack : existingItems) {
+                if (!stack.isEmpty() && newIngredient.test(stack)) {
+                    return true; // 找到重叠
+                }
+            }
+        }
+        return false;
     }
 }

@@ -14,8 +14,6 @@ import static net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity.MA
 import static net.zhaiji.manorsbountymachine.block.entity.StockPotBlockEntity.SECONDARY_INPUT_SLOTS;
 
 public class CookingPotRecipeCompat {
-    public static boolean needInit = false;
-
     public static List<StockPotRecipe> stockPotRecipes = new ArrayList<>();
 
     public static void reset(RecipeManager recipeManager) {
@@ -26,10 +24,7 @@ public class CookingPotRecipeCompat {
 
     public static void init(RecipeManager recipeManager) {
         if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
-        if (needInit) {
-            reset(recipeManager);
-            needInit = false;
-        }
+        reset(recipeManager);
     }
 
     public static StockPotRecipe toStockPotRecipe(CookingPotRecipe recipe) {

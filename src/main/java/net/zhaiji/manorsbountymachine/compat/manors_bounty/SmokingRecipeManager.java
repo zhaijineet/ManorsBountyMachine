@@ -14,8 +14,6 @@ import java.util.List;
 import static net.zhaiji.manorsbountymachine.block.entity.OvenBlockEntity.INPUT_SLOTS;
 
 public class SmokingRecipeManager {
-    public static boolean needInit = false;
-
     public static List<FastFryRecipe> fastFryRecipes = new ArrayList<>();
 
     public static List<OvenRecipe> ovenRecipes = new ArrayList<>();
@@ -29,10 +27,7 @@ public class SmokingRecipeManager {
     }
 
     public static void init(RecipeManager recipeManager) {
-        if (needInit) {
-            reset(recipeManager);
-            needInit = false;
-        }
+        reset(recipeManager);
     }
 
     public static FastFryRecipe toFastFryRecipe(SmokingRecipe recipe) {

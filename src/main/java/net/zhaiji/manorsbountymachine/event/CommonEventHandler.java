@@ -6,6 +6,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -27,11 +28,8 @@ import java.util.Map;
 
 public class CommonEventHandler {
     public static void handlerAddReloadListenerEvent(AddReloadListenerEvent event) {
-        SmokingRecipeManager.needInit = true;
-        CuttingBoardRecipeCompat.needInit = true;
-        CookingPotRecipeCompat.needInit = true;
-        SlotInputLimitManager.needInit = true;
-        event.addListener(new ManorsBountyMachineReloadListener());
+        RecipeManager recipeManager = event.getServerResources().getRecipeManager();
+        event.addListener(new ManorsBountyMachineReloadListener(recipeManager));
     }
 
     public static void handlerMissingMappingsEvent(MissingMappingsEvent event) {
