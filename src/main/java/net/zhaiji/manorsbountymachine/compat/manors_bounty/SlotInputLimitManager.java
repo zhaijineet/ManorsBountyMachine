@@ -209,10 +209,8 @@ public class SlotInputLimitManager {
 
     private static boolean ingredientOverlaps(List<Ingredient> list, Ingredient newIngredient) {
         if (newIngredient.isEmpty()) return false;
-
         for (Ingredient existing : list) {
             if (existing.isEmpty()) continue;
-
             // 获取现有 Ingredient 的所有物品堆叠
             ItemStack[] existingItems = existing.getItems();
             for (ItemStack stack : existingItems) {

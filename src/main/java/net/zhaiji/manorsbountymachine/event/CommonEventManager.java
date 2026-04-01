@@ -12,7 +12,6 @@ public class CommonEventManager {
     }
 
     public static void forgeBusListener(IEventBus forgeEventBus) {
-        forgeEventBus.addListener(CommonEventHandler::handlerAddReloadListenerEvent);
         forgeEventBus.addListener(CommonEventHandler::handlerTagsUpdatedEvent);
         forgeEventBus.addListener(CommonEventHandler::handlerVillagerTradesEvent);
         forgeEventBus.addListener(CommonEventHandler::handlerMissingMappingsEvent);

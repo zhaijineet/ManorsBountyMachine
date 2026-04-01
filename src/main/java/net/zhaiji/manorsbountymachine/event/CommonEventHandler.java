@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,7 +17,6 @@ import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CookingPotRecipeCompat;
 import net.zhaiji.manorsbountymachine.compat.farmersdelight.CuttingBoardRecipeCompat;
-import net.zhaiji.manorsbountymachine.compat.kjs.ManorsBountyMachineReloadListener;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SlotInputLimitManager;
 import net.zhaiji.manorsbountymachine.compat.manors_bounty.SmokingRecipeManager;
@@ -30,19 +28,15 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonEventHandler {
-    public static void handlerAddReloadListenerEvent(AddReloadListenerEvent event) {
-        RecipeManager recipeManager = event.getServerResources().getRecipeManager();
-        event.addListener(new ManorsBountyMachineReloadListener(recipeManager));
-    }
-
     public static void handlerTagsUpdatedEvent(TagsUpdatedEvent event) {
-        if (!event.shouldUpdateStaticData()) return;
-        // TagsUpdatedEvent 在 updateRegistryTags() 之后触发，此时标签已绑定到 BuiltInRegistries
-        // SlotInputLimitManager.init() 内部调用 Ingredient.getItems()，依赖标签数据，必须在此处执行
+        if (event.getUpdateCause() != TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) return;
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server != null) {
-            SlotInputLimitManager.init(server.getRecipeManager());
-        }
+        if (server == null) return;
+        RecipeManager recipeManager = server.getRecipeManager();
+        SmokingRecipeManager.init(recipeManager);
+        CuttingBoardRecipeCompat.init(recipeManager);
+        CookingPotRecipeCompat.init(recipeManager);
+        SlotInputLimitManager.init(recipeManager);
     }
 
     public static void handlerMissingMappingsEvent(MissingMappingsEvent event) {
