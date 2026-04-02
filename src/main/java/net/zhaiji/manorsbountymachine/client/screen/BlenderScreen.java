@@ -10,11 +10,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.manorsbountymachine.ManorsBountyMachine;
 import net.zhaiji.manorsbountymachine.block.entity.BlenderBlockEntity;
+import net.zhaiji.manorsbountymachine.compat.manors_bounty.ManorsBountyCompat;
 import net.zhaiji.manorsbountymachine.menu.BlenderMenu;
 import net.zhaiji.manorsbountymachine.network.ManorsBountyMachinePacket;
 import net.zhaiji.manorsbountymachine.network.server.packet.BlenderStartPacket;
@@ -50,6 +52,11 @@ public class BlenderScreen extends BaseMachineScreen<BlenderMenu> {
     public static final int CONTAINER_Y_OFFSET = 0;
     public static final int CONTAINER_WIDTH = 26;
     public static final int CONTAINER_HEIGHT = 35;
+
+    public static final int CONTAINER_WINE_X_OFFSET = 221;
+    public static final int CONTAINER_WINE_Y_OFFSET = 0;
+    public static final int CONTAINER_WINE_WIDTH = 22;
+    public static final int CONTAINER_WINE_HEIGHT = 37;
 
     public static final int OUTPUT_X_OFFSET = 146;
     public static final int OUTPUT_Y_OFFSET = 0;
@@ -131,8 +138,13 @@ public class BlenderScreen extends BaseMachineScreen<BlenderMenu> {
     }
 
     public void renderBottle(GuiGraphics guiGraphics) {
-        if (this.blockEntity.getItem(BlenderBlockEntity.CONTAINER).isEmpty()) return;
-        guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 23, this.topPos + 101, CONTAINER_X_OFFSET, CONTAINER_Y_OFFSET, CONTAINER_WIDTH, CONTAINER_HEIGHT);
+        ItemStack bottle = this.blockEntity.getItem(BlenderBlockEntity.CONTAINER);
+        if (bottle.isEmpty()) return;
+        if (ManorsBountyCompat.isDeformedGlassBottle(bottle)) {
+            guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 23, this.topPos + 101, CONTAINER_X_OFFSET, CONTAINER_Y_OFFSET, CONTAINER_WIDTH, CONTAINER_HEIGHT);
+        } else if (ManorsBountyCompat.isDeformedWineBottle(bottle)) {
+            guiGraphics.blit(BLENDER_GUI_WIDGET_1, this.leftPos + 25, this.topPos + 99, CONTAINER_WINE_X_OFFSET, CONTAINER_WINE_Y_OFFSET, CONTAINER_WINE_WIDTH, CONTAINER_WINE_HEIGHT);
+        }
     }
 
     public void renderOutput(GuiGraphics guiGraphics) {

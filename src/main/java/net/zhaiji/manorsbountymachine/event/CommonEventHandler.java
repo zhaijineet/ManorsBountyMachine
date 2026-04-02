@@ -11,6 +11,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.MissingMappingsEvent;
@@ -28,6 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonEventHandler {
+    public static void handlerServerStartedEvent(ServerStartedEvent event) {
+        RecipeManager recipeManager = event.getServer().getRecipeManager();
+        SmokingRecipeManager.init(recipeManager);
+        CuttingBoardRecipeCompat.init(recipeManager);
+        CookingPotRecipeCompat.init(recipeManager);
+        SlotInputLimitManager.init(recipeManager);
+    }
+
     public static void handlerTagsUpdatedEvent(TagsUpdatedEvent event) {
         if (event.getUpdateCause() != TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) return;
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
