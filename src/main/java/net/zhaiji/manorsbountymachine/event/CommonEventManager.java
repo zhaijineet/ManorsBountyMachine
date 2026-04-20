@@ -1,6 +1,7 @@
 package net.zhaiji.manorsbountymachine.event;
 
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.zhaiji.manorsbountymachine.ManorsBountyMachineConfig;
 
 public class CommonEventManager {
     public static void init(IEventBus modEventBus, IEventBus forgeEventBus) {
@@ -9,6 +10,7 @@ public class CommonEventManager {
     }
 
     public static void modBusListener(IEventBus modEventBus) {
+        modEventBus.addListener(ManorsBountyMachineConfig::handlerModConfigEvent);
     }
 
     public static void forgeBusListener(IEventBus forgeEventBus) {

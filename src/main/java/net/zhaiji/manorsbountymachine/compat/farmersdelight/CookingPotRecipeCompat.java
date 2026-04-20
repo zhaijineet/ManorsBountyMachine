@@ -23,7 +23,7 @@ public class CookingPotRecipeCompat {
     }
 
     public static void init(RecipeManager recipeManager) {
-        if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
+        if (!FarmersDelightCompat.canCookingPotCompat() || !FarmersDelightCompat.isLoad()) return;
         reset(recipeManager);
     }
 

@@ -29,7 +29,7 @@ public class CuttingBoardRecipeCompat {
     }
 
     public static void init(RecipeManager recipeManager) {
-        if (!FarmersDelightCompat.canCompat() || !FarmersDelightCompat.isLoad()) return;
+        if (!FarmersDelightCompat.canCuttingBoardCompat() || !FarmersDelightCompat.isLoad()) return;
         reset(recipeManager);
     }
 

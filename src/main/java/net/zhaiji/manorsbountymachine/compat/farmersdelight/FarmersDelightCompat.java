@@ -10,7 +10,11 @@ public class FarmersDelightCompat {
         return ModList.get().isLoaded(FarmersDelightCompat.MOD_ID);
     }
 
-    public static boolean canCompat(){
-        return ManorsBountyMachineConfig.farmers_delight_cutting_recipe_compat;
+    public static boolean canCuttingBoardCompat(){
+        return ManorsBountyMachineConfig.farmers_delight_cutting_board_compat;
+    }
+
+    public static boolean canCookingPotCompat(){
+        return ManorsBountyMachineConfig.farmers_delight_cooking_pot_compat;
     }
 }
